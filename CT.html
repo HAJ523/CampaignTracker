@@ -1,0 +1,282 @@
+<html>
+  <head>
+    <title>Campaign Tracker</title>
+    <!-- Leaflet Mapping -->
+    <link rel="stylesheet" href="JS\lib\leafletLegacy\leaflet.css"/>
+    <script src="JS\lib\leafletLegacy\leaflet-src.js"></script>
+      <!-- Leaflet Pluggins -->
+      <link rel="stylesheet" href="JS\lib\leafletLegacy\plugins\leaflet.draw.css" />
+      <script src="JS\lib\leafletLegacy\plugins\leaflet.draw.js"></script>
+      <link rel="stylesheet" href="JS\lib\leafletLegacy\plugins\measurecontrol.css" />
+      <script src="JS\lib\leafletLegacy\plugins\measurecontrol.js"></script>
+
+    <!-- Wiki to HTML for Journal Display -->
+    <script src="JS\lib\wiki2html.js"></script>
+    <!-- Other Libraries -->
+    <script src="JS\lib\array.js"></script>
+
+    <!-- Core Campaign Tracker Routines -->
+    <script src="JS\CT.js"></script>
+    <script src="JS\calendar.js"></script>
+    <script src="JS\keyboard.js"></script>
+    <script src="JS\journal.js"></script>
+    <script src="JS\map.js"></script>
+    <script src="JS\roller.js"></script>
+    <script src="JS\generator.js"></script>
+    <link rel="stylesheet" type="text/css" href="CSS\default.css">
+  </head>
+  <body onload="CT.changeDisplay('Journal');">
+    <!-- Generator word and syllable lists. -->
+    <div style="display:none;">
+      <div id="genLanguage">anal,anilingus,anus,apeshit,arse,arsehole,ass,asshole,assmunch,autoerotic,babeland,balls,ballsack,bangbros,bareback,barenaked,bastard,bastardo,bastinado,beaner,beaners,bestiality,biatch,bigtits,bimbos,birdlock,bitch,bitches,black,bloody,blowjob,blumpkin,bollock,bollocks,bollok,bondage,boner,boob,boobs,bugger,bukkake,bulldyke,bullshit,bum,bunghole,busty,butt,buttcheeks,butthole,buttplug,cameltoe,camgirl,camslut,camwhore,cloaka,clit,clitoris,clusterfuck,cock,cocks,coon,coons,cornhole,crap,creampie,cum,cumming,cunt,damn,darkie,daterape,deepthroat,dick,dildo,doggy,dolcett,domination,dominatrix,dommes,dryhump,dyke,ecchi,ejaculation,erotic,erotism,escort,eunuch,fag,faggot,fecal,feck,felch,felching,fellate,fellatio,feltch,femdom,fetish,figging,fingerbang,fingering,fisting,flange,footjob,frotting,fuck,fuckin,fucking,fucktard,fucktards,fudgepacker,futanari,gangbang,gaysex,genitals,goatcx,goatse,goddamn,gokkun,goodpoop,googirl,god,allah,alah,goregasm,grope,groupsex,guro,handjob,hardcore,hell,hentai,homo,homoerotic,honkey,hooker,humping,incest,intercourse,jackoff,jailbait,jerk,jerkoff,jigaboo,jiggaboo,jiggerboo,jizz,juggs,kum,pis,piss,kike,kinbaku,kinkster,kinky,knobbing,knobend,labia,lmao,lmfao,lolita,masturbate,milf,muff,nambla,nawashi,negro,neonazi,niga,nigra,niggas,niggaz,nigga,nigger,nignog,nimphomania,nipple,nipples,nude,nudity,nympho,nymphomania,obama,octopussy,omg,omorashi,oral,orgasm,orgy,paedo,paki,panties,panty,pedo,pegging,penis,piss,pissing,pisspig,playboy,ponyplay,poof,poon,poontang,poop,porn,porno,prick,pube,pubes,punany,pussy,queaf,queef,queer,quim,raghead,rape,raping,rapist,rectum,rimjob,rimming,sadism,santorum,scat,schlong,scissoring,scrotum,semen,sex,sexo,sexy,shaved,shemale,shibari,shit,shitblimp,shitty,shota,shrimping,skeet,slanteye,slut,smegma,smut,snatch,sodomize,sodomy,spic,splooge,spooge,spunk,strapon,suck,sucks,suicide,sultry,swastika,swinger,threesome,throating,tit,tits,tiits,titties,titty,topless,tosser,towelhead,tranni,trany,trani,tranny,tubgirl,turd,tushy,twat,twink,twinkie,upskirt,urethra,urophilia,vagina,vibrator,voyeur,vulva,wank,wetback,whore,wtf,yaoi,yiffy</div>
+      <div id="genDwarfName">,,,,,b,br,d,dr,f,g,gr,h,j,k,m,r,sr,st,str,t,tr,v,w,z
+a,e,i,o,u,a,e,o,u,a,o,u,a,o,u,a,e,i,o,u,a,e,i,o,u,a,o,u,y,y,aa,ai,oo,uu,io,io
+b,br,bm,bn,cr,cd,cn,cm,d,dd,dg,dn,dm,g,gr,gn,gm,gr,gg,gd,k,kk,kl,kn,l,ld,lb,lbr,ldr,lg,lgr,lm,lk,mg,md,n,nf,nm,nth,ng,ngr,ndr,nr,r,rg,rgr,rs,rst,rd,rb,v,zm,zb,zd
+c,ck,d,dd,g,k,l,ls,ld,m,n,r,rd,rsk,rg,t
+,,,,,,b,bh,d,dr,f,g,gr,gh,h,k,kh,l,m,n,r,s,sr,t,thr,y,v,w
+a,e,i,o,u
+bn,bh,bb,b,cw,cn,d,dw,dn,dg,dd,dr,dl,h,hn,hl,hg,gn,gl,gw,gr,gv,k,kk,l,ll,ld,lw,lgr,lgw,lb,lk,m,mm,mw,mgw,mr,n,nd,ng,ngr,ngv,nn,nngv,nw,r,rg,rgw,rl,rb,s,ss,tr,v,vr,vl,z,zl,zw
+,,,,,,,,,,,,,,,,,,,,h,l,ll,m,n,mn,s,r,t,th
+b,br,bh,d,dr,f,g,gr,gh,h,j,k,kh,l,m,n,r,s,sr,st,str,t,thr,tr,v,w,y,z
+a,e,i,o,u,a,e,o,u,a,o,u,a,o,u,a,e,i,o,u,a,e,i,o,u,a,o,u,y,y
+b,bb,bh,bm,bn,br,cd,cm,cn,cr,cw,d,dd,dg,dl,dm,dn,dr,dw,g,gd,gg,gl,gm,gn,gr,gv,gw,h,hg,hl,hn,k,kk,kl,kn,l,lb,lbr,ld,ldr,lg,lgr,lgw,lk,ll,lm,lw,m,md,mg,mgw,mm,mr,mw,n,nd,ndr,nf,ng,ngr,ngv,nm,nn,nngv,nr,nth,nw,r,rb,rd,rg,rgr,rgw,rl,rs,rst,s,ss,tr,v,vl,vr,z,zb,zd,zl,zm,zw
+b,c,ck,d,dd,g,h,k,l,ll,ls,ld,m,n,mn,r,rd,rsk,rg,s,t,th
+Amber,Axe,Battle,Black,Blaze,Boulder,Bright,Bronze,Cinder,Cloud,Cold,Common,Crag,Dark,Deep,Dew,Earth,Ember,Fair,Fire,Fist,Flame,Flat,Flint,Free,Full,Fuse,Gold,Grand,Great,Hammer,Hard,Heavy,High,Humble,Iron,Keen,Lone,Low,Molten,Noble,Plain,Pride,Proud,Pyre,Rock,Rumble,Shield,Silent,Simple,Single,Soft,Solid,Steel,Stern,Stone,Storm,Stout,Strong,Terra,Thunder,Titan,True,War,Wild,Winter,Wise
+arm,bash,beam,beard,belly,bend,blaze,bluff,bough,brace,brand,breath,brew,brow,crest,crusher,dew,fall,fell,flare,flow,force,forge,fury,gaze,gem,gleam,glide,glow,grip,guard,gut,hair,hand,heart,helm,hide,horn,ingot,mane,mantle,maul,might,more,pelt,punch,ridge,roar,scar,shade,shadow,shard,shot,shout,sky,snow,spark,steam,strength,stride,strike,surge,sword,thorn,track,ward</div>
+      <div id="genElfName">,,,,,c,d,f,g,h,k,kr,l,m,n,s,t,th,v,z
+a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,a,o,o,e,e,ae,ia,ie,ea,ei,io
+ch,cl,cv,dr,dv,g,g,g,gl,gr,ghr,ght,h,h,h,j,j,l,l,l,l,l,l,lm,ln,ldr,lvr,ld,ldl,ll,ls,lth,lv,m,m,m,m,mr,mv,n,n,n,n,nr,nv,nvr,nth,nd,ndl,ndr,nl,r,r,r,r,r,rl,rgr,rg,rd,rdl,rdr,s,s,s,s,sh,shn,st,sv,sr,sth,t,t,t,th,th,v,v,v,vr,y,y,y
+,l,m,n,r,s,ss,l,m,n,r,s,ss
+,,,,,d,f,h,j,k,l,m,n,ph,s,sh,t,th,v,y
+a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,a,o,o,e,e,ie,ia,ea,au,aa,ao,eae,ou,ae
+c,c,c,cl,cn,cm,d,d,d,dr,dn,dm,g,g,g,gn,gh,gy,h,h,h,h,hh,hh,hn,hl,hr,l,l,l,l,l,ll,ll,lm,ln,lhr,lhn,lv,ls,lsh,ly,ll,m,m,m,m,mm,mm,mh,mn,mr,n,n,n,nn,nn,nd,ndl,ndr,nn,nr,nth,ns,nl,nh,ny,r,r,r,rr,rr,rdl,rl,rn,rv,rs,s,s,s,ss,ss,sh,shr,sl,th,v,v,v,y,y,y
+,,,,,,,,,,,h,l,n,s,ss
+,,,,c,d,f,g,gr,h,j,k,l,m,n,s,sh,t,th,v,w,y,z,zh
+a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,a,e,e,o,o,ai,ee,ei,ia,ie,ae,io
+cl,d,d,d,dn,dr,g,g,g,gh,gl,gr,h,h,h,hh,j,k,k,k,l,l,l,l,l,ll,ll,ll,ld,ldl,ldr,lf,lhn,lhr,ll,llm,llv,lm,ln,ls,lv,lvr,m,m,m,mm,mm,mn,mr,mv,n,n,n,nn,n,nd,ndl,ndr,nl,nn,nr,ns,nth,nv,ph,r,r,r,rr,rd,rdl,rg,rl,rm,rr,s,s,s,ss,ss,sh,sl,ss,st,th,tl,v,v,v,y,y,y
+,,h,l,m,n,r,s</div>
+      <div id="genGenasiName">Ablaze,Alight,Ardor,Ardour,Arson,Ash,Austral,Bake,Beacon,Blaze,Blight,Boil,Bonfire,Brand,Broil,Burn,Calcine,Candle,Cauterize,Char,Charcoal,Cinder,Coal,Combust,Conflagration,Cremate,Crisp,Dante,Dantean,Ember,Enkindle,Explosion,Fervor,Fever,Fiery,Flame,Flare,Flash,Flicker,Flux,Forge,Frizzle,Fry,Fuego,Fuel,Fume,Furnace,Glare,Gleam,Glint,Glow,Grill,Heat,Hell,Hellfire,Hot,Igneous,Ignite,Ignition,Incendiary,Incinerate,Infernal,Inferno,Kiln,Kindle,Lantern,Lava,Light,Lit,Magma,Melt,Nether,Oven,Parch,Phoenix,Piping,Pyre,Pyro,Roast,Scald,Scorch,Scoria,Sear,Seethe,Shine,Singe,Sizzle,Smoke,Smolder,Soot,Spark,Sultry,Sun,Swelter,Thermal,Thermo,Tinder,Toast,Torch,Torrid,Volcano,Warmth,Wildfire,Wither
+Agua,Aqua,Azure,Basin,Bath,Bathe,Beck,Bore,Branch,Brine,Brook,Cleanse,Course,Creek,Current,Dabble,Damp,Deluge,Dew,Dewdrop,Douse,Downpour,Drain,Drench,Drift,Drip,Drizzle,Drop,Droplet,Drown,Eagre,Estuary,Expanse,Flood,Flow,Flux,Fog,Fountain,Geyser,Gush,Hose,Hydra,Hydrogen,Influx,Jet,Lagoon,Lake,Lakelet,Liquid,Mere,Mist,Monsoon,Neptune,Ocean,Paddle,Plash,Plunge,Pond,Pool,Precip,Puddle,Quagmire,Rain,Rill,Rinse,Ripple,River,Rivulet,Run,Runnel,Rush,Sea,Seiche,Shower,Soak,Spatter,Splash,Spout,Spring,Sprinkle,Storm,Stream,Streamlet,Surf,Surge,Swish,Tear,Teardrop,Tempest,Tidal,Tide,Torrent,Tributary,Tsunami,Typhoon,Vapor,Wash,Wave,Well,Wet
+Adamant,Agate,Alabaster,Amethyst,Azurite,Basalt,Bedrock,Block,Boulder,Brick,Callous,Citrine,Clay,Cliff,Cobble,Cobblestone,Crag,Crystal,Dense,Diamond,Emerald,Flint,Fossil,Fossilstone,Garnet,Gem,Geo,Geode,Granite,Gravel,Grime,Ground,Hill,Hunk,Ingot,Jade,Jewel,Lapis,Lazuli,Limestone,Lodge,Lump,Malachite,Marble,Marmoreal,Mason,Masonry,Mineral,Monolith,Moonstone,Mountain,Nugget,Obsidian,Onyx,Opal,Ore,Pebble,Pellet,Peridot,Precious,Quarry,Quartz,Quartzite,Rock,Rocky,Rough,Rubble,Ruby,Rugged,Sand,Sandstone,Sapphire,Sediment,Shelf,Slab,Slate,Soapstone,Solid,Spinel,Stone,Stony,Sturdy,Terra,Tile,Topaz,Travertine,Turf,Umber,Wedge,Zircon
+Aerate,Aerial,Air,Ascend,Atmosphere,Aura,Aviate,Azure,Blast,Blow,Breath,Breeze,Celeste,Celestial,Chinook,Cruise,Current,Cyclone,Draft,Drift,Eddy,Empyrean,Fan,Float,Flow,Flurry,Flute,Flutter,Fly,Funnel,Gale,Gasp,Glide,Gust,Heave,Heaven,Hiss,Hover,Hurricane,Lift,Mistral,Murmur,Oxygen,Ozone,Pipe,Pneumatic,Puff,Rise,Sail,Shriek,Sigh,Sky,Soar,Squall,Storm,Stratosphere,Surge,Tempest,Tornado,Troposphere,Tumult,Turbine,Turbulence,Twister,Vent,Waft,Wheeze,Whiff,Whirl,Whirlwind,Whisk,Whistle,Wind,Wing,Zephyr</div>
+      <div id="genHumanName">,,b,bh,f,h,j,kh,m,n,nh,r,rh,s,z
+a,e,u,a,e,u,a,e,u,i,ei
+b,d,hm,hn,hl,kh,l,m,rd,r,s,sh,z
+d,m,n,r
+,,c,f,h,j,m,n,r,s,sh,y,z
+a,e,u,a,e,u,o,o,i,i,ei
+d,f,hn,hl,hm,hr,l,m,n,p,r,s,sh,sm,sn,t,v,z
+h,l
+b,bh,c,d,dh,h,j,kh,m,n,p,r,rh,sh,z
+a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,a,a,ei
+d,h,hr,hl,k,kh,l,m,mm,n,nn,ss,st,sh
+,,,,,d,l,m,n,r
+,b,br,d,g,gr,h,m,n,r,st,t,v
+a,e,i,o,u
+,br,cr,gr,kv,kr,l,ll,ld,lv,nd,ng,nk,nv,rd,rg,rk,rst,rv,v
+,,,d,dd,g,l,lm,m,n,r,rk,rn
+,c,j,jh,k,l,m,n,r,s,sh,t
+a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,ee,ai,ei,ie
+ch,dr,l,ll,lr,ldr,ls,lz,n,ndr,rl,r,rr,rv,ss,sr,sv,w,z,zz,zn
+,,,,h,l,ll,n
+Axe,Glow,Blade,Blood,Bone,Cloud,Crag,Crest,Doom,Dream,Coven,Elf,Fern,Feather,Fire,Fist,Flame,Forest,Hammer,Heart,Hell,Leaf,Light,Moon,Rage,River,Rock,Shade,Shadow,Shield,Snow,Spirit,Star,Steel,Stone,Swift,Tree,Whisper,Wind,Wolf,Wood,Gloom,Glory,Orb,Ash,Blaze,Amber,Autumn,Barley,Battle,Bear,Black,Blue,Boulder,Bright,Bronze,Burning,Cask,Chest,Cinder,Clan,Claw,Clear,Cliff,Cold,Common,Crystal,Dark,Dawn,Day,Dead,Death,Deep,Dew,Dirge,Distant,Down,Dragon,Dusk,Dust,Eagle,Earth,Ember,Even,Far,Flat,Flint,Fog,Fore,Four,Free,Frost,Frozen,Full,Fuse,Gold,Horse,Gore,Grand,Gray,Grass,Great,Green,Grizzly,Hallow,Hallowed,Hard,Hawk,Haze,Heavy,Haven,High,Hill,Holy,Honor,Forest,Humble,Hydra,Ice,Iron,Keen,Laughing,Lightning,Lion,Lone,Long,Low,Luna,Marble,Meadow,Mild,Mirth,Mist,Molten,Monster,Morning,Moss,Mountain,Moon,Mourn,Mourning,Night,Noble,Nose,Oat,Ocean,Pale,Peace,Phoenix,Pine,Plain,Pride,Proud,Pyre,Rain,Rapid,Raven,Red,Regal,Rich,Rose,Rough,Rumble,Rune,Sacred,Sage,Saur,Sea,Serpent,Sharp,Silent,Silver,Simple,Single,Skull,Sky,Slate,Smart,Snake,Soft,Solid,Spider,Spring,Stag,Star,Stern,Still,Storm,Stout,Strong,Summer,Sun,Tall,Three,Thunder,Titan,True,Truth,Marsh,Tusk,Twilight,Two,Void,War,Wheat,Whit,White,Wild,Winter,Wise,Wyvern,Young,Alpen,Crest,Crow,Fallen,Farrow,Haven,Master,Nether,Nickle,Raven,River,Stone,Tarren,Terra,Water,Willow,Wooden
+axe,glow,beam,blade,blood,bone,cloud,dane,crag,crest,doom,dream,feather,fire,fist,flame,forest,hammer,heart,hell,leaf,light,moon,rage,river,rock,shade,claw,shadow,shield,snow,spirit,star,steel,stone,swift,tree,whisper,wind,wolf,wood,gloom,glory,orb,ash,blaze,arm,arrow,bane,bash,basher,beard,belly,bend,bender,binder,bleeder,blight,bloom,blossom,blower,glade,bluff,bough,bow,brace,braid,branch,brand,breaker,breath,breeze,brew,bringer,brook,brow,caller,chaser,reaper,chewer,cleaver,creek,crusher,cut,cutter,dancer,dew,down,draft,dreamer,drifter,dust,eye,eyes,fall,fang,flare,flaw,flayer,flow,follower,flower,force,forge,fury,gaze,gazer,gem,gleam,glide,grain,grip,grove,guard,gust,hair,hand,helm,hide,horn,hunter,jumper,keep,keeper,killer,lance,lash,less,mane,mantle,mark,maul,maw,might,more,mourn,oak,ore,peak,pelt,pike,punch,reaver,rider,ridge,ripper,roar,run,runner,scar,scream,scribe,seeker,shaper,shard,shot,shout,singer,sky,slayer,snarl,snout,soar,song,sorrow,spark,spear,spell,spire,splitter,sprinter,stalker,steam,stream,strength,stride,strider,strike,striker,sun,surge,sword,sworn,tail,taker,talon,thorn,tide,toe,track,trap,trapper,vale,valor,vigor,walker,ward,watcher,water,weaver,whirl,whisk,winds,wing,woods,wound,brooke,fall,fallow,horn,root,shine,swallow,thorne,willow,wood
+,,b,br,f,g,gl,gr,h,k,m,n,p,r,s,v
+a,e,i,o
+b,br,d,dr,dg,g,gr,r,rg,rd,rv,s,v,z
+f,l,m,n,r
+c,ch,h,k,l,m,n,r,s,t,v,z
+h,hn,hr,l,lm,lr,ln,n,nn,r,rn,rl,rm,t,th,thr,z
+,,,,,,h,l,n,s
+b,ch,d,gr,gl,k,m,n,r,s,sh,st,v
+a,e,i,o,u
+d,dr,k,kr,kn,l,m,n,r,rg,rk,rn,rd,v,vr,z
+dz,g,n,rsk,sk,tsk,v,z
+,,,bl,br,fr,g,gr,l,m,r,st,str,t,tr,v,z
+a,e,o,u
+ck,dr,dv,gr,gn,lc,ld,lv,lb,m,nn,nd,nv,rd,rc,rk,rb
+m,n,r,rth,th
+,,b,c,h,k,l,m,n,r,s,v,w,z
+fn,fl,fr,g,l,lg,lr,m,n,r,rh,sh,str,th,thr,v,vr
+,,,,y
+
+
+b,d,g,h,j,k,l,m,n,r,s,t,th,v,z
+a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,io,ao,eo,eu,ue
+d-k,d-v,k-d,k-v,k-m,k-r,m-k,m-z,m-v,n-v,n-z,n-d,r-k,r-v,r-z,t-k,r-d,h-k,h-z,-k,-d,-m,-n,-v,-z,-t,-r,ch,d,h,hp,hk,hv,j,k,m,n,r,rh,t,th,v,z,ch,d,h,hp,hk,hv,j,k,m,n,r,rh,t,th,v,z,ch,d,h,hp,hk,hv,j,k,m,n,r,rh,t,th,v,z
+,,d,f,h,k,n,r,s,th,z
+c,ch,f,h,k,l,m,n,r,s,t,th,v,z
+ch,f,fr,h,l,m,n,ph,s,sh,r,th,z,zr,zh
+,,,,,,,h,s,th
+b,d,f,h,j,l,m,n,r,s,v,z
+a,e,i,u,a,e,i,u,a,e,i,u,a,e,i,o,u,ue,uu
+cr,ch,hp,hk,hr,j,kr,kd,l,lr,ldr,lt,ltr,nd,nsk,nkh,nth,ndr,nkr,nz,pr,pv,th,thr,v,vr,z,zr,zd
+b,d,ft,fk,hd,hr,hk,k,kt,ld,m,t
+b,br,d,dr,f,g,j,k,m,r,s,sh,t,vl,z
+a,e,i,o,a,e,i,o,a,e,i,o,a,e,i,o,oo,ou,au
+d,dj,j,lm,ld,lv,m,mz,mv,n,nz,nd,nr,nd,r,rg,rd,rl,rv,rz,sl,sv,sd,th,tv,v,z
+c,d,k,r,s,sk,t
+,,d,f,h,l,m,n,r,s,sh,t,th,v,y,z
+a,e,i,u
+ch,dr,dh,f,fr,gr,h,ldr,lm,ln,lv,lr,mm,mz,mv,ndr,nr,r,rr,rr,rv,rs,rl,v,vr,v,vl
+,,,,,,,,,,,,l,n,s,sh,th
+,,ch,d,g,gr,h,m,n,r,st,t,tr,v,vr,z
+a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,ye,ya
+b,d,dz,g,k,ld,lb,lm,lz,m,mr,mz,n,nz,ng,nt,r,rg,rn,rk,th,tr,tv,v,vr,vz,b,d,g,k,m,n,r,v
+,,ch,f,h,j,l,m,q,sh,t,th,w,z
+a,i,e,o,u,ia,ui,io,ie,iu
+,,,h,m,n,ng,p,w,y
+b,c,ch,d,j,l,m,n,p,q,sh,t,ts,x,y,z
+ai,ia,ao,ei,iao,ui,ua,ue
+,,,c,ch,d,h,j,k,l,m,n,p,q,s,sh,t,w,x,y,z
+a,i,u,ai,ia,iao,ue,ei,ie,ua,ao
+,,,m,n,ng,y
+,,ch,cr,d,gr,f,fr,h,m,p,r,s,t,v,z
+a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,ai,ie,ue,ea
+b,br,c,dr,l,ld,lb,m,mb,n,nr,nt,nch,r,rf,rv,rn,rc,rd,rt,st,sc,t,v,z
+,,l,n,r,s,z
+,,,b,d,f,j,l,m,q,s,v
+a,e,i,o,a,e,i,o,a,e,i,o,a,e,i,o,a,e,i,o,a,e,i,o,ui,ua,ai,ia,ie,ei
+d,l,lm,m,n,nc,nd,ndr,nt,nn,r,rt,s,t,tt,v
+,,b,c,d,f,g,h,j,m,p,r,s,v,z
+br,c,dr,g,h,l,lb,ld,m,n,nd,nz,r,rn,rg,s,sc,sq,st,v,z
+,,,,l,n,r,s</div>
+    </div>
+
+    <table id="MainTable">
+      <tr id="MainTableHeaderRow">
+          <td id="MainTableHeaderCol" colspan="2">
+            <span id="MainTableHeaderTitle">Campaign Tracker</span>
+            <div id="MenuOptions">
+              <a href="#" onclick="CT.changeDisplay('Journal');">Journal</a>&nbsp;
+              <a href="#" onclick="CT.changeDisplay('Map');">Map</a>&nbsp;
+              <a href="#">Calendar</a>&nbsp;
+              <a href="#" onclick="CT.changeDisplay('Generators');">Generators</a>&nbsp;
+              <a href="#" onclick="CT.settings();" title="Modify campaign's settings.">Settings</a>&nbsp;
+              <a href="#" onclick="CT.loadFile();" title="Load previous work from local file.">Load</a><input type="file" id="ifLoad" onchange="CT.readFile(event);" accept=".json"></input>&nbsp;
+              <a href="#" onclick="CT.saveFile();" title="Save work to file.">Save</a>&nbsp;
+              <a href="#" onclick="CT.about();" title="Details about the program and credits to APIs used and resources referenced in creation.">About</a>&nbsp;
+            </div>
+          </td>
+      </tr>
+      <tr id="MainTableContentsRow">
+        <td id="MainTableContentsBar">
+          <div id="PageControls">
+            <a href="#" onclick="CT.goBack();" class="aButtonSmall" title="Back"><b>&larr;</b></a>
+            <a href="#" onclick="CT.newPageModal();" class="aButtonSmall" title="Create new page.">New</a>
+            <a href="#" onclick="CT.editPageModal();" class="aButtonSmall" title="Update page properties.">Update</a>
+            <a href="#" onclick="" class="aButtonSmall" title="Delete current page.">Delete</a>
+            <a href="#" onclick="CT.goForward();" class="aButtonSmall" title="Forward"><b>&rarr;</b></a>
+          </div>
+          <div id="ContentsBarPageTree"></div>
+          <div id="GeneratorList" class="HelpTextSmall">
+            <a href="#" onclick="Gen.displayModal('genDwarfName','Dwarf Names',10)">Dwarf Names</a><br/>
+            <a href="#" onclick="Gen.displayModal('genElfName','Elf Names',10)">Elf Names</a><br/>
+            <a href="#" onclick="Gen.displayModal('genGenasiName','Genasi Names',10)">Genasi Names</a><br/>
+            <a href="#" onclick="Gen.displayModal('genHumanName','Human Names',10)">Human Names</a>
+          </div>
+        </td>
+        <td id="MainTableContentsDisplay">
+
+          <!-- Generators Display -->
+          <div id="GeneratorsDiv" style="display:none;">
+
+          </div>
+          <!-- End Generators Display -->
+
+          <!-- Map Display -->
+          <div id="MapDiv" style="display:none;">
+            <span class="TextMedium">Edit page and choose map image with dimensions to display a map.</span>
+          </div>
+          <!-- End Map Display-->
+
+          <!-- Journal Page Display -->
+          <div id="JournalTable" style="display:none;">
+              <div id="JournalEditor">
+                <textarea id="taJournalEditor" oninput="Journal.onInput('taJournalEditor','JournalDisplay');"></textarea>
+              </div>
+              <div id="JournalContainer"><div id="JournalDisplay"></div></div>
+          </div>
+          <!-- End Journal Page Display -->
+
+        </td>
+      </tr>
+    </table>
+
+    <!-- Modal Generic -->
+    <div id="ModalBackground" onclick="CT.closeModal(event);">
+      <div id="Modal">
+        <div id="ModalContent">Here is some test content</div>
+      </div>
+    </div>
+
+    <!-- Picture Display -->
+    <div id="PictureDisplayBackground">
+      <div id="PictureDisplay">
+        <div id="PictureDisplayContent" onclick="CT.pictureClose(event);"><img id="PictureDisplayImg"><img></div>
+      </div>
+    </div>
+
+    <!-- Modal Contents -->
+    <div style="display:none;">
+      <!-- Map Help Modal TODO -->
+      <!-- Journal Help Modal TODO -->
+      <!-- About Modal TODO-->
+      <div id="AboutModal" class="TextSmall">
+        <span class="TextMedium"><b>About</b></span><br/><br/>
+        <span>The primary use for the campaign tracker was to satisfy my own personal needs. Despite my use being mainly limited to a specific pen and paper RPG I wanted to make sure that I generalized where possible. There were a few core ideas that I felt were missing from other trackers and so this project was born.</span>
+        <span><b><a href="http://remysharp.com/2008/04/01/wiki-to-html-using-javascript/" target="_blank">wiki2html</a></b> This API is used to translate the journal text into html. It has been modified from it's original form to accomidate the added functionality of the journal such as rolling and image display.</span><br/><br/>
+        <span><b><a href="http://leafletjs.com/" target="_blank">Leaflet</a></b> This API is used create the custom map pages which allow for markers and the measuring of distance. In addition to this API the <a href="https://github.com/makinacorpus/Leaflet.MeasureControl" target="_blank">measureControl</a> plugin is also used.</span><br/><br/>
+        <span><b><a href="http://www.fantasynamegenerators.com/" target="_blank">Fantasy Name Generators</a></b> Much of the raw data for the name generation comes directly from this resource. Ported into this application to allow for access during campaigns without internet access.</span><br/><br/>
+      </div>
+      <!-- Generator Modal -->
+      <div id="GeneratorModal" class="TextSmall">
+        <b><span id="GeneratorModalTitle" class="TextMedium"></span></b><br/><br/>
+        <span id="GeneratorModalResults"></span><br/><br/>
+        <a href="#" onclick="" class="TextMedium" id="GeneratorModalGenerate">Generate</a>
+        <!--<a href="#" onclick="" class="TextMedium" style="display:none;">Copy</a>-->
+      </div>
+      <!-- Settings Modal -->
+      <div id="CTSettingsModal" class="TextSmall">
+        <span class="TextMedium"><b>Settings</b></span><br/><br/>
+        Campaign Name:<br/>
+        <input type="text" id="CTSettingsModalName" title="The name of the campaign. This will&#013;influence the save file name."></input><br/><br/>
+        Local Image Directory Prefix:<br/>
+        <input type="text" id="CTSettingsModalImagePath" title="The path to the parent directory which&#013;should be included when including images&#013;as sources."></input><br/>
+        <span class="HelpTextSmall">(Ex. 'C:\Users\User\Pictures\')</span><br/><br/>
+        Internal Images:<br/>
+        <select id="CTSettingsModalIntImages" onchange="CT.loadSettingsImage()"></select><br/>
+        <a href="#" class="HelpTextSmall" onclick="CT.loadImageStart();">Load</a> &nbsp;<a href="#" class="HelpTextSmall" onclick="CT.copyImageName();">Copy</a> &nbsp;<a href="#" class="HelpTextSmall" onclick="CT.imageDelete();">Delete</a><input type="file" id="CTSettingsModalImageFile" onchange="CT.loadImage(event);" style="display:none;" accept='image/*'></input><br/>
+        <img id="CTSettingsModalIntImg"></img><br/><br/>
+
+        Default Dice:<br/>
+        <input type="text" id="CTSettingsModalDefaultDice" title="When adding a roll link this will be&#013;added to the beginning of rolls which&#013;start with -/+ to make them valid rolls."></input></br>
+        <span class="HelpTextSmall">(Ex. '1d20' or '2d6')</span><br/><br/>
+        <a href="#" onclick="CT.saveSettings();" class="TextMedium">Save</a>
+      </div>
+      <!-- Edit Marker Modal -->
+      <div id="EditMarkerModal" class="TextSmall">
+        <span class="TextMedium"><b>Marker Edit</b></span><br/>
+        <span class="HelpTextSmall" id="EditMarkerModalID"></span><br/><br/>
+        <a href="#" onclick="">Page Link</a>:<br/>
+        <input type="text" id="EditMarkerLink"></input><br/>
+        <span class="HelpTextSmall">(Ex. 'World/Waterdeep/Sewers')</span><br/><br/>
+        <a href="#" onclick="" class="TextMedium">Delete</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="#" onclick="CT.saveMarker();" class="TextMedium">Save</a>
+      </div>
+      <!-- Edit Page Modal -->
+      <div id="EditPageModal" class="TextSmall">
+        <span class="TextMedium"><b>Page Edit</b></span><br/><br/>
+        Full Path:<br/>
+        <input type="text" id="EditPagePath"></input><input type="hidden" id="EditPagePathOriginal"></input><br/>
+        <span class="HelpTextSmall">(Ex. 'World/Waterdeep/Sewers')</span><br/><br/>
+        <a href="#" onclick="Map.chooseMapFile();" id="EditPageMapFile">Choose Map File</a><input type="file" id="ifMap" onchange="Map.loadMapFile(event);" style="display:none;"></input><br/>
+        <input type="text" size=5 placeholder="Width" id="EditPageMapWidth"></input> <input type="text" size=5 placeholder="Height" id="EditPageMapHeight"></input><br/>
+        <span class="HelpTextSmall">(Width and height in pixels.)</span><br/>
+        <input type="text" size=5 placeholder="PPM" id="EditPageMapPPM"></input><br/>
+        <span class="HelpTextSmall">(Pixels Per Mile)</span><br/><br/>
+        <a href="#" onclick="CT.savePage();" class="TextMedium">Save</a>
+      </div>
+    </div>
+  </body>
+</html>

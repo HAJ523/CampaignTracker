@@ -1,0 +1,51 @@
+CT
+  - Get all Modals Working (IP)
+  - Add back and Forward functionality back.
+    - Make sure that deletions also now remove the page from the back and forward lists.
+  - Allow loading the same json file to trigger a load.
+  - Page Contents Search Modal
+  - Allow saving Supplementary resource.
+  - Allow loading Supplementary resources into campaign.
+  - Update Settings to use default values when not set so that the placeholders in the fields can be shown.
+Journal
+  - Inline Sections
+Maps
+  - Add Back with CSS Styling.
+  - Better Bookmarks
+  - Bookmark Types
+  - Zoom
+  - Measure Distance
+Calendar
+  - Configurable calendar for days in Weeks in Months in Years
+  - Holidays
+  - Track current in game time
+    - Incrementing Dialog
+  - Events
+  - Timer / Countdown
+Random Generators
+  - Names
+    - Major Races (IP)
+  - Appearance
+  - Combat Hit Location
+  - Link import instead of include syllable strings in page.
+
+*** COMPLETED BELOW ****
+
+2018-05-04
+  CT
+    - Update Settings Modal to use new formatting.
+    - Allow Page Deletion (Complete)
+    - New page Creation from Search
+    - Closest Page selection from Search
+    - Page selection uses full path for searching at the same time is subpath.
+  Journal
+    - Section Links CSS
+    - Image Full Screen displays
+
+2018-05-03
+  CT
+    - Styling using themes and W3.CSS
+    - Gmail Styled Scroll bars
+    - Searchable Page List
+  Journal
+    - Rolling Use multiple random rolls instead of random letters & change timing to slow as roll comes to completion.

@@ -1,0 +1,270 @@
+html {
+  font-family: Arial;
+  height: 100%;
+}
+body {
+  padding:0 0;
+  margin:0 0;
+  height: 100%;
+}
+
+/* Main Page formatting */
+
+#MainTable {
+  background-color: #EEE;
+  width: 100%;
+  height: 100%;
+}
+#MainTableHeaderRow {
+  background-color: #DDD;
+  width: 100%;
+  height: 50px;
+}
+#MainTableHeaderCol {
+  background-color: #CCC;
+  width: 100%;
+  align: center;
+  font-size: 36;
+  font-weight: bold;
+  border-style: hidden;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+#MenuOptions {
+  padding-left: 20px;
+  font-size: 10;
+  font-weight: normal;
+}
+#MainTableContentsRow {
+  background-color: #BBB;
+  width: 100%;
+  height: 100%;
+}
+#MainTableContentsBar {
+  background-color: #AAA;
+  width: 200px;
+  display: inline-block;
+  height: 100%;
+}
+#MainTableContentsDisplay {
+  background-color: #999;
+  width: 100%;
+  height: 100%;
+}
+#ifLoad{
+  display: none;
+}
+
+/* Contents Bar Page Tree */
+#ContentsBarPageTree {
+  height: 75%;
+  width: 100%;
+  background-color: #FFF;
+  overflow-y: scroll;
+  overflow-x: scroll;
+}
+.TreeNode {
+  width: 98%;
+  background-color: #FFF;
+}
+.TreeNodeSelected {
+  border: 1px dotted black;
+}
+
+/* Journal Page Formatting */
+#JournalTable {
+  width: 100%;
+  height: 100%;
+  display:flex;
+  flex-direction: row;
+  align-content: stretch;
+}
+#JournalEditor {
+  width: 40%;
+}
+#JournalContainer {
+  flex:1;
+  position: relative;
+  /*width: 60%; /*Might not be needed.*/
+}
+#JournalDisplay {
+  vertical-align: top;
+  width: 100%;
+  height: 100%;
+  background-color: #FFF;
+  overflow-y: scroll;
+  position: absolute;
+  padding: 5px;
+  box-sizing: border-box;
+}
+#taJournalEditor {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+/* Page Controls */
+#PageControls {
+  text-align: center;
+  padding: 1px;
+}
+
+/* Map */
+#MapDiv {
+  width: 100%;
+  height: 100%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #990;
+  overflow: hidden;
+}
+#aMap {
+  font-size: 24;
+}
+
+.aButtonSmall {
+  border: 1px solid #000;
+  border-radius: 5px;
+  font-size: 12;
+  padding: 1px;
+}
+
+/* Picture Display */
+#PictureDisplayBackground {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: #000; /*All black to occlude the screen in case it is being shown to the players.*/
+  vertical-align: middle;
+  text-align: center;
+}
+#PictureDisplay {
+  display: table-row;
+  /*padding: 5px;
+  border: 1px solid #999;
+  border-radius: 10px;*/
+  /*position: fixed;
+  /*top: 50%;
+  left: 50%;
+  transform: (-50%,-50%);*/
+  /*width: 10px; /* Make sure that the image dictates the size of the modal*/
+  /*height: 10px;*/
+}
+#PictureDisplayContent {
+  display: table-cell;
+  vertical-align: middle;
+  max-width: 90%;
+  max-height: 90%;
+}
+#PictureDisplayImg{
+  max-width: 90%;
+  max-height: 90%;
+}
+
+/* Modal */
+#ModalBackground {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+  padding: 5px;
+}
+#Modal {
+  background-color: #FFF;
+  margin: auto auto;
+  padding: 5px;
+  border: 1px solid #999;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 90%;
+  max-height: 90%;
+}
+#ModalContent {
+  background-color: #FFF;
+  width: 100%;
+}
+
+#GeneratorModal {
+  width:auto;
+  text-align: center;
+}
+
+#EditPageModal {
+  width:auto;
+  text-align: center;
+}
+#EditPageMapWidth,#EditPageMapHeight,#EditPageMapPPM {
+  text-align: center;
+}
+
+#EditMarkerModal {
+  width:auto;
+  text-align: center;
+}
+#CTSettingsModal {
+  width: auto;
+  text-align: center;
+}
+#CTSettingsModalIntImg {
+  max-width: 300px;
+  max-height: 250px;
+}
+#GeneratorList {
+  padding: 5px;
+  overflow-y: scroll;
+  height: 20%;
+}
+
+/* Generic QOL */
+a:link, a:visited {
+    color: blue;
+    text-decoration: none;
+}
+a:hover {
+    color: red;
+    text-decoration: none;
+}
+
+.CollapseTitle {
+  background-color: #EEE;
+  padding: 5px;
+}
+.CollapseContent {
+  padding: 10px;
+}
+.Collapsed {
+  display: none;
+}
+
+.HelpTextSmall {
+  font-size: 10;
+  color: #AAA;
+}
+.TextSmall {
+  font-size: 12;
+}
+.TextMedium {
+  font-size: 16;
+}
+::placeholder {
+  color: #CCC;
+}
+.journalImg {
+  max-width: 100%;
+}
+html,body {
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+}

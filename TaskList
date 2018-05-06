@@ -1,0 +1,69 @@
+Get into an actual SVN system. (Like Git)
+
+CT
+  - Get all Modals Working (IP)
+  - Add back and Forward functionality back.
+    - Make sure that deletions also now remove the page from the back and forward lists.
+  - Allow loading the same json file to trigger a load.
+  - Page Contents Search Modal
+  - Allow saving Supplementary resource.
+  - Allow loading Supplementary resources into campaign.
+  - Update Settings to use default values when not set so that the placeholders in the fields can be shown.
+  - Replace y/n box with in theme modal.
+Journal
+  - Inline Sections
+  - Configurable page templates.
+Maps
+  - Better Bookmarks  https://github.com/lvoogdt/Leaflet.awesome-markers
+  - Different Bookmark Types
+  - Update PPM to PPU for pixel per unit.
+Calendar
+  - Configurable calendar for Days in Weeks in Months in Years
+  - Holidays
+  - Track current in game time
+    - Incrementing Dialog
+  - Events
+  - Timer / Countdown
+Random Generators
+  - Names
+    - Major Races (IP)
+  - Appearance
+  - Combat Hit Location
+  - Link import instead of include syllable strings in page.
+  - Encounter Generator
+Help Sections
+  - Wiki2html Explanations
+  -
+
+*** COMPLETED BELOW ****
+
+2018-05-06
+
+2018-05-05
+  Maps
+    - Add Back with CSS Styling.
+    - Update Marker Modal to use CSS.
+    - Limit file selection to images.
+    - Update Bounds Calculations to accurately handle PPM
+    - Measure Distance
+    - Zoom to less than initial.
+    - Fix z-index issue on map buttons and modal.
+
+2018-05-04
+  CT
+    - Update Settings Modal to use new formatting.
+    - Allow Page Deletion (Complete)
+    - New page Creation from Search
+    - Closest Page selection from Search
+    - Page selection uses full path for searching at the same time is subpath.
+  Journal
+    - Section Links CSS
+    - Image Full Screen displays
+
+2018-05-03
+  CT
+    - Styling using themes and W3.CSS
+    - Gmail Styled Scroll bars
+    - Searchable Page List
+  Journal
+    - Rolling Use multiple random rolls instead of random letters & change timing to slow as roll comes to completion.
