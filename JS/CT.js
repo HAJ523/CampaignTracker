@@ -253,7 +253,7 @@ CT.pagePropertiesModal = function() {
     document.getElementById('ppMapFileDisplay').innerHTML = data.pages[data.selected].map.name;
     document.getElementById('ppMapWidth').value = data.pages[data.selected].map.width;
     document.getElementById('ppMapHeight').value = data.pages[data.selected].map.height;
-    document.getElementById('ppMapPPM').value = data.pages[data.selected].map.ppm;
+    document.getElementById('ppMapPPU').value = data.pages[data.selected].map.ppu;
   }
 }
 
@@ -445,11 +445,11 @@ CT.savePage = function () {
   //Check map values for updates:
   var width = document.getElementById('ppMapWidth').value;
   var height = document.getElementById('ppMapHeight').value;
-  var ppm = document.getElementById('ppMapPPM').value;
-  if (((width != "") || (height != "") || (ppm != "")) && (!data.hasOwnProperty('temp'))) data.temp = {};
+  var ppu = document.getElementById('ppMapPPU').value;
+  if (((width != "") || (height != "") || (ppu != "")) && (!data.hasOwnProperty('temp'))) data.temp = {};
   if (width != "") data.temp.width = width;
   if (height != "") data.temp.height = height;
-  if (ppm != "") data.temp.ppm = ppm;
+  if (ppu != "") data.temp.ppu = ppu;
 
   //Save Map Content
   if (data.hasOwnProperty('temp')) {
@@ -457,11 +457,11 @@ CT.savePage = function () {
       data.pages[page].map = {};
     }
     if (data.temp.name != "") data.pages[page].map.name = data.temp.name;
-    if (data.temp.ppm < 1) {data.temp.ppm = 1};
+    if (data.temp.ppu < 1) {data.temp.ppu = 1};
     data.pages[page].map.width = data.temp.width;
     data.pages[page].map.height = data.temp.height;
-    data.pages[page].map.bounds = [[0,0],[data.temp.height/data.temp.ppm,data.temp.width/data.temp.ppm]];
-    data.pages[page].map.ppm = data.temp.ppm;
+    data.pages[page].map.bounds = [[0,0],[data.temp.height/data.temp.ppu,data.temp.width/data.temp.ppu]];
+    data.pages[page].map.ppu = data.temp.ppu;
     if (data.temp.hasOwnProperty('image')) data.pages[page].map.image = data.temp.image;
     data.pages[page].map.markers = {}; //Updating a page can potentially drastically change the scale so remove all markers.
     delete data.temp; //Make sure that we don't bleed data.
@@ -750,6 +750,32 @@ CT.deletePage = function() {
   document.getElementById('ppModal').style.display = "none";
 }
 
+CT.ynModalCallback = function(val) {
+  //Make the modal invisible.
+  document.getElementById('ynModal').style.display = "none";
+
+  //Just make sure that this is available. If it isn't a function then there is a development problem.
+  if (CT.hasOwnProperty('ynCallback')) {
+    CT.ynCallback(val);
+  }
+}
+
+CT.ynModal = function(header, question, callback) {
+  //Save the callback function
+  CT.ynCallback = callback;
+
+  //Update the header and the question
+  document.getElementById('ynHeader').innerHTML = header;
+  document.getElementById('ynQuestion').innerHTML = question;
+
+  //Make visible
+  document.getElementById('ynModal').style.display = "block";
+}
+
 CT.tempModalOpen = function(id) {
   document.getElementById(id).style.display = 'block';
+}
+
+CT.testAlert = function(val) {
+  alert(val);
 }

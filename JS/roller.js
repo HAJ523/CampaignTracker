@@ -1,5 +1,11 @@
 var Roller = {};
 
+Roller.recursiveParse = function(str,level) {
+  return str.replace(/\(([\s\S]*)\)/g, function(m,l) {
+
+  });
+}
+
 //Will walk through a string and attempt to consilidate it into a single result.
 Roller.recurParse = function(data) {
   var nextLoc;

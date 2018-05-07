@@ -43,7 +43,7 @@
                 <b><span class="w3-bar-item w3-padding-small" id="ctTitle">Campaign Tracker</span></b>
                 <a class="w3-bar-item w3-button w3-padding-small fa fa-book" href="javascript:CT.changeDisplay('Journal');" title="Journal"></a>
                 <a class="w3-bar-item w3-button w3-padding-small fa fa-map" href="javascript:CT.changeDisplay('Map');" title="Map"></a>
-                <a class="w3-bar-item w3-button w3-padding-small fa fa-calendar-alt" href="javascript:void(0);" title="Calendar"></a>
+                <a class="w3-bar-item w3-button w3-padding-small fa fa-calendar-alt" href="javascript:CT.ynModal('TestA','Are you sure you want to test me?',CT.testAlert);" title="Calendar"></a>
                 <a class="w3-bar-item w3-button w3-padding-small fa fa-random" href="javascript:void(0)" title="Generators"></a>
                 <a class="w3-bar-item w3-button w3-padding-small fa fa-download" href="javascript:void(0)" title="Save"></a>
                 <a class="w3-bar-item w3-button w3-padding-small fa fa-upload" href="javascript:CT.loadFile();" title="Load"></a><input type="file" id="ifLoad" onchange="CT.readFile(event);" accept=".json" style="display:none;"></input>
@@ -111,6 +111,25 @@
     </section>
   </div>
 
+  <div id="ynModal" class="w3-modal"> <!-- No onclick as this modal should block. -->
+    <div class="w3-modal-content w3-card-4 w3-animate-top">
+      <div class="w3-row w3-theme-d4">
+        <div class="w3-rest">
+          <div class="w3-left">
+            &nbsp;<span id="ynHeader">Test Header</span>
+          </div>
+          <div class="w3-right">
+            <a href="javascript:CT.ynModalCallback(1);" class="w3-bar-item w3-button w3-padding-small fa fa-check" id="ynYes"></a>
+            <a href="javascript:CT.ynModalCallback(0);" class="w3-bar-item w3-button w3-padding-small fa fa-ban" id="ynNo"></a>
+          </div>
+        </div>
+      </div>
+      <div class="w3-container w3-padding" align="center">
+        <span id="ynQuestion">A page like this already exists do you want to overwrite it?</span>
+      </div>
+    </div>
+  </div>
+
   <div id="csModal" class="w3-modal" onclick="if (event.target===this) {this.style.display='none';}">
     <div class="w3-modal-content w3-card-4 w3-animate-top">
       <header class="w3-container w3-theme-d4">
@@ -168,7 +187,7 @@
             <div class="w3-quarter w3-padding-small"><a href="javascript:Map.chooseMapFile();" class="w3-button w3-theme-d1" id="ppMap">Map File</a><input type="file" id="ppMapFile" onchange="Map.loadMapFile(event);" style="display:none;" accept="image/*"></input></div>
             <div class="w3-quarter w3-padding-small"><input type="text" class="w3-input" placeholder="Width" id="ppMapWidth" title="Width in pixels."></input></div>
             <div class="w3-quarter w3-padding-small"><input type="text" class="w3-input" placeholder="Height" id="ppMapHeight" title="Height in pixels."></input></div>
-            <div class="w3-quarter w3-padding-small"><input type="text" class="w3-input" placeholder="PPM" id="ppMapPPM" title="Pixels per mile."></input></div>
+            <div class="w3-quarter w3-padding-small"><input type="text" class="w3-input" placeholder="PPU" id="ppMapPPU" title="Pixels per unit."></input></div>
         </div>
         <span id="ppMapFileDisplay"></span>
       </div>
