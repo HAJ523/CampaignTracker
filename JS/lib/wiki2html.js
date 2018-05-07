@@ -37,6 +37,27 @@ function wiki2html(s) {
         s = this;
     }
 
+    // Inline sections need to be done as recursive calls.
+    function section(str) {
+      return str.replace(/{{([\s\S]*)}}/g, function(m,l) {
+        var id = CT.tempID(8);
+        //Get rid of outer layer of brackets
+        //m = m.replace(/^{{/,"").replace(/}}$/,"");
+
+
+        var contents = l.split(/\|/g);
+
+        //Get the title and make sure that it is valued.
+        var title = contents.shift();
+        title = (title = "" ? id : title);
+
+        //Perform the recursion over the section contents to handle nesting!
+        l = section(contents.join("|"));
+        return "<div class='w3-theme-d1 w3-padding-small' onclick='CT.toggleCollapsed(\"" + id + "\")'><span class='fa fa-plus' id='t-" +id+ "'>&nbsp;</span>" + title + "</div><div class='w3-container w3-hide w3-border' id='"+ id + "'>" + l + "</div>";
+      });
+    }
+
+
     // lists need to be done using a function to allow for recusive calls
     function list(str) {
         return str.replace(/(?:(?:(?:^|\n)[\*#].*)+)/g, function (m) {  // (?=[\*#])
@@ -48,7 +69,7 @@ function wiki2html(s) {
         });
     }
 
-    return list(s
+    return section(list(s
 
         /* BLOCK ELEMENTS */
         .replace(/(?:^|\n+)([^# =\*<].+)(?:\n+|$)/gm, function (m, l) {
@@ -79,7 +100,7 @@ function wiki2html(s) {
             return '<em>' + l + '</em>';
         })
 
-        .replace(/{{(.*?)}}/g, function(m, l) { //Strike Through //TODO Make this for inline collapsable section instead. use || or -- for strikethrough.
+        .replace(/--(.*?)--/g, function(m, l) { //Strike Through
           return '<s>' + l + '</s>';
         })
 
@@ -117,7 +138,7 @@ function wiki2html(s) {
               return '<a href="#" onclick="CT.loadPage(\'' + link + '\');">' + (p.length ? p.join('|') : link.split(/\//).pop()) + '</a>';
             }
         })
-    );
+    ));
 }
 
 })();
