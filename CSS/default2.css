@@ -73,6 +73,30 @@ html, body {
   max-height: 90%;
 }
 
+/* Floating */
+@border: 1px solid #ddd;
+@padding: 10px;
+@label-font-size: 13px;
+
+*,
+*:before,
+*:after {
+	box-sizing: border-box;
+}
+
+// Demo styles
+form {
+  margin: 2em auto;
+  font-weight: 300;
+
+  legend {
+    font-size: 2em;
+    margin-bottom: 1em;
+    width: 100%;
+    border-bottom: @border;
+  }
+}
+
 /* Gmail style scrollbar */
 ::-webkit-scrollbar {
     width: 12px

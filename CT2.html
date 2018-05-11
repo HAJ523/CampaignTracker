@@ -28,7 +28,7 @@
     <link rel="stylesheet" type="text/css" href="CSS\W3.css">
     <link rel="stylesheet" type="text/css" href="CSS\fontawesome-all.min.css">
     <link rel="stylesheet" type="text/css" href="CSS\w3-theme-teal.css">
-    <link rel="stylesheet" type="text/css" href="CSS\default2.css"
+    <link rel="stylesheet" type="text/css" href="CSS\default2.css">
   </head>
   <body onload="CT.onload();CT.changeDisplay('Journal');">
 
@@ -45,16 +45,17 @@
                 <a class="w3-bar-item w3-button w3-padding-small fa fa-map" href="javascript:CT.changeDisplay('Map');" title="Map"></a>
                 <a class="w3-bar-item w3-button w3-padding-small fa fa-calendar-alt" href="javascript:CT.ynModal('TestA','Are you sure you want to test me?',CT.testAlert);" title="Calendar"></a>
                 <a class="w3-bar-item w3-button w3-padding-small fa fa-random" href="javascript:void(0)" title="Generators"></a>
-                <a class="w3-bar-item w3-button w3-padding-small fa fa-download" href="javascript:void(0)" title="Save"></a>
+                <a class="w3-bar-item w3-button w3-padding-small fa fa-download" href="javascript:CT.saveFile();" title="Save"></a>
                 <a class="w3-bar-item w3-button w3-padding-small fa fa-upload" href="javascript:CT.loadFile();" title="Load"></a><input type="file" id="ifLoad" onchange="CT.readFile(event);" accept=".json" style="display:none;"></input>
                 <a class="w3-bar-item w3-button w3-padding-small fa fa-cog" href="javascript:CT.settings();" title="Settings"></a>
                 <a class="w3-bar-item w3-button w3-padding-small fa fa-question" href="javascript:CT.changeDisplay('Help');" title="Help"></a>
               </div>
               <div class="w3-display-topmiddle" id="ctPageTitle"></div>
               <div class="w3-right">
-                <a class="w3-bar-item w3-button w3-padding-small fa fa-stopwatch" href="javascript:void(0)" title="Countdown"></a>
+                <a class="w3-bar-item w3-button w3-padding-small fa fa-clock" href="javascript:void(0)" title="Countdown"></a>
+                <a class="w3-bar-item w3-button w3-padding-small fa fa-stopwatch" href="javascript:void(0)" title="Timer"></a>
                 <a class="w3-bar-item w3-button w3-padding-small fa fa-plus" href="javascript:void(0)" title="Increment Clock"></a>
-                1492-05-29 09:10&nbsp;
+                <span id="ctGameTime">1492-05-29 09:10</span>&nbsp;
               </div>
             </div>
         </div>
@@ -146,28 +147,74 @@
         <a href="javascript:CT.settingsTab('Calendar');" class="w3-bar-item w3-button csMenu" id="csMenuCalendar">Calendar</a>
       </div>
 
-      <div class="w3-container w3-padding csTab" align="center" id="csTabMain">
-        <input type="text" class="w3-input" id="csName" placeholder="Campaign Title" title="The name of the campaign. This will&#013;influence the save file name." style="width:50%;"></input><br/>
-        <input type="text" class="w3-input" id="csDefaultDice" placeholder="Default Dice" title="When adding a roll link this will be&#013;added to the beginning of rolls which&#013;start with -/+ to make them valid rolls.&#013;(Ex. '1d20' or '2d6')" style="width:25%;"></input></br>
+      <div class="w3-container w3-padding csTab" id="csTabMain">
+        <input type="text" class="w3-input" id="csName" title="The name of the campaign. This will&#013;influence the save file name."></input>
+        <label class="w3-text-grey w3-small" for="csName">Campaign Name</label>
+        <input type="text" class="w3-input" id="csDefaultDice" title="When adding a roll link this will be&#013;added to the beginning of rolls which&#013;start with -/+ to make them valid rolls.&#013;(Ex. '1d20' or '2d6')"></input>
+        <label class="w3-text-grey w3-small"for="csDefaultDice">Default Dice</label>
       </div>
 
       <div class="w3-container w3-padding csTab" align="center" id="csTabJournal">
         Coming Soon&trade;
       </div>
 
-      <div class="w3-container w3-padding csTab" align="center" id="csTabImage">
-        <input type="text" class= "w3-input" id="csLocImgPath" placeholder="Local Image Path" title="The path to prepend to local images.&#013;(Ex. 'C:\Users\User\Pictures\')" style="width:50%;"></input>
-        <br/>Internal Images:<br/>
-        <select id="csIntImages" onchange="CT.loadSettingsImage();" class="w3-select" style="width:50%;"></select><br/>
+      <div class="w3-container w3-padding csTab" id="csTabImage">
+        <input type="text" class= "w3-input" id="csLocImgPath" title="The path to prepend to local images.&#013;(Ex. 'C:\Users\User\Pictures\')"></input>
+        <label class="w3-text-grey w3-small" for="csLocImgPath">Local Image Filepath</label>
 
-        <a href="javascript:CT.loadImageStart();" class="w3-button w3-theme-d1">Load</a>&nbsp;
-        <a href="javascript:CT.copyImageName();" class="w3-button w3-theme-d1" onclick="">Copy</a>&nbsp;
-        <a href="javascript:CT.imageDelete();" class="w3-button w3-theme-d1">Delete</a><input type="file" id="csImageFile" onchange="CT.loadImage(event);" style="display:none;" accept='image/*'></input><br/>
-        <img id="csIntImg" style="max-height:250px;max-width:300px;"></img><br/><br/>
+        <select id="csIntImages" onchange="CT.loadSettingsImage();" class="w3-select"></select>
+        <label class="w3-text-grey w3-small" for="csIntImages">Internal Images</label><br/>
+        <div align="center">
+          <a href="javascript:CT.loadImageStart();" class="w3-button w3-theme-d1">Load</a>&nbsp;
+          <a href="javascript:CT.copyImageName();" class="w3-button w3-theme-d1" onclick="">Copy</a>&nbsp;
+          <a href="javascript:CT.imageDelete();" class="w3-button w3-theme-d1">Delete</a><input type="file" id="csImageFile" onchange="CT.loadImage(event);" style="display:none;" accept='image/*'></input><br/><br/>
+          <img id="csIntImg" style="max-height:250px;max-width:300px;"></img><br/><br/>
+        </div>
       </div>
 
-      <div class="w3-container w3-padding csTab" align="center" id="csTabCalendar">
-        Coming Soon&trade;
+      <div class="w3-container w3-padding csTab" id="csTabCalendar">
+        <div class="w3-container" style="width:100%;text-align:center;"><span class="w3-tiny w3-text-red" >Do NOT modify these settings on an existing save as they have the potential to break scheduled events.</span></div>
+        <div class="w3-row" id="csCalCustom">
+          <div class="w3-third w3-padding-small">
+            <h4 align="center">Year</h4>
+            <input type="number" class="w3-input" id="csYear" title="Initial year for a campaign." step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onchange="Calendar.setYear();"/>
+            <label  class="w3-text-grey w3-small" for="csYear">Starting Year</label>
+          </div>
+          <div class="w3-third w3-padding-small">
+            <h4 align="center">Months</h4>
+            <div class="w3-row">
+              <div class="w3-quarter">
+                <input type="number" class="w3-input w3-border-right" id="csMonths" title="Number of months in a year." step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onchange="Calendar.setMonths();"/>
+                <label  class="w3-text-grey w3-small" for="csMonths"># Months</label>
+              </div>
+              <div class="w3-rest">
+                <select class="w3-select" id="csMonthList" title="Select a specific month to modify it's&#013;properties." onchange="CT.csCalChangeMonth();"></select>
+                <label class="w3-text-grey w3-small">Month</label>
+              </div>
+            </div>
+            <input type="text" class="w3-input" id="csMonthName" onchange="Calendar.setMonthName();"/>
+            <label  class="w3-text-grey w3-small" for="csMonthName">Month Name</label>
+            <input type="number" class="w3-input" id="csMonthDays" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onchange="Calendar.setMonthDays();"/>
+            <label  class="w3-text-grey w3-small" for="csMonths">Days in Month</label>
+            <input type="text" class="w3-input" id="csMonthSeason" placeholder="Coming soon&trade;"/>
+            <label  class="w3-text-grey w3-small" for="csMonths">Month's Season</label>
+          </div>
+          <div class="w3-third w3-padding-small">
+            <h4 align="center">Week</h4>
+            <div class="w3-row">
+              <div class="w3-quarter">
+                <input type="number" class="w3-input w3-border-right" id="csWeekdays" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onchange="Calendar.setWeekdays();"/>
+                <label  class="w3-text-grey w3-small" for="csWeekdays"># Days</label>
+              </div>
+              <div class="w3-rest">
+                <select class="w3-select" id="csWeekdayList" onchange="CT.csCalChangeWeekday();"></select>
+                <label class="w3-text-grey w3-small" for="csWeekdayList">Day</label>
+              </div>
+            </div>
+            <input type="text" class="w3-input" id="csWeekdayName" onchange="Calendar.setWeekdayName();"/>
+            <label  class="w3-text-grey w3-small" for="csWeekdayName">Day Name</label>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -182,12 +229,22 @@
         </div>
       </header>
       <div class="w3-container w3-padding" align="center">
-        <input type="text" id="ppPath" class="w3-input" style="width:50%;" placeholder="Full Path" title="(Ex. 'World/Waterdeep/Sewers')"></input><input type="hidden" id="ppPathOriginal" style="display:none;"></input>
+        <input type="text" id="ppPath" class="w3-input" style="width:50%;" title="(Ex. 'World/Waterdeep/Sewers')"/><input type="hidden" id="ppPathOriginal" style="display:none;"/>
+        <label class="w3-text-grey w3-small" for="ppPath">Full Page Path</label>
         <div class="w3-row" style="width:50%">
-            <div class="w3-quarter w3-padding-small"><a href="javascript:Map.chooseMapFile();" class="w3-button w3-theme-d1" id="ppMap">Map File</a><input type="file" id="ppMapFile" onchange="Map.loadMapFile(event);" style="display:none;" accept="image/*"></input></div>
-            <div class="w3-quarter w3-padding-small"><input type="text" class="w3-input" placeholder="Width" id="ppMapWidth" title="Width in pixels."></input></div>
-            <div class="w3-quarter w3-padding-small"><input type="text" class="w3-input" placeholder="Height" id="ppMapHeight" title="Height in pixels."></input></div>
-            <div class="w3-quarter w3-padding-small"><input type="text" class="w3-input" placeholder="PPU" id="ppMapPPU" title="Pixels per unit."></input></div>
+            <div class="w3-quarter w3-padding-small"><a href="javascript:Map.chooseMapFile();" class="w3-button w3-theme-d1" id="ppMap">Map File</a><input type="file" id="ppMapFile" onchange="Map.loadMapFile(event);" style="display:none;" accept="image/*"/></div>
+            <div class="w3-quarter w3-padding-small">
+              <input type="text" class="w3-input" id="ppMapWidth" title="Width in pixels."/>
+              <label class="w3-text-grey w3-small" for="ppMapWidth">Pixel Width</label>
+            </div>
+            <div class="w3-quarter w3-padding-small">
+              <input type="text" class="w3-input" id="ppMapHeight" title="Height in pixels."/>
+              <label class="w3-text-grey w3-small" for="ppMapHeight">Pixel Height</label>
+            </div>
+            <div class="w3-quarter w3-padding-small">
+              <input type="text" class="w3-input" id="ppMapPPU" title="Pixels per unit."/>
+              <label class="w3-text-grey w3-small" for="ppMapPPU">Pixels Per Unit</label>
+            </div>
         </div>
         <span id="ppMapFileDisplay"></span>
       </div>
@@ -205,7 +262,8 @@
       </header>
       <div class="w3-container w3-padding" align="center">
         <span id="mpID"></span>
-        <input type="text" id="mpLink" class="w3-input" style="width:50%;"></input>
+        <input type="text" id="mpLink" class="w3-input"/>
+        <label class="w3-text-grey w3-small" for="mpLink">Page Link</label>
         </div>
       </div>
     </div>

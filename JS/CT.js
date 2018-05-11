@@ -43,6 +43,8 @@ CT.onload = function() {
     return Math.sqrt(dx * dx + dy * dy);
   }
 
+  CT.displayGameTime();
+
   //if (document.getElementById("ImportTest").import != "") {
 //    alert(document.getElementById("ImportTest").import);
 //  }
@@ -379,6 +381,9 @@ CT.saveSettings = function() {
 
   //Now close the Modal.
   document.getElementById('csModal').style.display = "none";
+
+  //Make sure we update the calendar information.
+  CT.displayGameTime();
 }
 
 CT.newPageModal = function(skipClear) {
@@ -778,4 +783,93 @@ CT.tempModalOpen = function(id) {
 
 CT.testAlert = function(val) {
   alert(val);
+}
+
+CT.csCalMonthSelect = function() {
+  var select = document.getElementById('csMonthList');
+  var selected = select.value;
+
+  //Check to make sure that the selected item is still in the list.
+  if (selected > data.cal.months.length) {
+    selected = data.cal.months.length - 1;
+  } else if (selected == "") {
+    selected = 0;
+  }
+
+  //Loop over all of the months adding them to the select.
+  select.innerHTML = "";
+  for (var i = 0; i < data.cal.months.length; i++) {
+    var option = document.createElement("option");
+    option.value = i;
+    option.text = data.cal.months[i].name;
+    if (i == selected) {
+      option.selected = true;
+    }
+    select.appendChild(option);
+  }
+
+  //Make sure that we update the month displayed
+  CT.csCalMonth(selected);
+}
+
+CT.csCalWeekdaySelect = function() {
+  var select = document.getElementById('csWeekdayList');
+  var selected = select.value;
+
+  //Check to make sure that the selected item is still in the list.
+  if (selected > data.cal.weekdays.length) {
+    selected = data.cal.weekdays.length - 1;
+  } else if (selected == "") {
+    selected = 0;
+  }
+
+  //Loop over all of the months adding them to the select.
+  select.innerHTML = "";
+  for (var i = 0; i < data.cal.weekdays.length; i++) {
+    var option = document.createElement("option");
+    option.value = i;
+    option.text = data.cal.weekdays[i];
+    if (i == selected) {
+      option.selected = true;
+    }
+    select.appendChild(option);
+  }
+
+  //Make sure that we update the month displayed
+  CT.csCalWeekday(selected);
+}
+
+CT.csCalChangeWeekday = function() {
+  CT.csCalWeekday(parseInt(document.getElementById('csWeekdayList').value));
+}
+
+CT.csCalChangeMonth = function() {
+  CT.csCalMonth(parseInt(document.getElementById('csMonthList').value));
+}
+
+CT.csCalMonth = function(i) {
+  document.getElementById('csMonthName').value = data.cal.months[i].name;
+  document.getElementById('csMonthDays').value = data.cal.months[i].days;
+  document.getElementById('csMonthSeason').value = data.cal.months[i].season;
+}
+
+CT.csCalWeekday = function(i) {
+  document.getElementById('csWeekdayName').value = data.cal.weekdays[i];
+}
+
+CT.onScroll = function(e,src,trg) {
+  var e1 = document.getElementById(src);
+  var e2 = document.getElementById(trg);
+
+  ;
+
+  e2.scrollTop = (e1.scrollTop/(e1.scrollHeight-e1.clientHeight)).toFixed(2)*(e2.scrollHeight-e2.clientHeight);
+
+  e.preventDefault();
+}
+
+CT.displayGameTime = function() {
+  var e = document.getElementById('ctGameTime')
+  e.innerHTML = Calendar.displayDateShort();
+  e.title = Calendar.displayDateLong();
 }
