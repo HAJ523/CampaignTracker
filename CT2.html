@@ -33,12 +33,11 @@
   <body onload="CT.onload();CT.changeDisplay('Journal');">
 
     <!-- Responsive Container -->
-    <div class="l-fit-height">
+    <div class="l-fit-height" style="z-index:0;">
     <section class="l-fit-height-row">
         <div class="l-fit-height-row-content">
-          <div class="w3-row">
-            <div class="w3-rest w3-theme-d3">
-              <div class="w3-left">
+          <div class="w3-display-container w3-theme-d3">
+            <div> <!-- No class necessary top left is default. -->
                 <a class="w3-bar-item w3-button w3-padding-small fa fa-bars" href="javascript:void(0)" title="Menu"></a> <!-- TODO add menu open.-->
                 <b><span class="w3-bar-item w3-padding-small" id="ctTitle">Campaign Tracker</span></b>
                 <a class="w3-bar-item w3-button w3-padding-small fa fa-book" href="javascript:CT.changeDisplay('Journal');" title="Journal"></a>
@@ -49,13 +48,20 @@
                 <a class="w3-bar-item w3-button w3-padding-small fa fa-upload" href="javascript:CT.loadFile();" title="Load"></a><input type="file" id="ifLoad" onchange="CT.readFile(event);" accept=".json" style="display:none;"></input>
                 <a class="w3-bar-item w3-button w3-padding-small fa fa-cog" href="javascript:CT.settings();" title="Settings"></a>
                 <a class="w3-bar-item w3-button w3-padding-small fa fa-question" href="javascript:CT.changeDisplay('Help');" title="Help"></a>
-              </div>
               <div class="w3-display-topmiddle" id="ctPageTitle"></div>
-              <div class="w3-right">
+              <div class="w3-display-topright">
                 <a class="w3-bar-item w3-button w3-padding-small fa fa-clock" href="javascript:void(0)" title="Countdown"></a>
                 <a class="w3-bar-item w3-button w3-padding-small fa fa-stopwatch" href="javascript:void(0)" title="Timer"></a>
-                <a class="w3-bar-item w3-button w3-padding-small fa fa-plus" href="javascript:void(0)" title="Increment Clock"></a>
-                <span id="ctGameTime">1492-05-29 09:10</span>&nbsp;
+                <div class="w3-dropdown-click">
+                  <a href="javascript:CT.toggleShow('ctIncDD');" class="w3-button w3-padding-small fa fa-plus" title="Increment Clock"></a>
+                  <div class="w3-dropdown-content w3-card-4 w3-padding-small" style="right:0;" id="ctIncDD">
+                    <input type="text" id="ctIncrement" class="w3-input" title="Value to increment current date and time&#013;by. Use :&#013;  ##d - Days&#013;  ##h - Hours&#013;  ##m - Minutes&#013;  ##s - Seconds" onkeyup="CT.incrementDate();"/>
+                    <label class="w3-text-grey w3-small" for="tbInput" id="tbLabel">Increment</label>
+                    <div id="qbIncrement">Quick Buttons Here!</div>
+                  </div>
+                </div>
+
+                <span id="ctGameTime">TEST-OO-OO OO:OO</span>&nbsp;
               </div>
             </div>
         </div>
@@ -75,11 +81,11 @@
                 <div class="w3-rest">
 
                   <!-- Journal Page Display -->
-                  <div id="JournalTable" class="w3-row e3-hide">
+                  <div id="JournalTable" class="w3-row e3-hide" style="z-index:1;">
                       <div id="JournalEditor" class="w3-third">
                         <textarea id="taJournalEditor" oninput="Journal.onInput('taJournalEditor','JournalDisplay');" class="w3-input w3-border" style="height:100%;" placeholder="Input..."></textarea>
                       </div>
-                      <div id="JournalContainer" class="w3-rest w3-padding-small" style="overflow-y:scroll; height:100%;"><div id="JournalDisplay"></div>
+                      <div id="JournalContainer" class="w3-rest w3-padding-small" style="overflow-y:scroll; height:100%;"><div id="JournalDisplay"></div></div>
                       </div>
                   </div>
 
@@ -110,6 +116,25 @@
           </div>
         </div>
     </section>
+  </div>
+
+  <div id="tbModal" class="w3-modal" onclick="if (event.target===this) {this.style.display='none';}"> <!-- Text entry with quick buttons -->
+    <div class="w3-modal-content w3-card-4 w3-animate-top">
+      <div class="w3-row w3-theme-d4">
+        <div class="w3-rest">
+          <div class="w3-left">
+            &nbsp;<span id="tbHeader">Test Header</span>
+          </div>
+          <div class="w3-right">
+            <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small fa fa-save" id="tbSave"></a>
+          </div>
+        </div>
+      </div>
+      <div class="w3-container w3-padding">
+        <input type="text" id="tbInput" title="Nothing" class="w3-input"/>
+        <label class="w3-text-grey w3-small" for="tbInput" id="tbLabel">Text</label><div id="tbQuick"></div>
+      </div>
+    </div>
   </div>
 
   <div id="ynModal" class="w3-modal"> <!-- No onclick as this modal should block. -->

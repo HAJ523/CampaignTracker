@@ -189,6 +189,7 @@ CT.popImageSelect = function() {
 CT.loadJSONFile = function(json) {
   var dispcur = data.display;
   CT.resetData();
+  Calendar.resetData();
   data = JSON.parse(json);
   var dispfut = data.display;
   data.display = dispcur; //Set the system state to match actual state on load. Then switch back using CT.change
@@ -200,6 +201,7 @@ CT.loadJSONFile = function(json) {
   CT.changeDisplay(dispfut, true, true); //Reload the display.
   document.title = data.settings.name + " - Campaign Tracker";
   document.getElementById('ctTitle').innerHTML = data.settings.name;
+  CT.displayGameTime();
 }
 
 //Change display between map, calendar, journal, etc.
@@ -737,6 +739,18 @@ CT.toggleCollapsed = function(id) {
   }
 }
 
+CT.toggleShow = function(id) {
+  //TODO Add check to make sure ID exists.
+
+  var element = document.getElementById(id);
+
+  if (element.classList.contains('w3-show')) {
+    element.classList.remove('w3-show');
+  } else {
+    element.classList.add('w3-show');
+  }
+}
+
 CT.deletePage = function() {
   var page = data.selected;
   data.selected = "";
@@ -762,6 +776,7 @@ CT.ynModalCallback = function(val) {
   //Just make sure that this is available. If it isn't a function then there is a development problem.
   if (CT.hasOwnProperty('ynCallback')) {
     CT.ynCallback(val);
+    delete CT.ynCallback;
   }
 }
 
@@ -872,4 +887,38 @@ CT.displayGameTime = function() {
   var e = document.getElementById('ctGameTime')
   e.innerHTML = Calendar.displayDateShort();
   e.title = Calendar.displayDateLong();
+}
+
+CT.incrementDate = function(e) {
+  e = e || event;
+  if (e.key == "Enter") {
+    var element = document.getElementById('ctIncrement');
+    Calendar.incrementDate(element.value);
+    element.value = "";
+  }
+}
+
+CT.tbModal = function(header, label, quicklist, callback) {
+  //Save the callback function
+  CT.tbCallback = callback;
+
+  //Update the header and the question
+  document.getElementById('tbHeader').innerHTML = header;
+  document.getElementById('tbLabel').innerHTML = label[0];
+  document.getElementById('tbLabel').title = label[1];
+
+  //Loop over the list adding quick option buttons.
+
+  //Make visible
+  document.getElementById('tbModal').style.display = "block";
+}
+
+CT.tbModalCallback = function() {
+  //Make the modal invisible.
+  document.getElementById('tbModal').style.display = "none";
+
+  //Just make sure that this is available. If it isn't a function then there is a development problem.
+  if (CT.hasOwnProperty('tbCallback')) {
+    CT.tbCallback(val);
+  }
 }

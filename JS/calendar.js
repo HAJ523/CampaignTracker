@@ -1,12 +1,26 @@
-//Initialize the calendar
-data.cal = {};
-data.cal.months = [];
-data.cal.weekdays = [];
-data.cal.date = {years:0, months:0, days:0, weekday:0, seconds:0, total:0}; //Current Date information as indexes into the arrays.
-data.cal.startYear = 0;
-
 var Calendar = {};
+
+Calendar.resetData = function() {
+	data.cal = {};
+	data.cal.months = [];
+	data.cal.weekdays = [];
+	data.cal.date = {years:0, months:0, days:0, weekday:0, seconds:0, total:0}; //Current Date information as indexes into the arrays.
+	data.cal.startYear = 0;
+	Calendar.resetDate();
+}
+
+Calendar.resetDate = function() {
+  data.cal.date.years = data.cal.startYear;
+  data.cal.date.months = 0;
+  data.cal.date.days = 0;
+  data.cal.date.weekday = 0;
+  data.cal.date.seconds = 0;
+  data.cal.date.total = 0;
+}
+
 Calendar.dayLength = 86400; //Seconds in a day.
+
+Calendar.resetData();
 
 Calendar.selectType = function() {
   data.cal.type = parseInt(document.getElementById('csCalType').value);
@@ -25,12 +39,8 @@ Calendar.setYear = function() {
   data.cal.startYear = years;
 
   //If this is changed then reset the current date.
-  data.cal.date.years = years;
-  data.cal.date.months = 0;
-  data.cal.date.days = 0;
-  data.cal.date.weekday = 0;
-  data.cal.date.seconds = 0;
-  data.cal.date.total = 0;
+  Calendar.resetDate();
+
   //Also update the display.
   CT.displayGameTime();
 }
@@ -55,6 +65,9 @@ Calendar.setMonths = function() {
   } else if (months < data.cal.months.length) {
     data.cal.months.splice(months,data.cal.months.length-months);
   }
+
+  //If this is changed then reset the current date.
+  Calendar.resetDate();
 
   //Now that we have the array corrected call the selection builder.
   CT.csCalMonthSelect();
@@ -85,6 +98,9 @@ Calendar.setMonthDays = function() {
   }
 
   data.cal.months[i].days = days;
+
+  //If this is changed then reset the current date.
+  Calendar.resetDate();
 }
 
 Calendar.setWeekdayName = function() {
@@ -119,12 +135,25 @@ Calendar.setWeekdays = function() {
     data.cal.weekdays.splice(weekdays, data.cal.weekdays.length - weekdays);
   }
 
+  //If this is changed then reset the current date.
+  Calendar.resetDate();
+
   //Now that we have the array corrected call the selection builder.
   CT.csCalWeekdaySelect();
 }
 
 Calendar.incrementDate = function(str) {
+  var Totals = [];
+
+  //Check to make sure that the calendar was actually setup before allowing this to happen.
+  if (data.cal.months.length == 0) {
+    CT.setStatus("No calendar information populated in campaign settings unable to increment time");
+    return;
+  }
+
   var seconds = 0;
+
+  //TODO Add roll parsing so that this could increment by a random amount.
 
   str.replace(/([\d]*s)/g,function(m,l) {
     seconds+=parseInt(l.substring(0,str.length-1));
@@ -142,6 +171,20 @@ Calendar.incrementDate = function(str) {
 
   //If the string contains anything left which is not " " then log a message to the user.
   //TODO
+
+  //Calculate totals for later message.
+  if (seconds >= 86400) {
+    Totals[0] = Math.floor(seconds/86400);
+  } else { Totals[0] = 0;}
+  if ((seconds - (86400 * Math.floor(seconds/86400))) >= 3600) {
+    Totals[1] = Math.floor((seconds - (86400 * Math.floor(seconds/86400)))/3600);
+  } else {Totals[1] = 0;}
+  if ((seconds - (3600 * Math.floor(seconds/3600))) >= 60) {
+    Totals[2] = Math.floor((seconds - (3600 * Math.floor(seconds/3600)))/60);
+  } else {Totals[2] = 0;}
+  if ((seconds - (60 * Math.floor(seconds/60))) >= 0) {
+    Totals[3] = Math.floor(seconds - (60 * Math.floor(seconds/60)));
+  } else {Totals[3] = 0;}
 
   //Update the total as that is the easiest.
   data.cal.date.total += seconds;
@@ -180,6 +223,9 @@ Calendar.incrementDate = function(str) {
 
   //Allow the system to check for events which should alert here!
   //TODO
+
+  //Add message
+  CT.setStatus("Date incremented by: " +Totals[0]+" Days, "+Totals[1]+" Hours, "+Totals[2]+" Minutes, "+Totals[3]+" Seconds");
 
   //Last make sure that we update the game time display.
   CT.displayGameTime();
