@@ -132,7 +132,10 @@ CT.selectPage = function(p, ss) {
 
   //TODO Check the page for data if there is no data for the current view then change the view.
 
-  if (!data.pages.hasOwnProperty(p)) { data.pages[p] = {}; }
+  if (!data.pages.hasOwnProperty(p)) {
+    data.pages[p] = {};
+    CT.addPageToPageTree(undefined, p);
+  }
 
   //Load the data and refresh the display.
   switch (data.slctView) {
