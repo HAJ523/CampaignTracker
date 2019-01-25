@@ -42,7 +42,10 @@ JL.createJournalObject = function(page) {
 */
 JL.loadPage = function() {
   //Make sure that the journal object is created for this page.
-  if (!data.pages.hasOwnProperty(data.slctPage)) JL.createJournalObject(data.slctPage);
+  if (!data.pages.hasOwnProperty(data.slctPage)) {
+    JL.createJournalObject(data.slctPage);
+    CT.addPageToPageTree(data.slctPage);
+  }
   if (!data.pages[data.slctPage].hasOwnProperty('J')) JL.createJournalObject(data.slctPage);
 
   //Load the data and update the display.

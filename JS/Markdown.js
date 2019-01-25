@@ -57,12 +57,30 @@ MD.toHTML = function(s) {
     b = ((b == null) ? a : b);
     return '<img src="' + b + '" title="' + c + '">';
   })
+  //Dice Roller
+  .replace(/\?\[(.*?)\]/g, function(m, a) { //Parameters: Match, Roll   Return: <a href='roll'>Roll</a>
+    return m;
+  })
+  //Calculator
+  .replace(/\&\[(.*?)\]/g, function(m, a) { //Parameters: Match, Equation   Return: <a href'calc'>Equation</a>
+    return m;
+  })
   //Links
   .replace(/\[(.*?)\/?([^\/]*?)\](?:\((\".*\"|[^ \n]*)[ ]?(.*)?\))?/g, function(m, a, b, c, d) { //Parameters: Match, Parent Folder, Page, Link, Title  Returns: <a href=Link title=Title>Page</a>
     a = ((a != "") ? [a, b].join("/") : b); //If there was a parent page then make sure that that is included in the link if Link is not populated.
-    c = ((c == null) ? a : c); //If Link is not populated then use the Parent + Page as the default.
+    d = ((d == undefined)? "" : d);
+    if ((c == null) || (c == undefined) || (c == "")) {
+      var l = a.split(":");
+      c = "javascript:"
+      if (l.length > 1) {
+        c += 'CT.changeView(\''+l[0]+'\');';
+        a = l[1];
+      }
+      c += 'CT.selectPage(\'' + a + '\');';
+    }
+
     //TODO Lookup page data for first non-header line and use that as title if none provided.
-    return '<a href="' + c + ' title="' + d + '">' + a + '</a>';
+    return '<a href="' + c + '" title="' + d + '">' + a + '</a>';
   })
   //Tables
   .replace(/((?:^|\n)\|.*?\n)(\|.*?\n)((?:\|.*?\n)*)/gs, function(m, a, b, c) {//Parameters: Match, Headers, Alignment, Data   Returns: <table>...</table>
