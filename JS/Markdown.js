@@ -59,7 +59,8 @@ MD.toHTML = function(s) {
   })
   //Dice Roller
   .replace(/\?\[(.*?)\]/g, function(m, a) { //Parameters: Match, Roll   Return: <a href='roll'>Roll</a>
-    return m;
+    var id = CT.GUID(8);
+    return '<a href="javascript:RL.roll(\'' + a + '\',\'' + id + '\')" id="' + id + '" title="' + a + '">' + a + '</a>';
   })
   //Calculator
   .replace(/\&\[(.*?)\]/g, function(m, a) { //Parameters: Match, Equation   Return: <a href'calc'>Equation</a>

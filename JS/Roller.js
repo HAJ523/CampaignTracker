@@ -9,10 +9,20 @@ var RL = {};
 
 /*
   Scope: Public
+  Description: Performs roll on click and updates element display!
+*/
+RL.roll = function(s, i) {
+  var e = document.getElementById(i);
+  e.title = s;
+  e.innerHTML = RL.recursiveParse(undefined, s);
+}
+
+/*
+  Scope: Public
   Description: Go through the str
 */
 RL.recursiveParse = function(s, i) {
-  if (RegExp(/[^\(]+\(/g).test(i)) {
+  if (RegExp(/\(([^\(\)]*)\)/g).test(i)) {
     return RL.parse(i.replace(/\(([^\(\)]*)\)/g, RL.recursiveParse));
   } else {
     return RL.parse(i);
@@ -41,7 +51,7 @@ RL.parse = function(s) {
         var n = parseInt(arguments[1]);
         //var r = parseInt(arguments[3].substring(2));
         if (parseInt(arguments[1]) >= d) {
-          tempAry.push(((d*(d+1))/2));
+          tempAry.push(((d*(d+1))/2)); //Asked for more unique values than what is possible so output the sum of all rolls without repeat.
         } else {
           //Populate the array with values.
           for (var i = 0; i < d; i++) {
@@ -81,7 +91,7 @@ RL.parse = function(s) {
       if (arguments[4].indexOf("+") || arguments[4].indexOf("-")) {
         tempvalue = parseInt(arguments[4]);
       }
-    }
+    } //TODO Add some form of output to show the dice!
     result = tempAry.reduce(function(tot,cur){return tot+cur},tempvalue);
     return result;
   })
