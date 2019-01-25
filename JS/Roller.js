@@ -34,7 +34,7 @@ RL.recursiveParse = function(s, i) {
   Description: Parse an individual portion of the roll.
 */
 RL.parse = function(s) {
-  console.log(s);
+//  console.log(s);
 
   //If the value only starts with +/- something then roll using the default dice for this campaign.
   if (RegExp(/^(\+|-)\d*/g).test(s)) {
