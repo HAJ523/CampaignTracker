@@ -27,6 +27,8 @@ CT.onLoad = function() {
   //Keep the real time updated on the screen so that the user doesn't have to go somewhere else!
   CT.updateIRLTime();
   setInterval(CT.updateIRLTime,15000); //Only update every 15 seconds. No sense in doing this every second or less.
+
+  CT.setStatus("Ready");
 }
 
 /*
@@ -332,6 +334,15 @@ CT.addPageToPageTree = function(l, p, r) {
 */
 CT.removePageFromPageTree = function(p) {
 
+}
+
+/*
+  Scope: Public
+  Description: Sets the status for the application.
+*/
+CT.setStatus = function(s) {
+  document.getElementById('StatusTime').innerHTML = '&nbsp;' + CT.localISOTime().split(' ')[1] + '&nbsp;';
+  document.getElementById('Status').innerHTML = s;
 }
 
 /*
