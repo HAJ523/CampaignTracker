@@ -20,3 +20,10 @@
 .w3-hover-theme:hover {color:#fff !important; background-color:#009688 !important}
 .w3-hover-text-theme:hover {color:#009688 !important}
 .w3-hover-border-theme:hover {border-color:#009688 !important}
+
+/*Custom Additions*/
+.w3-textarea:focus{box-shadow:0 4px 10px 0 rgba(0,133,120,0.8),0 4px 20px 0 rgba(0,133,120,0.75)} /*d1*/
+::-webkit-scrollbar-track {-webkit-box-shadow: inset 0 0 6px rgba(0,133,120,0.2);}
+::-webkit-scrollbar-track:hover {-webkit-box-shadow: inset 0 0 6px rgba(0,133,120,0.5);}
+::-webkit-scrollbar-thumb {background-color: rgba(0, 133, 120, .6); outline: 1px solid #00766a;}
+::-webkit-scrollbar-thumb:hover {background-color: rgba(0, 133, 120, .8); outline: 1px solid #00766a;}

@@ -1,58 +1,31 @@
-var Keyboard = {};
-Keyboard.KMap = {};
-window.onkeydown = window.onkeyup = function(e) {
-  e = e || event;
-  Keyboard.KMap[e.key] = (e.type == 'keydown');
+/*
+  Keyboard handling.
 
+  Author: HAJ523
+  2019-01 Created.
+*/
 
-  //Check for multikey press (Alt)
-  if (Keyboard.KMap['Alt']) {
-    //console.log('Alt + ' + e.key);
-    event.preventDefault(); //Make sure that we don't do the default action when these keys are pressed.
-    //Alt+N = New Page
-    if (Keyboard.KMap['n']) {
-      CT.newPageModal();
-      return;
-    }
-    //Alt+S = Settings
-    if (Keyboard.KMap['s']) {
-      CT.settings();
-      return;
-    }
-    //Alt+Left = Back
-    if (Keyboard.KMap['ArrowRight']) {
-      CT.goForward();
-      return;
-    }
-    //Alt+Right = Forward
-    if (Keyboard.KMap['ArrowLeft']) {
-      CT.goBack();
-      return;
-    }
+var KB = {}; //Initialize markdown object.
+
+/*
+  Scope: Public
+  Description: Handle the special input to the prompt such as escape and enter so that the user doesn't have to click the buttons.
+*/
+KB.prompt = function(e) {
+  var key = e.which || e.keyCode;
+  console.log(key);
+  if (key == 27) {
+    CT.promptClose(0);
   }
-
-  //console.log(e.key);
-  //Alt+M = Map View Current Page
-  //Alt+C = Calendar
-  //Alt+J = Journal View Current Page
-  //Alt+G = Generators List //This might be better served as a list below the page list.
-  //Alt+F = Toggle Favorite on open page.
-  //Alt+L = execute the loading a file press. Will require a phantom key press.
-  //Alt+A = About
-
-  if (e.key == '~') {
-    alert(document.getElementById('wikitext').selectionStart);
-    event.preventDefault();
+  if (key == 13) {
+    CT.promptClose(1);
   }
+}
 
-  /*var str = ""
-  for (var key in Keyboard.KMap) {
-    if (Keyboard.KMap[key]) {
-      if (str.length > 0) {str += "+";}
-      str += "'"+key+"'";
-    }
+KB.journalEditor = function(e) {
+  var key = e.which || e.keyCode;
+
+  if (key == 113) {
+    JL.selectNextHotText();
   }
-
-  alert(str);*/
-
 }
