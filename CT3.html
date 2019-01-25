@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Campaign Tracker</title>
+    <link rel="shortcut icon" type="image/png" href="IMG/CT.ico">
+    <!-- External Scripts -->
+    <!-- Scripts  -->
+    <script src="JS\Markdown.js"></script>
+    <script src="JS\CampaignTracker.js"></script>
+    <script src="JS\Journal.js"></script>
+    <script src="JS\Storage.js"></script>
+    <script src="JS\Keyboard.js"></script>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" type="text/css" href="CSS\W3.css">
+    <link rel="stylesheet" type="text/css" href="CSS\w3-theme-teal.css">
+    <link rel="stylesheet" type="text/css" href="CSS\fontawesome-all.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="CSS\CT.css">
+  </head>
+  <body onload="CT.onLoad();">
+    <div class="l-fit-height"> <!---->
+      <section class="l-fit-height-row">
+        <div class="l-fit-height-row-content">
+          <div class="w3-display-container w3-theme-d3">
+            <div>
+              <div class="w3-dropdown-hover w3-theme-d3">
+                <button class="w3-button w3-padding-small fa fa-bars"></button>
+                <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+                  <a class="w3-bar-item w3-button w3-padding-small w3-small" href="javascript:CT.saveData();"><span class="fa fa-save"></span> Save</a>
+                  <a class="w3-bar-item w3-button w3-padding-small w3-small" href="javascript:CT.prompt(CT.loadData,'Load Campaign','What campaign do you wish to load?','Campaign','Campaign Name');"><span class="fa fa-folder-open"></span> Load</a>
+                  <a class="w3-bar-item w3-button w3-padding-small w3-small" href="javascript:CT.exportData();"><span class="fa fa-download"></span> Export</a>
+                  <a class="w3-bar-item w3-button w3-padding-small w3-small" href="javascript:CT.importData();"><span class="fa fa-upload"></span> Import</a><input type="file" id="ifLoad" onchange="CT.readFile(event);" accept=".json" style="display:none;"></input>
+                  <a class="w3-bar-item w3-button w3-padding-small w3-small" href="javascript:CT.settings();"><span class="fa fa-cog"></span> Settings</a>
+                  <a class="w3-bar-item w3-button w3-padding-small w3-small" href="javascript:CT.changeDisplay('Help');" title=""><span class="fa fa-question"></span> Help</a>
+                </div>
+              </div>
+              <strong><a class="w3-bar-item" id="title">Campaign Tracker</a></strong>
+            </div>
+            <div class="w3-display-middle w3-small" id="PageTitle">Junk</div>
+            <div class="w3-display-right" id="IGClock">Cal</div>
+          </div>
+        </div>
+      </section>
+      <section class="l-fit-height-row-expanded">
+        <div class="l-fit-height-row-content l-scroll">
+          <div class="l-scroll-content">
+            <div class="w3-row" style="height:100%;">
+              <div class="w3-display-container w3-col w3-card-4" style="width:15%;height:100%;display:flex;flex-direction:column;">
+                <div class="w3-display-container w3-theme-d1 w3-center">
+                  <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small" title="Forward">&nbsp;<span class="fas fa-arrow-left"></span>&nbsp;</a>
+                  <a href="javascript:CT.prompt(CT.newPage,'New Page','Enter the full page path and name:','Page Path','Ex. \'Parent/Sub Parent/Page Name\'');" class="w3-bar-item w3-button w3-padding-small" title="New">&nbsp;<span class="fas fa-plus"></span>&nbsp;</a>
+                  <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small" title="Journal">&nbsp;<span class="fas fa-book"></span>&nbsp;</a>
+                  <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small" title="Encounter">&nbsp;<span class="fas fa-chess-pawn"></span>&nbsp;</a>
+                  <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small" title="Map">&nbsp;<span class="fas fa-map"></span>&nbsp;</a>
+                  <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small" title="Back">&nbsp;<span class="fas fa-arrow-right"></span>&nbsp;</a>
+                </div>
+                <div class="w3-display-container">
+                  <!-- Journal Controls -->
+                  <div class="w3-center w3-tiny subMenu">
+                    <div class="w3-dropdown-hover" style="background: #FFF;">
+                      <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Header"><span class="fas fa-heading"></span></a>
+                      <div class="w3-dropdown-content w3-card">
+                        <a href="javascript:JL.headerText(1);" class="w3-button w3-padding-small" title="Header"><strong>1</strong></a>
+                        <a href="javascript:JL.headerText(2);" class="w3-button w3-padding-small" title="Header"><strong>2</strong></a>
+                        <a href="javascript:JL.headerText(3);" class="w3-button w3-padding-small" title="Header"><strong>3</strong></a>
+                        <a href="javascript:JL.headerText(4);" class="w3-button w3-padding-small" title="Header"><strong>4</strong></a>
+                        <a href="javascript:JL.headerText(5);" class="w3-button w3-padding-small" title="Header"><strong>5</strong></a>
+                        <a href="javascript:JL.headerText(6);" class="w3-button w3-padding-small" title="Header"><strong>6</strong></a>
+                      </div>
+                    </div>
+                    <a href="javascript:JL.boldText();" class="w3-button w3-padding-small" title="Bold"><span class="fas fa-bold"></span></a>
+                    <a href="javascript:JL.italicText();" class="w3-button w3-padding-small" title="Italic"><span class="fas fa-italic"></span></a>
+                    <a href="javascript:JL.underlineText();" class="w3-button w3-padding-small" title="Underline"><span class="fas fa-underline"></span></a>
+                    <a href="javascript:JL.strikethroughText();" class="w3-button w3-padding-small" title="Strikethrough"><span class="fas fa-strikethrough"></span></a>
+                    <a href="javascript:JL.insertTab();" class="w3-button w3-padding-small" title="Insert Tab"><span class="fas fa-indent"></span></a>
+                    <br/>
+                    <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Ordered List"><span class="fas fa-list-ol"></span></a>
+                    <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Unordered List"><span class="fas fa-list"></span></a>
+                    <a href="javascript:JL.horizontalRule();" class="w3-button w3-padding-small" title="Horizontal Rule"><span class="far fa-window-minimize"></span></a>
+                    <a href="javascript:JL.insertTable(3,3);" class="w3-button w3-padding-small" title="Insert Table"><span class="fas fa-table"></span></a> <!--TODO add dropdown table size selector -->
+                    <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Quote"><span class="fas fa-quote-right"></span></a>
+                    <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Code"><span class="fas fa-code"></span></a>
+
+                  </div>
+                </div>
+                <div class="w3-display-container w3-padding-small">
+                  <input type="text" class="w3-input w3-small w3-padding-small" placeholder="Search...">
+                </div>
+                <div id="PageTree" class="w3-tiny l-fit-height-row-expanded" style="overflow-y:auto;overflow-x:hidden;">
+                    <ol></ol>
+                </div>
+              </div>
+              <div class="w3-container w3-col w3-padding-small w3-hide viewJ" style="height:100%;width:30%;"><textarea class="w3-small w3-textarea w3-card" style="height:100%;width:100%;" onkeydown="KB.journalEditor(event);" oninput="JL.updateJournalDisplay();" id="JournalEditor"></textarea></div>
+              <div class="w3-container w3-display-container w3-rest w3-padding-small w3-hide viewJ" style="height:100%;">
+                <div id="JournalDisplay" class="w3-input w3-card" style="height:100%;width:100%;overflow-y: auto;"></div>
+                <div id="JournalIndex" class="w3-border w3-border-theme w3-display-topright w3-margin w3-tiny w3-hide">Header</div><!--TODO update this to be useful. Needs style & functionality. -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="l-fit-height-row">
+        <div class="l-fit-height-row-content">
+          <div class="w3-row">
+            <div class="w3-rest w3-theme">
+              <div class="w3-left" id="Status">Test</div> <!-- TODO allow this to be a drop up with past statuses listed! -->
+              <div class="w3-right" id="IRLClock"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Modals Below This Line -->
+    <div id="ModalPrompt" class="w3-modal w3-animate-opacity" style="display: none;">
+      <div class="w3-modal-content w3-card-4 w3-animate-top">
+        <header class="w3-display-container w3-text-theme w3-large w3-padding-small"><strong id="ModalPromptTitle">Test</strong></header>
+        <div class="w3-container">
+          <p id="ModalPromptText">Here is some default text.</p>
+          <input type="text" class="w3-input" id="ModalPromptResponse" onkeydown="KB.prompt(event);"><label id="ModalPromptLabel" class="w3-small">Default Label</label>
+        </div>
+        <footer class="w3-container w3-padding-small">
+          <div class="w3-right">
+            <a class="w3-button" href="javascript:CT.promptClose(0);">Cancel</a>
+            <a class="w3-button" href="javascript:CT.promptClose(1);">Ok</a>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

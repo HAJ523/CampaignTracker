@@ -1,0 +1,111 @@
+/* Site Outer format for Scrollable inner sections with Fixed header and footers */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+.l-fit-height {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+.l-fit-height-row {
+    display: table-row;
+    height: 1px;
+}
+.l-fit-height-row-content {
+    /* Firefox requires this */
+    display: table-cell;
+}
+.l-fit-height-row-expanded {
+    height: 100%;
+    display: table-row;
+}
+.l-fit-height-row-expanded > .l-fit-height-row-content {
+    height: 100%;
+    width: 100%;
+}
+@-moz-document url-prefix() {
+    .l-scroll {
+        /* Firefox requires this to do the absolute positioning correctly */
+        display: inline-block;
+    }
+}
+.l-scroll {
+    overflow-y: auto;
+    position: relative;
+    width:100%;
+}
+.l-scroll-content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    min-height:100px; /* This should not matter for our application */
+    width:100%;
+}
+
+div.subMenu {
+  margin-left: 4px;
+  margin-right: 4px;
+  margin-bottom: 4px;
+  box-shadow:0 4px 10px 0 rgba(133,133,133,0.5),0 4px 10px 0 rgba(133,133,133,0.4);
+}
+
+/* CSS Tree menu styles */
+#PageTree ol
+{
+	padding: 0 0 0 30px;
+	width: 300px;
+}
+	#PageTree li
+	{
+		position: relative;
+		margin-left: -25px;
+		list-style: none;
+	}
+	#PageTree li.file
+	{
+		margin-left: -12px !important;
+	}
+		#PageTree li.file a
+		{
+			padding-left: 2px;
+			text-decoration: none;
+			display: block;
+		}
+	#PageTree li input
+	{
+		position: absolute;
+		left: 0;
+		margin-left: 0;
+		opacity: 0;
+		z-index: 2;
+		cursor: pointer;
+		height: 12px;
+		width: 1em;
+		top: 0;
+	}
+		#PageTree li input + ol
+		{
+			background: url(../IMG/toggle-small-expand.png) 40px 0 no-repeat;
+			margin: -1.5em 0 0 -44px; /* 15px */
+			height: 12px;
+		}
+		#PageTree li input + ol > li { display: none; margin-left: -25px !important; padding-left: 1px; }
+	#PageTree li label
+	{
+		cursor: pointer;
+		display: block;
+		padding-left: 15px;
+	}
+
+	#PageTree li input:checked + ol
+	{
+		background: url(../IMG/toggle-small.png) 40px 5px no-repeat;
+		margin: -2.00em 0 0 -44px; /* 20px */
+		padding: 1.85em 0 0 80px;
+		height: auto;
+	}
+		#PageTree li input:checked + ol > li { display: block; margin: 0 0 0.125em;  /* 2px */}
+		#PageTree li input:checked + ol > li:last-child { margin: 0 0 0.063em; /* 1px */ }
