@@ -17,6 +17,7 @@ CT.onLoad = function() {
   //Call all onload functions for individual modules.
   JL.onload();
   ST.onload();
+  KB.onload();
 
   //Load the default view
   CT.changeView("J");
