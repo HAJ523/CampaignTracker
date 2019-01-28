@@ -81,7 +81,7 @@ JL.savePage = function() {
 */
 JL.headerText = function(l) {
   var h = "#".repeat(l) + " ";
-  var tx = JL.el.value.substring(JL.el.seletionStart, JL.el.selectionEnd).split(/\n/).map(function(e) { return h + e; }).join('\n');
+  var tx = JL.el.value.substring(JL.el.selectionStart, JL.el.selectionEnd).split(/\n/).map(function(e) { return h + e; }).join('\n');
   JL.el.value = JL.el.value.substring(0,JL.el.selectionStart) + tx + JL.el.value.substring(JL.el.selectionEnd);
   JL.el.focus();
   JL.updateJournalDisplay();
