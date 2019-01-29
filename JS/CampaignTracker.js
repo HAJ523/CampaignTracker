@@ -339,6 +339,58 @@ CT.removePageFromPageTree = function(p) {
 
 /*
   Scope: Public
+  Description: Start the dragging event on a specific note.
+*/
+CT.dragNoteStart = function(e, el) { //TODO update OX scope
+  var ix = el.style.left;
+  var iy = el.style.top;
+  if (e.type=="touchstart") {
+    ox = e.touches[0].clientX - ix;
+    oy = e.touches[0].clientY - iy;
+  } else {
+    ox = e.clientX - ix;
+    oy = e.clientY - iy;
+  }
+  //Set dragging flag true.
+  CT.NoteDrag = true;
+}
+
+/*
+  Scope: Public
+  Description: Start the dragging event on a specific note.
+*/
+CT.dragNoteEnd = function(e, el) {
+  //set dragging flag to false;
+  CT.NoteDrag = false;
+}
+
+/*
+  Scope: Public
+  Description: Start the dragging event on a specific note.
+*/
+CT.dragNote = function(e, el) {
+  //Make sure we are dragging
+  if (!CT.NoteDrag) return;
+
+  var cx;
+  var cy;
+
+  //Determine the current xy position.
+  if (e.type==="touchmove") {
+    cx = e.touches[0].clientX - ox;
+    cy = e.touches[0].clientY - oy;
+  } else {
+    cx = e.clientX - ox;
+    cy = e.clientY = oy;
+  }
+
+  //Now move the element.
+  el.style.top = oy;
+  el.style.left = ox;
+}
+
+/*
+  Scope: Public
   Description: Sets the status for the application.
 */
 CT.setStatus = function(s) {
