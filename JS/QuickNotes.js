@@ -13,9 +13,9 @@ var QN = {};
 */
 QN.makeDraggable = function(el) {
   var px = 0, py = 0, ipx = 0, ipy = 0;
-  if (document.getElementById(el.id + "header")) {
+  if (document.getElementById(el.id + "Header")) {
     //If present, the header is where you move the DIV from:
-    document.getElementById(el.id + "header").onmousedown = dragMouseDown;
+    document.getElementById(el.id + "Header").onmousedown = dragMouseDown;
   } else { //Move the DIV from anywhere inside the DIV:
     el.onmousedown = dragMouseDown;
   }
@@ -37,11 +37,11 @@ QN.makeDraggable = function(el) {
     // calculate the new cursor position:
     px = ipx - e.clientX;
     py = ipy - e.clientY;
-    ipx = e.clientX;
+    ipx = e.clientX; //TODO check for element going outside the bounds of the screen bottom and right!
     ipy = e.clientY;
     // set the element's new position:
-    el.style.top = (el.offsetTop - py) + "px";
-    el.style.left = (el.offsetLeft - px) + "px";
+    el.style.top = (((el.offsetTop - py) < 0)? 0 : (el.offsetTop - py)) + "px";
+    el.style.left = (((el.offsetLeft - px) < 0)? 0 : (el.offsetLeft - px)) + "px";
   }
 
   function dragMouseUp() {
