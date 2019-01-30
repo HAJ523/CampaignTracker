@@ -12,6 +12,7 @@
     <script src="JS\Storage.js"></script>
     <script src="JS\Keyboard.js"></script>
     <script src="JS\Roller.js"></script>
+    <script src="JS\QuickNotes.js"></script>
 
     <!-- External CSS -->
     <link rel="stylesheet" type="text/css" href="CSS\W3.css">
@@ -136,9 +137,9 @@
 
     <!-- Notes Container-->
     <div id="Notes">
-      <div class="w3-modal-content-mobile w3-card-4" style="top:100px;left:100px;z-index:10;">
+      <div class="w3-modal-content-mobile w3-card-4" style="top:100px;left:100px;z-index:10;" id="Note1">
         <section style="height:100%;width:100%;display:flex;flex-flow:column;">
-        <header class="w3-theme-d4 w3-display-container" style="user-select:none;" ondragstart="CT.dragNoteStart(event, this);" ondragend="CT.dragNoteEnd(event, this);" ondrag="CT.dragNote(event, this);">
+        <header class="w3-theme-d4 w3-display-container" style="user-select:none;" id="Note1Header">
           <span id="NoteTitle" class="w3-display-middle"> Header</span>
           <div class="w3-right">
             <a href="javascript:void(0);" class="far fa-window-minimize" title="Minimize"></a>
