@@ -30,8 +30,7 @@ QN.newNote = function() {
   Description: Moves the current child to the top of the list.
 */
 QN.topNote = function(el) {
-  var notes = document.getElementById('Notes');
-  notes.append(el);
+  document.getElementById('Notes').append(el);
 }
 
 /*
