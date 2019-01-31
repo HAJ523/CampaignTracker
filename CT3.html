@@ -111,7 +111,7 @@
                 <span class="w3-tiny w3-cell-middle" id="StatusTime">&nbsp;</span>
                 <span id="Status"> Ready</span></div>
               <div class="w3-right" id="IRLClock"></div>
-              <div class="w3-display-middle"><a href="javascript:void(0);" class="w3-button far fa-edit"></a></div>
+              <div class="w3-display-middle"><a href="javascript:QN.newNote();" class="w3-button far fa-edit"></a></div>
             </div>
           </div>
         </div>
@@ -137,9 +137,9 @@
 
     <!-- Notes Container-->
     <div id="Notes">
-      <div class="w3-modal-content-mobile w3-card-4" style="top:100px;left:100px;z-index:10;" id="Note1">
+      <div class="w3-modal-content-mobile w3-card-4 w3-hide" style="top:100px;left:100px;z-index:10;" id="QuickNoteTemplate">
         <section style="height:100%;width:100%;display:flex;flex-flow:column;">
-        <header class="w3-theme-d3 w3-display-container" style="user-select:none;" id="Note1Header">
+        <header class="w3-theme-d3 w3-display-container" style="user-select:none;" id="QuickNoteTemplateHeader">
           <div class="w3-left">
             &nbsp;<a href="javascript:void(0);" title="Edit/View" class="fas fa-sync"></a>
           </div>

@@ -9,6 +9,33 @@ var QN = {};
 
 /*
   Scope: Public
+  Description: Create a new QuickNote
+*/
+QN.newNote = function() {
+  var template = document.getElementById('QuickNoteTemplate').cloneNode(true);
+  var notes = document.getElementById('Notes');
+  var id = CT.GUID(8);
+
+  //Modify the IDs and make visible.
+  template.id = "Note" + id;
+  template.getElementsByClassName("w3-theme-d3")[0].id = "Note" + id + "Header";
+  template.classList.remove("w3-hide");
+
+  notes.appendChild(template);
+  QN.makeDraggable(template);
+}
+
+/*
+  Scope: Restricted (QuickNotes.js)
+  Description: Moves the current child to the top of the list.
+*/
+QN.topNote = function(el) {
+  var notes = document.getElementById('Notes');
+  notes.append(el);
+}
+
+/*
+  Scope: Public
   Description: Make an element dragable!
 */
 QN.makeDraggable = function(el) {
@@ -29,6 +56,12 @@ QN.makeDraggable = function(el) {
     document.onmouseup = dragMouseUp;
     // call a function whenever the cursor moves:
     document.onmousemove = drag;
+
+    if (e.currentTarget.id.includes("Header")) {
+      QN.topNote(e.currentTarget.parentElement.parentElement);
+    } else {
+      QN.topNote(e.currentTarget);
+    }
   }
 
   function drag(e) {
