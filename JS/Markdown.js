@@ -168,7 +168,7 @@ MD.listsToHTML = function(s) {
     HTML of tables.
 */
 MD.tableToHTML = function(a, b, c) {
-  var ret = '<table class="w3-table w3-bordered w3-striped"><thead><tr class="w3-theme">';
+  var ret = '<table class="w3-table w3-bordered w3-striped w3-margin-small"><thead><tr class="w3-theme">';
   var aln = [];
 
   //Alignment
