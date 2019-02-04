@@ -9,6 +9,17 @@ var QN = {};
 
 /*
   Scope: Public
+  Description: Remove a quick note.
+*/
+QN.deleteNote = function(id) {
+  var link = document.getElementById('MN' + id);
+  var note = document.getElementById('Note' + id);
+  link.parentElement.removeChild(link);
+  note.parentElement.removeChild(note);
+}
+
+/*
+  Scope: Public
   Description: Minimizes the note to the bottom bar.
 */
 QN.minimizeNote = function(id) {
@@ -57,7 +68,7 @@ QN.newNote = function() {
   template.getElementsByClassName("w3-theme-d3")[0].id = "Note" + id + "Header";
   template.getElementsByClassName("fa-sync")[0].href = 'javascript:QN.minimizeNote("' + id + '");';
   template.getElementsByClassName("fa-window-minimize")[0].href = 'javascript:QN.minimizeNote("' + id + '");';
-  template.getElementsByClassName("fa-trash-alt")[0].href = 'javascript:QN.minimizeNote("' + id + '");';
+  template.getElementsByClassName("fa-trash-alt")[0].href = 'javascript:QN.deleteNote("' + id + '");';
   template.getElementsByClassName("w3-display-middle")[0].innerHTML = template.title;
   template.classList.add("w3-animate-zoom");
   template.classList.remove("w3-hide");
