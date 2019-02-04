@@ -9,20 +9,62 @@ var QN = {};
 
 /*
   Scope: Public
+  Description: Minimizes the note to the bottom bar.
+*/
+QN.minimizeNote = function(id) {
+  document.getElementById("MN" + id).classList.remove('w3-hide');
+  document.getElementById('Note' + id).classList.add('w3-animate-zoom-r');
+}
+
+/*
+  Scope: Public
+  Description: Maximizes the note from the bottom bar.
+*/
+QN.maximizeNote = function(id) {
+  document.getElementById('MN' + id).classList.add('w3-hide');
+  var note = document.getElementById('Note' + id);
+  note.classList.add("w3-animate-zoom");
+  note.classList.remove('w3-hide');
+}
+
+QN.animationEnd = function() {
+  if (this.classList.contains("w3-animate-zoom")) {
+    this.classList.remove("w3-animate-zoom");
+  }
+  if (this.classList.contains("w3-animate-zoom-r")) {
+    this.classList.add("w3-hide");
+    this.classList.remove("w3-animate-zoom-r");
+  }
+}
+
+/*
+  Scope: Public
   Description: Create a new QuickNote
 */
 QN.newNote = function() {
-  var template = document.getElementById('QuickNoteTemplate').cloneNode(true);
+  var master = document.getElementById('QuickNoteTemplate')
+  master.title = parseInt(master.title,10)+1; //Increment the note number.
+  var template = master.cloneNode(true);
   var notes = document.getElementById('Notes');
   var id = CT.GUID(8);
 
   //Modify the IDs and make visible.
   template.id = "Note" + id;
   template.getElementsByClassName("w3-theme-d3")[0].id = "Note" + id + "Header";
+  template.getElementsByClassName("fa-sync")[0].href = 'javascript:QN.minimizeNote("' + id + '");';
+  template.getElementsByClassName("fa-window-minimize")[0].href = 'javascript:QN.minimizeNote("' + id + '");';
+  template.getElementsByClassName("fa-trash-alt")[0].href = 'javascript:QN.minimizeNote("' + id + '");';
+  template.getElementsByClassName("w3-display-middle")[0].innerHTML = template.title;
+  template.classList.add("w3-animate-zoom");
   template.classList.remove("w3-hide");
 
   notes.appendChild(template);
   QN.makeDraggable(template);
+  template.addEventListener('animationend', QN.animationEnd);
+
+  var temp = document.createElement("template");
+  temp.innerHTML = '<a href="javascript:QN.maximizeNote(\'' + id + '\');" class="w3-button w3-padding-small w3-tiny w3-hide" id="MN' + id + '">' + template.title + '</a>';
+  document.getElementById('QuickNotesList').appendChild(temp.content.firstChild);
 }
 
 /*
@@ -48,6 +90,7 @@ QN.makeDraggable = function(el) {
 
   function dragMouseDown(e) {
     e = e || window.event;
+    if (e.currentTarget != e.target) return;
     e.preventDefault();
     // get the mouse cursor position at startup:
     ipx = e.clientX;

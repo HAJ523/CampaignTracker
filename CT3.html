@@ -111,7 +111,12 @@
                 <span class="w3-tiny w3-cell-middle" id="StatusTime">&nbsp;</span>
                 <span id="Status"> Ready</span></div>
               <div class="w3-right" id="IRLClock"></div>
-              <div class="w3-display-middle"><a href="javascript:QN.newNote();" class="w3-button far fa-edit"></a></div>
+              <div class="w3-display-middle">
+                <a href="javascript:QN.newNote();" class="w3-button far fa-edit"></a>
+                <span id="QuickNotesList">
+
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -137,19 +142,19 @@
 
     <!-- Notes Container-->
     <div id="Notes">
-      <div class="w3-modal-content-mobile w3-card-4 w3-hide" style="top:100px;left:100px;z-index:10;" id="QuickNoteTemplate">
+      <div class="w3-modal-content-mobile w3-card-4 w3-hide" style="top:100px;left:100px;z-index:10;" id="QuickNoteTemplate" title="0">
         <section style="height:100%;width:100%;display:flex;flex-flow:column;">
         <header class="w3-theme-d3 w3-display-container" style="user-select:none;" id="QuickNoteTemplateHeader">
           <div class="w3-left">
-            &nbsp;<a href="javascript:void(0);" title="Edit/View" class="fas fa-sync"></a>
+            &nbsp;<a href="javascript:void(0);" class="fas fa-sync" title="Edit/View"></a>
           </div>
-          <span id="NoteTitle" class="w3-display-middle"> Header</span>
+          <span id="NoteTitle" class="w3-display-middle"></span>
           <div class="w3-right">
             <a href="javascript:void(0);" class="far fa-window-minimize" title="Minimize"></a>
             <a href="javascript:void(0);" class="far fa-trash-alt" title="Delete"></a>&nbsp;
           </div>
         </header>
-        <div class="" style="flex:2;background:#CCC;">
+        <div style="flex:2;background:#CCC;">
           <textarea id="NoteEditor" class="w3-textarea w3-small" style="height:100%;"></textarea>
         </div>
         </section>
