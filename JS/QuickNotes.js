@@ -9,6 +9,14 @@ var QN = {};
 
 /*
   Scope: Public
+  Description: Swap the note to be in display mode.
+*/
+QN.swapDisplay = function(id) {
+  document.getElementById('Note' + id).classList.add("w3-animate-rot-a");
+}
+
+/*
+  Scope: Public
   Description: Remove a quick note.
 */
 QN.deleteNote = function(id) {
@@ -50,6 +58,26 @@ QN.animationEnd = function() {
     this.classList.add("w3-hide");
     this.classList.remove("w3-animate-zoom-r");
   }
+  if (this.classList.contains("w3-animate-rot-b")) {
+    this.classList.remove("w3-animate-rot-b");
+  }
+  if (this.classList.contains("w3-animate-rot-a")) {
+    this.classList.remove("w3-animate-rot-a");
+    //Figure out which elements of the body should be displayed next!
+    var disp = this.getElementsByClassName('CT-QNDisplay')[0];
+    var edit = this.getElementsByClassName('CT-QNEditor')[0];
+
+    if (disp.classList.contains("w3-hide")) {
+      disp.innerHTML = MD.toHTML(edit.children[0].value);
+      disp.classList.remove("w3-hide");
+      edit.classList.add("w3-hide");
+    } else {
+      edit.classList.remove("w3-hide");
+      edit.children[0].focus();
+      disp.classList.add("w3-hide");
+    }
+    this.classList.add("w3-animate-rot-b");
+  }
 }
 
 /*
@@ -66,10 +94,12 @@ QN.newNote = function() {
   //Modify the IDs and make visible.
   template.id = "Note" + id;
   template.getElementsByClassName("w3-theme-d3")[0].id = "Note" + id + "Header";
-  template.getElementsByClassName("fa-sync")[0].href = 'javascript:QN.minimizeNote("' + id + '");';
+  template.getElementsByClassName("fa-sync")[0].href = 'javascript:QN.swapDisplay("' + id + '");';
   template.getElementsByClassName("fa-window-minimize")[0].href = 'javascript:QN.minimizeNote("' + id + '");';
   template.getElementsByClassName("fa-trash-alt")[0].href = 'javascript:QN.deleteNote("' + id + '");';
   template.getElementsByClassName("w3-display-middle")[0].innerHTML = template.title;
+  template.getElementsByClassName("CT-QNDisplay")[0].id = "Note" + id + "Display";
+  template.getElementsByClassName("CT-QNEditor")[0].id = "Note" + id + "Editor";
   template.classList.add("w3-animate-zoom");
   template.classList.remove("w3-hide");
 

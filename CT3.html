@@ -141,7 +141,7 @@
     </div>
 
     <!-- Notes Container-->
-    <div id="Notes">
+    <div id="Notes" style="position:absolute; perspective:2000px; top:0px;left:0px;">
       <div class="w3-modal-content-mobile w3-card-4 w3-hide" style="top:100px;left:100px;z-index:10;" id="QuickNoteTemplate" title="0">
         <section style="height:100%;width:100%;display:flex;flex-flow:column;">
         <header class="w3-theme-d3 w3-display-container" style="user-select:none;" id="QuickNoteTemplateHeader">
@@ -154,9 +154,10 @@
             <a href="javascript:void(0);" class="far fa-trash-alt" title="Delete"></a>&nbsp;
           </div>
         </header>
-        <div style="flex:2;background:#CCC;">
-          <textarea id="NoteEditor" class="w3-textarea w3-small" style="height:100%;"></textarea>
+        <div style="flex:2;" class="CT-QNEditor">
+          <textarea class="w3-textarea w3-small" style="height:100%;"></textarea>
         </div>
+        <div style="flex:2;" class="CT-QNDisplay w3-hide"></div>
         </section>
       </div>
     </div>
