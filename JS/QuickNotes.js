@@ -106,6 +106,7 @@ QN.newNote = function() {
   notes.appendChild(template);
   QN.makeDraggable(template);
   template.addEventListener('animationend', QN.animationEnd);
+  document.getElementById('Note' + id + 'Editor').children[0].focus();
 
   var temp = document.createElement("template");
   temp.innerHTML = '<a href="javascript:QN.maximizeNote(\'' + id + '\');" class="w3-button w3-padding-small w3-tiny w3-hide" id="MN' + id + '">' + template.title + '</a>';
