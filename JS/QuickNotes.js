@@ -27,6 +27,10 @@ QN.maximizeNote = function(id) {
   note.classList.remove('w3-hide');
 }
 
+/*
+  Scope: Restricted (QuickNotes.js)
+  Description: Update the animation CSS attached to the HTML when the animations are complete.
+*/
 QN.animationEnd = function() {
   if (this.classList.contains("w3-animate-zoom")) {
     this.classList.remove("w3-animate-zoom");
