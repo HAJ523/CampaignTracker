@@ -177,20 +177,20 @@ JL.wrapTextByLine = function(el, c) {
 */
 JL.selectNextHotText = function(el) {
   //Assume that we should start from the current selection.
-  var start = JL.el.selectionEnd;
-  var next = JL.el.value.indexOf('???', start);
+  var start = el.selectionEnd;
+  var next = el.value.indexOf('???', start);
 
   //If the next instance doesn't exist then try once more from the beginning.
   if (next == -1) {
-    next = JL.el.value.indexOf('???');
+    next = el.value.indexOf('???');
   }
 
   //If we still don't have a value then there is nothing to do and quit.
   if (next == -1) { return; }
 
   //Update the selection.
-  JL.el.selectionStart = next;
-  JL.el.selectionEnd = next+3;
+  el.selectionStart = next;
+  el.selectionEnd = next+3;
 }
 
 /*

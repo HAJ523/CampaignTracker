@@ -55,7 +55,7 @@ KB.markdownShortcut = function(e) {
   var key = e.which || e.keyCode;
 
   if (key == 113) {
-    JL.selectNextHotText();
+    JL.selectNextHotText(e.currentTarget);
     return;
   }
 
