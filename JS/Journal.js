@@ -192,3 +192,11 @@ JL.selectNextHotText = function(el) {
   JL.el.selectionStart = next;
   JL.el.selectionEnd = next+3;
 }
+
+/*
+  Scope: Public
+  Description: Opens the selection menu for a template and opens one if selected.
+*/
+JL.insertTemplate = function(el, temp) { //Element to perform replacement in, Template to page to insert.
+
+}

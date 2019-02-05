@@ -94,9 +94,9 @@ KB.markdownShortcut = function(e) {
       case 84: //T
         JL.insertTab(e.currentTarget);
         break;
-      case 79: //Ordered List
+      case 79: //O //Ordered List
         break;
-      case 76: //Unordered List
+      case 76: //L //Unordered List
         break;
       case 72: //H
         JL.horizontalRule(e.currentTarget);
@@ -104,13 +104,13 @@ KB.markdownShortcut = function(e) {
       case 65: //A
         JL.insertTable(e.currentTarget, 3, 3);
         break;
-      case 81: //Blockqoute
+      case 81: //Q //Blockqoute
         break;
-      case 67: //Code
+      case 67: //C //Code
         break;
-      case 80: //Insert Template
+      case 86: //V //Insert Template
+        JL.insertTemplate(e.currentTarget);
         break;
-
     }
   }
 }
