@@ -51,7 +51,7 @@ KB.prompt = function(e) {
   Scope: Public
   Description: Specific key handling for the journal editor.
 */
-KB.journalEditor = function(e) {
+KB.markdownShortcut = function(e) {
   var key = e.which || e.keyCode;
 
   if (key == 113) {
@@ -62,47 +62,47 @@ KB.journalEditor = function(e) {
   if (KB.modKeys[18]) {
     switch(key) {
       case 49:  //Headings
-        JL.headerText(1);
+        JL.headerText(e.currentTarget, 1);
         break;
       case 50:
-        JL.headerText(2);
+        JL.headerText(e.currentTarget, 2);
         break;
       case 51:
-        JL.headerText(3);
+        JL.headerText(e.currentTarget, 3);
         break;
       case 52:
-        JL.headerText(4);
+        JL.headerText(e.currentTarget, 4);
         break;
       case 53:
-        JL.headerText(5);
+        JL.headerText(e.currentTarget, 5);
         break;
       case 54:
-        JL.headerText(6);
+        JL.headerText(e.currentTarget, 6);
         break;
       case 66: //Bold
-        JL.boldText();
+        JL.boldText(e.currentTarget);
         break;
       case 73: //Italic
-        JL.italicText();
+        JL.italicText(e.currentTarget);
         break;
       case 85: //Underline
-        JL.underlineText();
+        JL.underlineText(e.currentTarget);
         break;
       case 83: //Strike Through
-        JL.strikethroughText();
+        JL.strikethroughText(e.currentTarget);
         break;
       case 84: //Insert Tab
-        JL.insertTab();
+        JL.insertTab(e.currentTarget);
         break;
       case 79: //Ordered List
         break;
       case 76: //Unordered List
         break;
       case 72: //Horizontal Rule
-        JL.horizontalRule();
+        JL.horizontalRule(e.currentTarget);
         break;
       case 65: //Table
-        JL.insertTable(3,3);
+        JL.insertTable(e.currentTarget, 3, 3);
         break;
       case 81: //Blockqoute
         break;

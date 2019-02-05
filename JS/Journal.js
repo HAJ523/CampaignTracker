@@ -79,12 +79,12 @@ JL.savePage = function() {
   Description: Updates the highlighted text to be a header. Multiple lines will
     all become individual headers.
 */
-JL.headerText = function(l) {
+JL.headerText = function(el, l) {
   var h = "#".repeat(l) + " ";
-  var tx = JL.el.value.substring(JL.el.selectionStart, JL.el.selectionEnd).split(/\n/).map(function(e) { return h + e; }).join('\n');
-  JL.el.value = JL.el.value.substring(0,JL.el.selectionStart) + tx + JL.el.value.substring(JL.el.selectionEnd);
-  JL.el.focus();
-  JL.updateJournalDisplay();
+  var tx = el.value.substring(el.selectionStart, el.selectionEnd).split(/\n/).map(function(e) { return h + e; }).join('\n');
+  el.value = el.value.substring(0,el.selectionStart) + tx + el.value.substring(el.selectionEnd);
+  el.focus();
+  el.dispatchEvent(new Event('input', {'bubbles': true, 'cancelable': true})); //Force the object to call it's input event.
 }
 
 /*
@@ -92,15 +92,15 @@ JL.headerText = function(l) {
   Description: Inserts a table at the start of the selection of the specified
     height and width.
 */
-JL.insertTable = function(w, h) {
-  var nl = ((JL.el.value.substring(JL.el.selectionStart-1,JL.el.selectionStart) == '\n') ? '' : '\n');
-  JL.el.value = JL.el.value.substring(0,JL.el.selectionStart) +
+JL.insertTable = function(el, w, h) {
+  var nl = ((el.value.substring(el.selectionStart-1,el.selectionStart) == '\n') ? '' : '\n');
+  el.value = el.value.substring(0,el.selectionStart) +
     nl + '|' + ' Header |'.repeat(w) +'\n'
     + '|' + ':--|'.repeat(w) + '\n'
     + ('|' + '|'.repeat(w) + '\n').repeat(h)
-    + JL.el.value.substring(JL.el.selectionStart);
-  JL.el.focus();
-  JL.updateJournalDisplay();
+    + el.value.substring(el.selectionStart);
+  el.focus();
+  el.dispatchEvent(new Event('input', {'bubbles': true, 'cancelable': true}));
 }
 
 /*
@@ -108,34 +108,34 @@ JL.insertTable = function(w, h) {
   Description: Insert a tab character after every new line and at the start of
     the sting in the selected text in the journal editor textarea.
 */
-JL.insertTab = function() {
-  var tx = JL.el.value;
-  var st = tx.substring(JL.el.selectionStart, JL.el.selectionEnd);
-  var start = JL.el.selectionStart + 1;
+JL.insertTab = function(el) {
+  var tx = el.value;
+  var st = tx.substring(el.selectionStart, el.selectionEnd);
+  var start = el.selectionStart + 1;
 
-  JL.el.value = tx.substring(0,JL.el.selectionStart) + st.replace(/(^|\n)/g,"$1\t") + tx.substring(JL.el.selectionEnd);
+  el.value = tx.substring(0, el.selectionStart) + st.replace(/(^|\n)/g,"$1\t") + tx.substring(el.selectionEnd);
 
   //Update the selection and reset the focus incase this was triggered by clicking the control.
-  JL.el.selectionStart = start
-  JL.el.selectionEnd = start //TODO in the future this function should highlight all the updated text if selection start and end do not match up.
-  JL.el.focus();
-  JL.updateJournalDisplay();
+  el.selectionStart = start
+  el.selectionEnd = start //TODO in the future this function should highlight all the updated text if selection start and end do not match up.
+  el.focus();
+  el.dispatchEvent(new Event('input', {'bubbles': true, 'cancelable': true}));
 }
 
 /*
   Scope: Public
   Description: Adds a horizontal rule at the start location of the selection.
 */
-JL.horizontalRule = function () {
-  var start = JL.el.selectionStart + 3;
+JL.horizontalRule = function (el) {
+  var start = el.selectionStart + 3;
   var str = "---";
-  if ((JL.el.selectionStart != 0) && (JL.el.value.substring(JL.el.selectionStart-1,JL.el.selectionStart) != "\n")) {str = "\n" + str; start++;}
-  if (JL.el.value.substring(JL.el.selectionStart,JL.el.selectionStart+1) != "\n") {str += "\n"; start++;}
-  JL.el.value = JL.el.value.substring(0,JL.el.selectionStart) + str + JL.el.value.substring(JL.el.selectionStart);
-  JL.el.selectionStart = start;
-  JL.el.selectionEnd = start;
-  JL.el.focus();
-  JL.updateJournalDisplay();
+  if ((el.selectionStart != 0) && (el.value.substring(el.selectionStart - 1, el.selectionStart) != "\n")) {str = "\n" + str; start++;}
+  if (el.value.substring(el.selectionStart, el.selectionStart + 1) != "\n") {str += "\n"; start++;}
+  el.value = el.value.substring(0,el.selectionStart) + str + el.value.substring(el.selectionStart);
+  el.selectionStart = start;
+  el.selectionEnd = start;
+  el.focus();
+  el.dispatchEvent(new Event('input', {'bubbles': true, 'cancelable': true}));
 }
 
 /*
@@ -143,10 +143,10 @@ JL.horizontalRule = function () {
   Description: Wrap highlighted text with bold, italic, underline, strikethrough
     markdown.
 */
-JL.boldText = function() { JL.wrapTextByLine('**'); }
-JL.italicText = function() { JL.wrapTextByLine('*'); }
-JL.underlineText = function() { JL.wrapTextByLine('__'); }
-JL.strikethroughText = function() { JL.wrapTextByLine('~~'); }
+JL.boldText = function(el) { JL.wrapTextByLine(el, '**'); }
+JL.italicText = function(el) { JL.wrapTextByLine(el, '*'); }
+JL.underlineText = function(el) { JL.wrapTextByLine(el, '__'); }
+JL.strikethroughText = function(el) { JL.wrapTextByLine(el, '~~'); }
 
 /*
   Scope: Private
@@ -155,27 +155,27 @@ JL.strikethroughText = function() { JL.wrapTextByLine('~~'); }
   Parameters:
     c - Characters to wrap around text.
 */
-JL.wrapTextByLine = function(c) {
+JL.wrapTextByLine = function(el, c) {
   var len = c.length*2;
-  var start = JL.el.selectionStart;
-  var end = JL.el.selectionEnd;
+  var start = el.selectionStart;
+  var end = el.selectionEnd;
   var cnt = 0;
 
-  JL.el.value = JL.el.value.substring(0,start) + JL.el.value.substring(start,end).replace(/(?:^|\n).*/g, function(m) {
+  el.value = el.value.substring(0,start) + el.value.substring(start,end).replace(/(?:^|\n).*/g, function(m) {
     cnt++;
     return ((m.startsWith('\n'))? '\n' + c + m.substring(1) : c + m) + c;
-  }) + JL.el.value.substring(end);
-  JL.el.selectionStart = start;
-  JL.el.selectionEnd = end + (len*cnt);
-  JL.el.focus();
-  JL.updateJournalDisplay();
+  }) + el.value.substring(end);
+  el.selectionStart = start;
+  el.selectionEnd = end + (len*cnt);
+  el.focus();
+  el.dispatchEvent(new Event('input', {'bubbles': true, 'cancelable': true}));
 }
 
 /*
   Scope: Public
   Description: Finds the next instance of ??? and marks it as selected.
 */
-JL.selectNextHotText = function() {
+JL.selectNextHotText = function(el) {
   //Assume that we should start from the current selection.
   var start = JL.el.selectionEnd;
   var next = JL.el.value.indexOf('???', start);

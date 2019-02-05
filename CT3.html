@@ -64,24 +64,24 @@
                     <div class="w3-dropdown-hover" style="background: #FFF;">
                       <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Header"><span class="fas fa-heading"></span></a>
                       <div class="w3-dropdown-content w3-card">
-                        <a href="javascript:JL.headerText(1);" class="w3-button w3-padding-small" title="Header"><strong>1</strong></a>
-                        <a href="javascript:JL.headerText(2);" class="w3-button w3-padding-small" title="Header"><strong>2</strong></a>
-                        <a href="javascript:JL.headerText(3);" class="w3-button w3-padding-small" title="Header"><strong>3</strong></a>
-                        <a href="javascript:JL.headerText(4);" class="w3-button w3-padding-small" title="Header"><strong>4</strong></a>
-                        <a href="javascript:JL.headerText(5);" class="w3-button w3-padding-small" title="Header"><strong>5</strong></a>
-                        <a href="javascript:JL.headerText(6);" class="w3-button w3-padding-small" title="Header"><strong>6</strong></a>
+                        <a href="javascript:JL.headerText(JL.el, 1);" class="w3-button w3-padding-small" title="Header"><strong>1</strong></a>
+                        <a href="javascript:JL.headerText(JL.el, 2);" class="w3-button w3-padding-small" title="Header"><strong>2</strong></a>
+                        <a href="javascript:JL.headerText(JL.el, 3);" class="w3-button w3-padding-small" title="Header"><strong>3</strong></a>
+                        <a href="javascript:JL.headerText(JL.el, 4);" class="w3-button w3-padding-small" title="Header"><strong>4</strong></a>
+                        <a href="javascript:JL.headerText(JL.el, 5);" class="w3-button w3-padding-small" title="Header"><strong>5</strong></a>
+                        <a href="javascript:JL.headerText(JL.el, 6);" class="w3-button w3-padding-small" title="Header"><strong>6</strong></a>
                       </div>
                     </div>
-                    <a href="javascript:JL.boldText();" class="w3-button w3-padding-small" title="Bold"><span class="fas fa-bold"></span></a>
-                    <a href="javascript:JL.italicText();" class="w3-button w3-padding-small" title="Italic"><span class="fas fa-italic"></span></a>
-                    <a href="javascript:JL.underlineText();" class="w3-button w3-padding-small" title="Underline"><span class="fas fa-underline"></span></a>
-                    <a href="javascript:JL.strikethroughText();" class="w3-button w3-padding-small" title="Strikethrough"><span class="fas fa-strikethrough"></span></a>
-                    <a href="javascript:JL.insertTab();" class="w3-button w3-padding-small" title="Insert Tab"><span class="fas fa-indent"></span></a>
+                    <a href="javascript:JL.boldText(JL.el);" class="w3-button w3-padding-small" title="Bold"><span class="fas fa-bold"></span></a>
+                    <a href="javascript:JL.italicText(JL.el);" class="w3-button w3-padding-small" title="Italic"><span class="fas fa-italic"></span></a>
+                    <a href="javascript:JL.underlineText(JL.el);" class="w3-button w3-padding-small" title="Underline"><span class="fas fa-underline"></span></a>
+                    <a href="javascript:JL.strikethroughText(JL.el);" class="w3-button w3-padding-small" title="Strikethrough"><span class="fas fa-strikethrough"></span></a>
+                    <a href="javascript:JL.insertTab(JL.el);" class="w3-button w3-padding-small" title="Insert Tab"><span class="fas fa-indent"></span></a>
                     <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Ordered List"><span class="fas fa-list-ol"></span></a>
                     <br/>
                     <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Unordered List"><span class="fas fa-list"></span></a>
-                    <a href="javascript:JL.horizontalRule();" class="w3-button w3-padding-small" title="Horizontal Rule"><span class="far fa-window-minimize"></span></a>
-                    <a href="javascript:JL.insertTable(3,3);" class="w3-button w3-padding-small" title="Insert Table"><span class="fas fa-table"></span></a> <!--TODO add dropdown table size selector -->
+                    <a href="javascript:JL.horizontalRule(JL.el);" class="w3-button w3-padding-small" title="Horizontal Rule"><span class="far fa-window-minimize"></span></a>
+                    <a href="javascript:JL.insertTable(JL.el, 3, 3);" class="w3-button w3-padding-small" title="Insert Table"><span class="fas fa-table"></span></a> <!--TODO add dropdown table size selector -->
                     <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Quote"><span class="fas fa-quote-right"></span></a>
                     <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Code"><span class="fas fa-code"></span></a>
                     <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Insert Template"><span class="far fa-clone"></span></a>
@@ -94,7 +94,7 @@
                     <ol></ol>
                 </div>
               </div>
-              <div class="w3-container w3-col w3-padding-small w3-hide viewJ" style="height:100%;width:30%;"><textarea class="w3-small w3-textarea w3-card" style="height:100%;width:100%;" onkeydown="KB.journalEditor(event);" oninput="JL.updateJournalDisplay();" id="JournalEditor"></textarea></div>
+              <div class="w3-container w3-col w3-padding-small w3-hide viewJ" style="height:100%;width:30%;"><textarea class="w3-small w3-textarea w3-card" style="height:100%;width:100%;" onkeydown="KB.markdownShortcut(event);" oninput="JL.updateJournalDisplay();" id="JournalEditor"></textarea></div>
               <div class="w3-container w3-display-container w3-rest w3-padding-small w3-hide viewJ" style="height:100%;">
                 <div id="JournalDisplay" class="w3-input w3-card" style="height:100%;width:100%;overflow-y: auto;"></div>
                 <div id="JournalIndex" class="w3-border w3-border-theme w3-display-topright w3-margin w3-tiny w3-hide">Header</div><!--TODO update this to be useful. Needs style & functionality. -->
@@ -155,7 +155,7 @@
           </div>
         </header>
         <div style="flex:2;" class="CT-QNEditor">
-          <textarea class="w3-textarea w3-small" style="height:100%;"></textarea>
+          <textarea onkeydown="KB.markdownShortcut(event);" class="w3-textarea w3-small" style="height:100%;"></textarea>
         </div>
         <div style="flex:2;overflow: auto;" class="CT-QNDisplay w3-hide w3-small"></div>
         </section>
