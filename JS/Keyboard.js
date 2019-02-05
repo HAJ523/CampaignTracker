@@ -95,8 +95,10 @@ KB.markdownShortcut = function(e) {
         JL.insertTab(e.currentTarget);
         break;
       case 79: //O //Ordered List
+        JL.listText(e.currentTarget, "+");
         break;
       case 76: //L //Unordered List
+        JL.listText(e.currentTarget, "*");
         break;
       case 72: //H
         JL.horizontalRule(e.currentTarget);

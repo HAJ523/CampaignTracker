@@ -89,6 +89,23 @@ JL.headerText = function(el, l) {
 
 /*
   Scope: Public
+  Description: Increments the list type.
+*/
+JL.listText = function(el, t) {
+  var tx = el.value.substring(el.selectionStart, el.selectionEnd).split(/\n/).map(function (e) {
+    if (e.search(/^[ ]*[\*\+].*/g) >= 0) {
+      return " " + e; //If the line is already a list then only increment.
+    } else {
+      return t + e;
+    }
+  }).join('\n');
+  el.value = el.value.substring(0,el.selectionStart) + tx + el.value.substring(el.selectionEnd);
+  el.focus();
+  el.dispatchEvent(new Event('input', {'bubbles': true, 'cancelable': true}));
+}
+
+/*
+  Scope: Public
   Description: Inserts a table at the start of the selection of the specified
     height and width.
 */
