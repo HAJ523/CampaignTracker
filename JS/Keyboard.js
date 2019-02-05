@@ -61,47 +61,47 @@ KB.markdownShortcut = function(e) {
 
   if (KB.modKeys[18]) {
     switch(key) {
-      case 49:  //Headings
+      case 49: //1
         JL.headerText(e.currentTarget, 1);
         break;
-      case 50:
+      case 50: //2
         JL.headerText(e.currentTarget, 2);
         break;
-      case 51:
+      case 51: //3
         JL.headerText(e.currentTarget, 3);
         break;
-      case 52:
+      case 52: //4
         JL.headerText(e.currentTarget, 4);
         break;
-      case 53:
+      case 53: //5
         JL.headerText(e.currentTarget, 5);
         break;
-      case 54:
+      case 54: //6
         JL.headerText(e.currentTarget, 6);
         break;
-      case 66: //Bold
+      case 66: //B
         JL.boldText(e.currentTarget);
         break;
-      case 73: //Italic
+      case 73: //I
         JL.italicText(e.currentTarget);
         break;
-      case 85: //Underline
+      case 85: //U
         JL.underlineText(e.currentTarget);
         break;
-      case 83: //Strike Through
+      case 83: //S
         JL.strikethroughText(e.currentTarget);
         break;
-      case 84: //Insert Tab
+      case 84: //T
         JL.insertTab(e.currentTarget);
         break;
       case 79: //Ordered List
         break;
       case 76: //Unordered List
         break;
-      case 72: //Horizontal Rule
+      case 72: //H
         JL.horizontalRule(e.currentTarget);
         break;
-      case 65: //Table
+      case 65: //A
         JL.insertTable(e.currentTarget, 3, 3);
         break;
       case 81: //Blockqoute
