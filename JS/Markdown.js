@@ -34,7 +34,7 @@ MD.toHTML = function(s) {
   })
   //Block Qoute
   .replace(/(?:(?:^|\n)+((?:(?:>[ ]?){1}(?:.*)\n)+))/g, function(m, a) {//Parameters: Match, "> Text"   Return: <blockqoute>Text</blockqoute>
-    return "\n<blockqoute>" + a.replace(/(?:>[ ]?)(.*)/g,"$1") + "</blockqoute>\n";
+    return "\n<blockquote class=\"w3-panel w3-leftbar w3-light-grey\"><p>\"" + a.replace(/(?:>[ ]?)(.*)/g,"$1").replace(/\n[\s]*\n/g,"</p><p>").replace(/\n$/,"").replace(/\n/gm,"<br/>\n") + "\"</p></blockquote>\n";
   })
   //Code
   .replace(/(?:^|\n)'''[\n]?(.*?)'''/gs, function(m, a) {//Parameters: Match, Text   Return: <pre>Text</pre>
