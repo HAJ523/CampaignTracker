@@ -110,9 +110,6 @@ KB.markdownShortcut = function(e) {
         break;
       case 67: //C //Code
         break;
-      case 86: //V //Insert Template
-        JL.insertTemplate(e.currentTarget);
-        break;
     }
   }
 }
