@@ -107,6 +107,7 @@ KB.markdownShortcut = function(e) {
         JL.insertTable(e.currentTarget, 3, 3);
         break;
       case 81: //Q //Blockqoute
+        JL.blockquoteText(e.currentTarget);
         break;
       case 67: //C //Code
         break;

@@ -209,3 +209,26 @@ JL.selectNextHotText = function(el) {
   el.selectionStart = next;
   el.selectionEnd = next+3;
 }
+
+/*
+  Scope: Public
+  Description: Insert "> " before lines if any lines are missing block text.
+  If they all have it then remove it from the highlighted lines!
+*/
+JL.blockquoteText = function(el) {
+  var start = el.value.lastIndexOf('\n',el.selectionStart);
+  start = ((start == -1) ? 0 : start + 1);
+  var end = el.value.indexOf('\n',el.selectionEnd);
+  end = ((end == -1) ? el.value.length : end);
+
+  el.value = el.value.substring(0,start) + el.value.substring(start,end).split(/\n/).map(function(s) {
+    if (s.search(/\>.*/g) > -1) {return s.replace(/\>[ ]*(.*)/g, function(m, a) {return a;});}
+    return "> " + s;
+  }).join('\n') + el.value.substring(end);
+
+  //TODO update selection.
+  el.selectionStart = start;
+  el.selectionEnd = end;
+  el.focus();
+  el.dispatchEvent(new Event('input', {'bubbles': true, 'cancelable': true}));
+}
