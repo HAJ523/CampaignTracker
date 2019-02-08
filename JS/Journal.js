@@ -213,7 +213,7 @@ JL.selectNextHotText = function(el) {
 /*
   Scope: Public
   Description: Insert "> " before lines if any lines are missing block text.
-  If they all have it then remove it from the highlighted lines!
+    If they all have it then remove it from the highlighted lines!
 */
 JL.blockquoteText = function(el) {
   var start = el.value.lastIndexOf('\n',el.selectionStart);
@@ -229,6 +229,24 @@ JL.blockquoteText = function(el) {
   //TODO update selection.
   el.selectionStart = start;
   el.selectionEnd = end;
+  el.focus();
+  el.dispatchEvent(new Event('input', {'bubbles': true, 'cancelable': true}));
+}
+
+/*
+  Scope: Public
+  Description: Insert "```" before and after the selected text so that it is
+    treated as code.
+*/
+JL.codeText = function(el) {
+  var start = el.selectionStart;
+  var end = el.selectionEnd;
+
+  el.value = el.value.substring(0,start) + '```' + el.value.substring(start,end) + '```' + el.value.substring(end);
+
+  el.selectionStart = start;
+  el.selectionEnd = end;
+
   el.focus();
   el.dispatchEvent(new Event('input', {'bubbles': true, 'cancelable': true}));
 }

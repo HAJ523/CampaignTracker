@@ -28,17 +28,17 @@ MD.toHTML = function(s) {
   .replace(/__(.*?)__/g, function(m, a) { //Parameters: Match, Text   Return <u>Text></u>
     return '<u>' + a + '</u>';
   })
-  //Paragraph
-  .replace(/(?:(?:^|\n)+((?:[^#\|\n>\-*+ ](?:.*)(?:\n|$))+))/g, function (m, a) {//Parameters Match, Paragraph   Returns: <p>Paragraph</p>
-    return '\n<p>' + a.replace(/\n/g,"<br>") + '</p>\n';
-  })
   //Block Qoute
   .replace(/(?:(?:^|\n)+((?:(?:>[ ]?){1}(?:.*)\n)+))/g, function(m, a) {//Parameters: Match, "> Text"   Return: <blockqoute>Text</blockqoute>
     return "\n<blockquote class=\"w3-panel w3-leftbar w3-light-grey\"><p>\"" + a.replace(/(?:>[ ]?)(.*)/g,"$1").replace(/\n[\s]*\n/g,"</p><p>").replace(/\n$/,"").replace(/\n/gm,"<br/>\n") + "\"</p></blockquote>\n";
   })
   //Code
-  .replace(/(?:^|\n)'''[\n]?(.*?)'''/gs, function(m, a) {//Parameters: Match, Text   Return: <pre>Text</pre>
+  .replace(/(?:^|\n)```[\n]?(.*?)```/gs, function(m, a) {//Parameters: Match, Text   Return: <pre>Text</pre>
     return "\n<pre>" + a + "</pre>";
+  })
+  //Paragraph
+  .replace(/(?:(?:^|\n)+((?:[^#\|\n>\-*+ ](?:.*)(?:\n|$))+))/g, function (m, a) {//Parameters Match, Paragraph   Returns: <p>Paragraph</p>
+    return '\n<p>' + a.replace(/\n/g,"<br>") + '</p>\n';
   })
   //Headers
   .replace(/(?:^|\n)([#]+)[\t ]*(.*)/g, function(m, a, b) { //Parameters: Match, #.*, Header   Return: <h#>text</h#>
