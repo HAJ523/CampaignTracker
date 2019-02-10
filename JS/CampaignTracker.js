@@ -388,3 +388,16 @@ CT.GUID = function(l) {
 CT.changeTheme = function(n) {
   document.getElementById('theme').href = "CSS\\themes\\w3-" + n + ".css";
 }
+
+/*
+  Scope: Public
+  Description: Copy the contents of the element into the clipboard.
+*/
+CT.copy = function(e) {
+  var range = document.createRange();
+  range.selectNode(e);
+  window.getSelection().removeAllRanges();
+  window.getSelection().addRange(range);
+  document.execCommand("copy");
+  window.getSelection().removeAllRanges();
+}
