@@ -98,6 +98,11 @@ CT.newPage = function(page) {
     page = 'Temporary Pages/' + CT.localISOTime();
   }
 
+  //Make sure that the page has the correct kind of slashes!
+  if (page.includes('\\')) {
+    page = page.replace(/\\/g,"/");
+  }
+
   //Check for the page to exist and if it doesn't then created it.
   if (data.pages.hasOwnProperty(page)) {
     alert("Page already exists none will be created."); //TODO update alert to be a status message.
