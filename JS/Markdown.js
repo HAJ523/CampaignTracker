@@ -90,7 +90,7 @@ MD.toHTML = function(s) {
         return '<a href="' + c + '" title="' + d + '">' + a + '</a>';
       })
       //Tables
-      .replace(/((?:^|\n)\|.*?\n)(\|.*?\n)((?:\|.*?\n)*)/gs, function(m, a, b, c) {//Parameters: Match, Headers, Alignment, Data   Returns: <table>...</table>
+      .replace(/((?:^|\n)\|.*?\n)(\|.*?\n)((?:\|.*?(?:\n|$))*)/gs, function(m, a, b, c) {//Parameters: Match, Headers, Alignment, Data   Returns: <table>...</table>
         return MD.tableToHTML(a,b,c);
       })
       //Calculator TODO
