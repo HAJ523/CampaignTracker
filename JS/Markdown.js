@@ -15,86 +15,95 @@ var MD = {}; //Initialize markdown object.
     HTML
 */
 MD.toHTML = function(s) {
-  return s
-  //Strong
-  .replace(/\*\*(.*?)\*\*/g, function (m, a) { //Parameters: Match, Text   Return: <strong>Text</strong>
-      return '<strong>' + a + '</strong>';
-  })
-  //Em
-  .replace(/\*(.*?)\*/g, function (m, a) { //Parameters: Match, Text   Return: <em>Text</em>
-      return '<em>' + a + '</em>';
-  })
-  //Underline
-  .replace(/__(.*?)__/g, function(m, a) { //Parameters: Match, Text   Return <u>Text></u>
-    return '<u>' + a + '</u>';
-  })
-  //Block Qoute
-  .replace(/(?:(?:^|\n)+((?:(?:>[ ]?){1}(?:.*)\n)+))/g, function(m, a) {//Parameters: Match, "> Text"   Return: <blockqoute>Text</blockqoute>
-    return "\n<blockquote class=\"w3-panel w3-leftbar w3-light-grey\"><p>\"" + a.replace(/(?:>[ ]?)(.*)/g,"$1").replace(/\n[\s]*\n/g,"</p><p>").replace(/\n$/,"").replace(/\n/gm,"<br/>\n") + "\"</p></blockquote>\n";
-  })
-  //Code
-  .replace(/(?:^|\n)```[\n]?(.*?)```/gs, function(m, a) {//Parameters: Match, Text   Return: <pre>Text</pre>
-    return "\n<pre>" + a + "</pre>";
-  })
-  //Paragraph
-  .replace(/(?:(?:^|\n)+((?:[^#\|\n>\-*+ ](?:.*)(?:\n|$))+))/g, function (m, a) {//Parameters Match, Paragraph   Returns: <p>Paragraph</p>
-    return '\n<p>' + a.replace(/\n/g,"<br>") + '</p>\n';
-  })
-  //Headers
-  .replace(/(?:^|\n)([#]+)[\t ]*(.*)/g, function(m, a, b) { //Parameters: Match, #.*, Header   Return: <h#>text</h#>
-    return '\n<h' + a.length + '>' + b + '</h' + a.length + '>';
-  })
-  //Horizontal Seperator
-  .replace(/(?:^|\n)[\t ]*[\-\*\_]{3}[\t ]*(?:$|\n)/g, function(m, a) {//Parameters: Match, Horizontal Seperator   Return: <hr></hr>
-    return "\n<hr></hr>\n";
-  })
-  //Strikethrough
-  .replace(/~~(.*?)~~/g, function(m, a) { //Parameters Match, Text   Return: <del>Text</del>
-    return '<del>' + a + '</del>';
-  })
-  //Images     Needs to come before links to be able to differentiate.
-  .replace(/\!\[(.*?)\](?:\((\".*\"|[^ \n]*)[ ]?(.*)?\))?/g, function(m, a, b, c) {
-    b = ((b == null) ? a : b);
-    return '<img src="' + b + '" title="' + c + '">';
-  })
-  //Dice Roller
-  .replace(/\?\[(.*?)\]/g, function(m, a) { //Parameters: Match, Roll   Return: <a href='roll'>Roll</a>
-    var id = CT.GUID(8);
-    return '<a href="javascript:RL.roll(\'' + a + '\',\'' + id + '\')" id="' + id + '" title="' + a + '">' + a + '</a>';
-  })
-  //Calculator
-  .replace(/\&\[(.*?)\]/g, function(m, a) { //Parameters: Match, Equation   Return: <a href'calc'>Equation</a>
-    return m;
-  })
-  //Links
-  .replace(/\[(.*?)\/?([^\/]*?)\](?:\((\".*\"|[^ \n]*)[ ]?(.*)?\))?/g, function(m, a, b, c, d) { //Parameters: Match, Parent Folder, Page, Link, Title  Returns: <a href=Link title=Title>Page</a>
-    a = ((a != "") ? [a, b].join("/") : b); //If there was a parent page then make sure that that is included in the link if Link is not populated.
-    d = ((d == undefined)? "" : d);
-    if ((c == null) || (c == undefined) || (c == "")) {
-      var l = a.split(":");
-      c = "javascript:"
-      if (l.length > 1) {
-        c += 'CT.changeView(\''+l[0]+'\');';
-        a = l[1];
-      }
-      c += 'CT.selectPage(\'' + a + '\');';
+  var i=-1;
+  return s.split('```').map(function (s) {
+    i++;
+    if (i%2) {
+      return '<pre onclick="CT.copy(this.children[0]);"><code>' + s.replace(/^[\n]+|[\n]+$/g,"") + '</code></pre>';
+    } else {
+      return s.replace(/^[\n]+|[\n]+$/g,"") //Trim extra spaces!
+      //Paragraph
+      .replace(/(?:(?:^|\n)+((?:[^#\|\n>\-*+ ](?:.*)(?:\n|$))+))/g, function (m, a) {//Parameters Match, Paragraph   Returns: <p>Paragraph</p>
+        return '\n<p>' + a.replace(/\n/g,"<br>") + '</p>\n';
+      })
+      //Inline Code
+      .replace(/\`(.*?)\`/g, function (m, a) {
+        return '<code onclick="CT.copy(this);">' + a + '</code>';
+      })
+      //Strong
+      .replace(/\*\*(.*?)\*\*/g, function (m, a) { //Parameters: Match, Text   Return: <strong>Text</strong>
+          return '<strong>' + a + '</strong>';
+      })
+      //Em
+      .replace(/\*(.*?)\*/g, function (m, a) { //Parameters: Match, Text   Return: <em>Text</em>
+          return '<em>' + a + '</em>';
+      })
+      //Underline
+      .replace(/__(.*?)__/g, function(m, a) { //Parameters: Match, Text   Return <u>Text></u>
+        return '<u>' + a + '</u>';
+      })
+      //Block Qoute
+      .replace(/(?:(?:^|\n)+((?:(?:>[ ]?){1}(?:.*)(:?\n|$))+))/g, function(m, a) {//Parameters: Match, "> Text"   Return: <blockqoute>Text</blockqoute>
+        return "\n<blockquote class=\"w3-panel w3-leftbar w3-theme-l5\"><p>" + a.replace(/(?:>[ ]?)(.*)/g,"$1").replace(/\n[\s]*\n/g,"</p><p>").replace(/\n$/,"").replace(/\n/gm,"<br/>\n") + "</p></blockquote>\n";
+      })
+      //Headers
+      .replace(/(?:^|\n)([#]+)[\t ]*(.*)/g, function(m, a, b) { //Parameters: Match, #.*, Header   Return: <h#>text</h#>
+        return '\n<h' + a.length + '>' + b + '</h' + a.length + '>';
+      })
+      //Horizontal Seperator
+      .replace(/(?:^|\n)[\t ]*[\-\*\_]{3}[\t ]*(?:$|\n)/g, function(m, a) {//Parameters: Match, Horizontal Seperator   Return: <hr></hr>
+        return "\n<hr></hr>\n";
+      })
+      //Strikethrough
+      .replace(/~~(.*?)~~/g, function(m, a) { //Parameters Match, Text   Return: <del>Text</del>
+        return '<del>' + a + '</del>';
+      })
+      //Images     Needs to come before links to be able to differentiate.
+      .replace(/\!\[(.*?)\](?:\((\".*\"|[^ \n]*)[ ]?(.*)?\))?/g, function(m, a, b, c) {
+        b = ((b == null) ? a : b);
+        return '<img src="' + b + '" title="' + c + '">';
+      })
+      //Dice Roller
+      .replace(/\?\[(.*?)\]/g, function(m, a) { //Parameters: Match, Roll   Return: <a href='roll'>Roll</a>
+        var id = CT.GUID(8);
+        return '<a href="javascript:RL.roll(\'' + a + '\',\'' + id + '\')" id="' + id + '" title="' + a + '">' + a + '</a>';
+      })
+      //Calculator
+      .replace(/\&\[(.*?)\]/g, function(m, a) { //Parameters: Match, Equation   Return: <a href'calc'>Equation</a>
+        return m;
+      })
+      //Links
+      .replace(/\[(.*?)\/?([^\/]*?)\](?:\((\".*\"|[^ \n]*)[ ]?(.*)?\))?/g, function(m, a, b, c, d) { //Parameters: Match, Parent Folder, Page, Link, Title  Returns: <a href=Link title=Title>Page</a>
+        a = ((a != "") ? [a, b].join("/") : b); //If there was a parent page then make sure that that is included in the link if Link is not populated.
+        d = ((d == undefined)? "" : d);
+        if ((c == null) || (c == undefined) || (c == "")) {
+          var l = a.split(":");
+          c = "javascript:"
+          if (l.length > 1) {
+            c += 'CT.changeView(\''+l[0]+'\');';
+            a = l[1];
+          }
+          c += 'CT.selectPage(\'' + a + '\');';
+        }
+
+        //TODO Lookup page data for first non-header line and use that as title if none provided.
+        return '<a href="' + c + '" title="' + d + '">' + a + '</a>';
+      })
+      //Tables
+      .replace(/((?:^|\n)\|.*?\n)(\|.*?\n)((?:\|.*?\n)*)/gs, function(m, a, b, c) {//Parameters: Match, Headers, Alignment, Data   Returns: <table>...</table>
+        return MD.tableToHTML(a,b,c);
+      })
+      //Calculator TODO
+      //Roller (Dice & Table) TODO
+      //Sections TODO
+
+      //Lists (Must remain at the bottom to avoid parsing mistakes with other elements!)
+      .replace(/((?:^|\n)(?:[*+-]){1}(?:.*)(?:(?:^|\n)(?:[* +-][ ]?){1}(?:.*))*)/g, function (m, a) { //Parameters: Match, List   Returns: <ol/ul>...</...>
+        return MD.listsToHTML(a);
+      });
     }
 
-    //TODO Lookup page data for first non-header line and use that as title if none provided.
-    return '<a href="' + c + '" title="' + d + '">' + a + '</a>';
-  })
-  //Tables
-  .replace(/((?:^|\n)\|.*?\n)(\|.*?\n)((?:\|.*?\n)*)/gs, function(m, a, b, c) {//Parameters: Match, Headers, Alignment, Data   Returns: <table>...</table>
-    return MD.tableToHTML(a,b,c);
-  })
-  //Calculator TODO
-  //Roller (Dice & Table) TODO
-  //Sections TODO
-
-  //Lists (Must remain at the bottom to avoid parsing mistakes with other elements!)
-  .replace(/((?:^|\n)(?:[*+-]){1}(?:.*)(?:(?:^|\n)(?:[* +-][ ]?){1}(?:.*))*)/g, function (m, a) { //Parameters: Match, List   Returns: <ol/ul>...</...>
-    return MD.listsToHTML(a);
-  });
+  }).join('');
 }
 
 /*
