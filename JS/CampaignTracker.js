@@ -380,3 +380,11 @@ CT.GUID = function(l) {
   }
   return ID;
 }
+
+/*
+  Scope: Public
+  Description: Swap the theme to another one.
+*/
+CT.changeTheme = function(n) {
+  document.getElementById('theme').href = "CSS\\themes\\w3-" + n + ".css";
+}
