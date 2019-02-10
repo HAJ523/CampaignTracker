@@ -109,9 +109,6 @@ KB.markdownShortcut = function(e) {
       case 81: //Q //Blockqoute
         JL.blockquoteText(e.currentTarget);
         break;
-      case 67: //C //Code
-        JL.codeText(e.currentTarget);
-        break;
     }
   }
 }
