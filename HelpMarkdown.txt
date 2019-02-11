@@ -1,7 +1,7 @@
 #Journal Markdown
 Campaign Tracker uses markdown to transform the text you type into a lively HTML page with formatting. Markdown was selected because it provides the simplest and easiest to understand view in both its original form and relatively simple encoding to HTML for speed, allowing it to be transformed real-time. The following text will give you an idea of what markdown is available and any special features which have been added to make tracking and running a pen and paper RPG from the Campaign Tracker as easy as possible.
 ## Headers
-Headers come in 6 flavors to allow you to distinguish between different sections of the text you are writing. Headers use the `#` symbole as their key and the number of `#` the precede the text determines the level of the header with more `#` meaning a smaller or more sub heading.
+Headers come in 6 flavors to allow you to distinguish between different sections of the text you are writing. Headers use the `#` symbol as their key and the number of `#` the precede the text determines the level of the header with more `#` meaning a smaller or more sub heading.
 
 Examples: `# Header 1`, `## Header 2`, `### Header 3`, `#### Header 4`, `##### Header 5`, `###### Header 6`
 ## Text Format
@@ -10,7 +10,7 @@ While headers are nice for giving the user a sense of separation between blocks 
 |:--|:--|:--|
 |**Bold**|`&ast;&ast;Bolded Text&ast;&ast;`|
 |*Italic*|`&ast;Italic Text&ast;`|
-|__UnderLined__|`&lowbar;&lowbar;Underlined Text&lowbar;&lowbar;`|
+|__Underlined__|`&lowbar;&lowbar;Underlined Text&lowbar;&lowbar;`|
 |~~Strike Through~~|`&tilde;&tilde;Struck Text&tilde;&tilde;`|
 |`Inline-Code`|`&grave;Code&grave;`|
 ##Tables
@@ -24,22 +24,22 @@ Speaking of formats check out that table above! Created with markdown text these
 
 ```
 ##Lists
-Lists can be useful not just for shopping or todo but to keep track of ordered or unordered things. Lists can start with either `*` or `-` for unordered versions or `+` if you really want to get the Count von Count involved.
+Lists can be useful not just for shopping or TODO but to keep track of ordered or un-ordered things. Lists can start with either `*` or `-` for un-ordered versions or `+` if you really want to get the Count von Count involved.
 *They even allow
  +Nesting of different types
   *Within one another!
  * You can even start a new type if you want
  +Even if you start counting then stop again.
  +Note that counting will only occur if you manage 2 or more in a row.
-## Horizontal Seperator
-Look through the list of headers and individual text but need something just a little different; then the horizontal seperator might be just what you need!
+## Horizontal Separator
+Look through the list of headers and individual text but need something just a little different; then the horizontal separator might be just what you need!
 ---
-This fast acting seperator can give you the divide you need in your text simply by adding `---` on a line by itself!
+This fast acting separator can give you the divide you need in your text simply by adding `---` on a line by itself!
 ##Quotations
 Sometimes you need to give text a full and distinct appearance. Especially if this is something that was copied from somewhere else!
 > Thankfully, blockqoutes can do just that.
 >
-> In addition they can be combinded with other forms of markdown to produce unique results.
+> In addition they can be combined with other forms of markdown to produce unique results.
 ##Code Blocks
 Code blocks like in-line code designations force the text that is contain in them to be of uniform width. However they have additional functionality in that they will keep the formatting of additional added lines between the beginning and ending entries.
 ```
