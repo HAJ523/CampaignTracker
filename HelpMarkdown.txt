@@ -1,0 +1,61 @@
+#Journal Markdown
+Campaign Tracker uses markdown to transform the text you type into a lively HTML page with formatting. Markdown was selected because it provides the simplest and easiest to understand view in both its original form and relatively simple encoding to HTML for speed, allowing it to be transformed real-time. The following text will give you an idea of what markdown is available and any special features which have been added to make tracking and running a pen and paper RPG from the Campaign Tracker as easy as possible.
+## Headers
+Headers come in 6 flavors to allow you to distinguish between different sections of the text you are writing. Headers use the `#` symbole as their key and the number of `#` the precede the text determines the level of the header with more `#` meaning a smaller or more sub heading.
+
+Examples: `# Header 1`, `## Header 2`, `### Header 3`, `#### Header 4`, `##### Header 5`, `###### Header 6`
+## Text Format
+While headers are nice for giving the user a sense of separation between blocks of text it is sometimes necessary to give even **more** emphasis to individual elements of a particular line of text. These designators must appear on a single line of text. Which means if you wish to modify multiple paragraphs you will need to surround every line with the appropriate symbols.
+| Type | Markdown |
+|:--|:--|:--|
+|**Bold**|`&ast;&ast;Bolded Text&ast;&ast;`|
+|*Italic*|`&ast;Italic Text&ast;`|
+|__UnderLined__|`&lowbar;&lowbar;Underlined Text&lowbar;&lowbar;`|
+|~~Strike Through~~|`&tilde;&tilde;Struck Text&tilde;&tilde;`|
+|`Inline-Code`|`&grave;Code&grave;`|
+##Tables
+Speaking of formats check out that table above! Created with markdown text these tables provide a way to organize data on a page like nothing else. Take a look at this example below. (Note: The only tricky thing about tables is the column alignment which is specified in the second row of the markdown. In the example below the columns would be left, center, then right aligned.)
+```
+| Header | Header | Header |
+|:--|:--:|--:|
+||||
+||||
+||||
+
+```
+##Lists
+Lists can be useful not just for shopping or todo but to keep track of ordered or unordered things. Lists can start with either `*` or `-` for unordered versions or `+` if you really want to get the Count von Count involved.
+*They even allow
+ +Nesting of different types
+  *Within one another!
+ * You can even start a new type if you want
+ +Even if you start counting then stop again.
+ +Note that counting will only occur if you manage 2 or more in a row.
+## Horizontal Seperator
+Look through the list of headers and individual text but need something just a little different; then the horizontal seperator might be just what you need!
+---
+This fast acting seperator can give you the divide you need in your text simply by adding `---` on a line by itself!
+##Quotations
+Sometimes you need to give text a full and distinct appearance. Especially if this is something that was copied from somewhere else!
+> Thankfully, blockqoutes can do just that.
+>
+> In addition they can be combinded with other forms of markdown to produce unique results.
+##Code Blocks
+Code blocks like in-line code designations force the text that is contain in them to be of uniform width. However they have additional functionality in that they will keep the formatting of additional added lines between the beginning and ending entries.
+```
+Like, Wow I can add blank lines!
+
+You sure can!
+```
+Both code blocks and inline-code have single click copy functionality. Meaning when you click on a block the text within is copied to the clip board. This can be useful for creating templates for later use!
+##Links
+Links come in a variety of formats and do a small variety of different things. They allow execution of the campaign trackers embedded functions like dice rolling and calculation. And they allow you to jump easily from one page to the next with the correct syntax. (Note: The format used for links differs from the standard markdown format to make the inclusion of links by typing into a page a little more straight forward. In addition some of the features like Title to URL linking are note included.)
+###Page Links
+Page links are the simplest of the different link types. they allow you to specify another page which you want to have access to. The full format for a link `&lbrack;Parent Page/Little Baby Page&rbrack;(URL Title)`. Not all of the elements are necessary you can create a link by just including the section between the brackets. The URL will replace fully the value specified in the href of the link allowing you to access any custom functions you have installed. In addition the Title in the link will change the text which is visible when you mouse over the link.
+###Dice Roller
+The dice roller feature allows you to setup rolling directly in the page you are viewing. while they will look like other page links they will replace the text visible once you have clicked them with a fresh roll. `?&lbrack;+5]` or `?&lbrack;(1d2!)d20]` The first example will roll the campaign selected default die with the modifier provided. The second will roll 1d2 exploding then roll that many d20.
+
+TODO future examples of all things the dice roller is capable of. Including tables when they are added!
+###Calculator
+While rolling dice is nice sometimes you need a way to keep track of the value of something over a longer period but it isn't necessarily something that you want to keep editing the page itself. Using the calculator you can assign a value to the link then modify it on the fly by clicking it again and providing a new value or text like +5 to add 5 or -9 to subtract 9. you can add a calculator like this `&&lbrack;Initial Equation]` and the initial equation will determine the starting value for it!
+## Images
