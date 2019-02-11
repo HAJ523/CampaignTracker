@@ -75,7 +75,7 @@ MD.toHTML = function(s) {
       //Links
       .replace(/\[(.*?)\/?([^\/]*?)\](?:\((\".*\"|[^ \n]*)[ ]?(.*)?\))?/g, function(m, a, b, c, d) { //Parameters: Match, Parent Folder, Page, Link, Title  Returns: <a href=Link title=Title>Page</a>
         a = ((a != "") ? [a, b].join("/") : b); //If there was a parent page then make sure that that is included in the link if Link is not populated.
-        d = ((d == undefined)? "" : d);
+        d = ((d == undefined)? a : d);
         if ((c == null) || (c == undefined) || (c == "")) {
           var l = a.split(":");
           c = "javascript:"
@@ -87,14 +87,12 @@ MD.toHTML = function(s) {
         }
 
         //TODO Lookup page data for first non-header line and use that as title if none provided.
-        return '<a href="' + c + '" title="' + d + '">' + a + '</a>';
+        return '<a href="' + c + '" title="' + d + '">' + b + '</a>';
       })
       //Tables
       .replace(/((?:^|\n)\|.*?\n)(\|.*?\n)((?:\|.*?(?:\n|$))*)/gs, function(m, a, b, c) {//Parameters: Match, Headers, Alignment, Data   Returns: <table>...</table>
         return MD.tableToHTML(a,b,c);
       })
-      //Calculator TODO
-      //Roller (Dice & Table) TODO
       //Sections TODO
 
       //Lists (Must remain at the bottom to avoid parsing mistakes with other elements!)
