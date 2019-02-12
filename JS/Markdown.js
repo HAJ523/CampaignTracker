@@ -189,7 +189,7 @@ MD.tableToHTML = function(a, b, c) {
   var num = -1;
   ret += a.replace(/\|([^|\n]*)(?:\|\n)?/g, function(m, a) { //Parameters: Match, Column
     num++;
-    return '<th' + (((aln[num]!="") && (aln[num] != undefined)) ? aln[num] : "") + '>' + a + '</th>';
+    return '<th' + (((aln[num]!="") && (aln[num] != undefined)) ? aln[num] : "") + ' onclick="JL.sortTable(this);" >' + a + '</th>';
   }) + '</tr></thead>';
 
   //Data

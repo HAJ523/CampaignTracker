@@ -232,3 +232,24 @@ JL.blockquoteText = function(el) {
   el.focus();
   el.dispatchEvent(new Event('input', {'bubbles': true, 'cancelable': true}));
 }
+
+/*
+  Scope: Public
+  Description: Sort table by selected header.
+*/
+JL.sortTable = function(el) {
+  var table = el.closest('table');
+  Array.from(table.querySelectorAll('tr:not(.w3-theme)'))
+    .sort(JL.comparer(Array.from(el.parentNode.children).indexOf(el), el.asc = !el.asc))
+    .forEach(tr => table.appendChild(tr));
+  //Update the headers to show sort!
+  var sort = table.getElementsByClassName('fa-sort-up')[0] || table.getElementsByClassName('fa-sort-down')[0];
+  if (sort != undefined) sort.parentNode.removeChild(sort);
+  delete sort;
+  sort = document.createElement('span'); sort.classList.add("fas"); sort.classList.add((el.asc) ? "fa-sort-up" : "fa-sort-down");
+  el.prepend(sort);
+}
+JL.comparer = (idx, asc) => (a, b) => ((v1, v2) =>
+    v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+  )(JL.getCellValue(asc ? a : b, idx), JL.getCellValue(asc ? b : a, idx));
+JL.getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
