@@ -78,12 +78,17 @@ CT.loadData = function(name) {
   //TODO Save the current campaign if there is one open.
 
   //First load the database
-  var loadReturn = ST.loadData(name);
-
-  //Now make sure that the displays are updated to be the loaded data.
-  CT.changeView(loadReturn[0]);
-  CT.selectPage(data.slctPage, true); //Skip saving
+  ST.loadData(name);
 }
+CT.finishLoad = function(v) {
+  //Now make sure that the displays are updated to be the loaded data.
+  CT.changeView(v);
+  CT.buildPageTree();
+  CT.selectPage(data.slctPage, true); //Skip saving
+
+  CT.setStatus("Campaign successfully loaded.");
+}
+
 CT.exportData = function() {} //TODO
 CT.importData = function() {} //TODO
 
@@ -121,6 +126,8 @@ CT.newPage = function(page) {
   Description: Selects a page for viewing.
 */
 CT.selectPage = function(p, ss) {
+  if ((p=="") || (p==undefined)) return; //Don't do anythign if there is nothing selected!
+
   //TODO Save the old page infomration depending on the current view.
   if (!ss) {
     switch (data.slctView) {

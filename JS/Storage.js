@@ -18,18 +18,18 @@ ST.onload = function() {
 ST.setupDatabase = function() {
   //Confirm that indexedDB is available.
   if (!('indexedDB' in window)) {
-    console.log('Browser does not support IndexedDB.');
+    CT.setStatus('Browser does not support IndexedDB.');
     return;
   }
 
   //Open a new request.
   var request = window.indexedDB.open('CampaignTracker',1);
   request.onerror = function(e) {
-    console.log("Database error code: "+e.target.errorCode);
+    CT.setStatus("Database error code: "+e.target.errorCode);
   };
   request.onsuccess = function(e) {
     ST.db = request.result;
-    console.log("Database opened successfully");
+    CT.setStatus("Database opened successfully");
   };
   request.onupgradeneeded = function(e) {
     var campStore = e.currentTarget.result.createObjectStore("Campaigns",{keyPath: "settings.name"});
@@ -43,7 +43,7 @@ ST.setupDatabase = function() {
 */
 ST.saveData = function() {
   if (ST.db == null) {
-    console.log("No database available for storage."); //TODO update to status
+    CT.setStatus("No database available for storage."); //TODO update to status
     return;
   }
 
@@ -51,13 +51,13 @@ ST.saveData = function() {
   var os = tx.objectStore("Campaigns");
   var rq = os.put(data);
   rq.onsuccess = function(e) {
-    console.log(data.settings.name+" written to indexDB successfully");
+    CT.setStatus(data.settings.name+" written to indexDB successfully");
   };
 }
 
 ST.loadData = function(name) {
   if (ST.db == null) {
-    console.log("No database available for storage.");
+    CT.setStatus("No database available for storage.");
     return;
   }
 
@@ -75,9 +75,6 @@ ST.loadData = function(name) {
     var slctViewFuture = data.slctView;
     data.slctView = slctView;
 
-    return [slctViewFuture];
-
-
-    console.log(data.settings.name+"Campaign loaded from indexDB successfully");
+    CT.finishLoad(slctViewFuture);
   };
 }
