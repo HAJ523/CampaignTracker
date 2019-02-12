@@ -70,8 +70,8 @@ MD.toHTML = function(s) {
         return '<a href="javascript:RL.roll(\'' + a + '\',\'' + id + '\')" id="' + id + '" title="' + a + '">' + a + '</a>';
       })
       //Calculator
-      .replace(/\&\[(.*?)\]/g, function(m, a) { //Parameters: Match, Equation   Return: <a href'calc'>Equation</a>
-        return m;
+      .replace(/&\[(.*?)\]/g, function(m, a) { //Parameters: Match, Equation   Return: <a href'calc'>Equation</a>
+        return a;
       })
       //Links
       .replace(/\[(.*?)\/?([^\/]*?)\](?:\((\".*\"|[^ \n]*)[ ]?(.*)?\))?/g, function(m, a, b, c, d) { //Parameters: Match, Parent Folder, Page, Link, Title  Returns: <a href=Link title=Title>Page</a>
