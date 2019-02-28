@@ -199,6 +199,7 @@ CT.prompt = function(callback, title, text, label, place) {
   document.getElementById('ModalPromptText').innerHTML = text;
   document.getElementById('ModalPromptLabel').innerHTML = label;
   document.getElementById('ModalPromptResponse').placeholder = place;
+  document.getElementById('ModalPromptResponse').value = "";
   //Open the Modal
   CT.openModal('ModalPrompt')
   //Make the Entry Element Focused.
