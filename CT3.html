@@ -40,7 +40,7 @@
               </div>
               <strong><a class="w3-bar-item" id="title">Campaign Tracker</a></strong>
             </div>
-            <div class="w3-display-middle w3-small" id="PageTitle">Junk</div>
+            <div class="w3-display-middle w3-small"><span id="PageTitle"></span> <a href="javascript:void();" class="fas fa-edit"></a></div>
             <div class="w3-display-right" id="IGClock">Cal</div>
           </div>
         </div>
@@ -122,11 +122,12 @@
     </div>
 
     <!-- Modals Below This Line -->
+    <!-- Prompt -->
     <div id="ModalPrompt" class="w3-modal w3-animate-opacity" style="display: none;">
       <div class="w3-modal-content w3-card-4 w3-animate-top">
-        <header class="w3-display-container w3-text-theme w3-large w3-padding-small"><strong id="ModalPromptTitle">Test</strong></header>
+        <header class="w3-display-container w3-text-theme w3-xlarge w3-padding-small"><strong id="ModalPromptTitle">Test</strong></header>
         <div class="w3-container">
-          <p id="ModalPromptText">Here is some default text.</p>
+          <span id="ModalPromptText">Here is some default text.</span><br/>
           <input type="text" class="w3-input" id="ModalPromptResponse" onkeydown="KB.prompt(event);"><label id="ModalPromptLabel" class="w3-small">Default Label</label>
         </div>
         <footer class="w3-container w3-padding-small">
@@ -159,5 +160,25 @@
         </section>
       </div>
     </div>
+
+    <!-- Page Settings -->
+    <div id="PageSettings" class="w3-modal w3-animate-opacity" style="display: block;">
+      <div class="w3-modal-content w3-card-4 w3-animate-top">
+        <header class="w3-display-container w3-text-theme w3-xlarge w3-padding-small"><strong>Page Settings</strong></header>
+        <div class="w3-container">
+          <span>Full Page Path:</span><br/>
+          <input type="text" class="w3-input" id="PageSettingsPath"><label class="w3-small">(Example: Templates/NPC)</label>
+        </div>
+        <footer class="w3-container w3-padding-small">
+          <div class="w3-right">
+            <a class="w3-button" href="javascript:void(0);">Delete</a>
+            <a class="w3-button" href="javascript:void(0);">Cancel</a>
+            <a class="w3-button" href="javascript:void(0);">Ok</a>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Campaign Settings -->
   </body>
 </html>
