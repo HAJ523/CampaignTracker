@@ -222,10 +222,22 @@ CT.promptClose = function(state) {
   }
 }
 
-CT.openModal = function(m) {
-  var e = document.getElementById(m);
+/*
+  Scope: Public
+  Description: Swaps the shown and hidden classes associated with an element.
+*/
+CT.toggleHideShow = function(e) {
+  if (e.classList.contains("w3-hide")) {
+    e.classList.remove("w3-hide");
+    e.classList.add("w3-show");
+  } else {
+    e.classList.remove("w3-show");
+    e.classList.add("w3-hide");
+  }
+}
 
-  e.style.display = 'block';
+CT.openModal = function(m) {
+  CT.toggleHideShow(document.getElementById(m));
 }
 
 CT.closeModal = function(e) {
@@ -235,7 +247,7 @@ CT.closeModal = function(e) {
 
 CT.modalAnimationEnd = function() {
   if (this.children[0].classList.contains('w3-animate-top-r')) {
-    this.style.display = 'none';
+    CT.toggleHideShow(this);
     this.classList.remove('w3-animate-opacity-r');
     this.children[0].classList.remove('w3-animate-top-r');
   }
@@ -263,9 +275,8 @@ CT.buildPageTree = function() {
 /*
   Scope: Public
   Description: Insert a single element into the page tree in order.
-  //TODO Add call to open page function.
 */
-CT.addPageToPageTree = function(l, p, r) {
+CT.addPageToPageTree = function(l, p, r) { //Parameters: List, Page,
   //If no list was provided the assume the top level list!
   if (l == undefined) {
     l = document.getElementById('PageTree').children[0];
@@ -295,7 +306,7 @@ CT.addPageToPageTree = function(l, p, r) {
     if (l.children[c].id == cKey[0]) { //If we found the correct parent
       if (cKey.length > 1) { //There is more to this page than the current element. Recusion needed!
         //If the current li is not a parent then make it one!
-        if (l.children[c].children.length == 1) { //TODO this will need to keep in mind that we are adding anchors for regular pages.
+        if (l.children[c].children.length == 1) {
           l.children[c].innerHTML='<label onclick="CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] + '</label><input type="checkbox"><ol></ol>'; //Clear the element.
         }
 
@@ -344,10 +355,54 @@ CT.addPageToPageTree = function(l, p, r) {
 /*
   Scope: Public
   Description: Remove a single page from the page tree. Will only remove parent
-    elements if they have no children.
+    elements if they have no children and no data.
+  Requires: Page data is already deleted.
 */
-CT.removePageFromPageTree = function(p) {
+CT.removePageFromPageTree = function(l, p, r) {
 
+  //Determine the Parameters
+  if (l == undefined) {
+    l = document.getElementById('PageTree').children[0];
+  }
+  if (r == undefined) {
+    r = "";
+  }
+
+  //Make sure we stop if there isn't currently anything in the list.
+  if (l.children.length == 0) return;
+
+  var cKey = p.split(/\/(.+)/g);
+
+  //Loop through the current list.
+  for (var c = 0; c < l.children.length; c++) {
+
+    //Find the correct page if there is one.
+    if (l.children[c].id == cKey[0]) {
+      //If there are multiple peices to the key then we know that we will need to recurse first.
+      if (cKey.length > 1) {
+        //If the current element has a sublist.
+        if (l.children[c].children.length == 3) {
+          CT.removePageFromPageTree(l.children[c].children[2], cKey[1], r + ((r != "")? "/" : "") + cKey[0]);
+        }
+      }
+
+      //Now check to see if there we should remove this entry. (It has not children)
+      if (l.children[c].children.length < 2) {
+        l.removeChild(l.children[c]);
+      }
+
+      //If we were the last entry in the list then remove the ordered list of the parent also!
+      if (l.children.length == 0) {
+        l.parentElement.removeChild(l); //TODO Update the parent to use a href instead of clickable label here. OR make them all labels?
+      }
+      return;
+    }
+
+    //If we have traveled past the key in the list then break the loop as there is nothing else to do.
+    if (l.children[c].id > cKey[0]) {
+      return;
+    }
+  }
 }
 
 /*

@@ -76,6 +76,19 @@ JL.savePage = function() {
 
 /*
   Scope: Public
+  Description: Remove the page data.
+*/
+JL.deletePage = function(page) {
+  //Remove the page data/
+  delete data.pages[page];
+  //If the page being deleted is the current page then remove the page selection.
+  if (page == data.slctPage) data.slctPage="";
+  //Update the display.
+  JL.updateJournalDisplay();
+}
+
+/*
+  Scope: Public
   Description: Updates the highlighted text to be a header. Multiple lines will
     all become individual headers.
 */
