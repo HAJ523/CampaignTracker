@@ -121,6 +121,12 @@ CT.newPage = function(page) {
   CT.selectPage(page);
 }
 
+CT.deletePage = function(page) {
+  delete data.pages[page];
+  CT.removePageFromPageTree(undefined, page);
+  //TODO Empty the view of data!
+}
+
 /*
   Scope: Restricted (CT3.html)
   Description: Selects a page for viewing.
@@ -278,12 +284,8 @@ CT.buildPageTree = function() {
 */
 CT.addPageToPageTree = function(l, p, r) { //Parameters: List, Page,
   //If no list was provided the assume the top level list!
-  if (l == undefined) {
-    l = document.getElementById('PageTree').children[0];
-  }
-  if (r == undefined) {
-    r = "";
-  }
+  l = ((l == undefined) ? document.getElementById('PageTree').children[0] : l );
+  r = ((r == undefined) ? "" : r);
 
   //Get the current portion of the key.
   var cKey = p.split(/\/(.+)/g);
@@ -292,22 +294,20 @@ CT.addPageToPageTree = function(l, p, r) { //Parameters: List, Page,
   if (l.children.length == 0) {
     l.innerHTML += '<li id="' + cKey[0] + '"></li>';
     var li = l.children[l.children.length-1];
-
+    li.innerHTML = '<label onclick="CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] + '</label><input type="checkbox">';
     if (cKey.length > 1) {
-      li.innerHTML='<label onclick="CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] + '</label><input type="checkbox"><ol></ol>';
+      li.innerHTML+='<ol></ol>';
       CT.addPageToPageTree(li.children[2], cKey[1], r + ((r != "")? "/" : "") + cKey[0]);
-    } else {
-      li.innerHTML = '<a href="javascript:CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] +'</a>';
-      li.classList.add('file');
     }
   }
 
+  //Loop over the existing children in the list to find the correct one.
   for (var c = 0; c < l.children.length; c++) {
     if (l.children[c].id == cKey[0]) { //If we found the correct parent
       if (cKey.length > 1) { //There is more to this page than the current element. Recusion needed!
         //If the current li is not a parent then make it one!
-        if (l.children[c].children.length == 1) {
-          l.children[c].innerHTML='<label onclick="CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] + '</label><input type="checkbox"><ol></ol>'; //Clear the element.
+        if (l.children[c].children.length == 2) {
+          l.children[c].innerHTML += '<ol></ol>'; //Append a new list.
         }
 
         //Now recurse with the remaining page information.
@@ -318,36 +318,27 @@ CT.addPageToPageTree = function(l, p, r) { //Parameters: List, Page,
     } else if (l.children[c].id > cKey[0]) { //If we have just passed the correct element then we need to perform an insert before this element.
       var li = document.createElement("li");
       li.id = cKey[0];
-
-      //If there is more then add a parent node
-      if (cKey.length > 1) {
-        li.innerHTML='<label onclick="CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] + '</label><input type="checkbox"><ol></ol>';
-      } else {
-        li.innerHTML = '<a href="javascript:CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] +'</a>';
-        li.classList.add('file');
-      }
+      li.innerHTML = '<label onclick="CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] + '</label><input type="checkbox">';
 
       //Insert before this element to maintain order.
       l.insertBefore(li, l.children[c]);
 
       //Now recurse if there was a reason to.
       if (cKey.length > 1) {
+        li.innerHTML += '<ol></ol>';
         CT.addPageToPageTree(li.children[2], cKey[1], r + ((r != "")? "/" : "") + cKey[0]);
       }
 
       //Break the loop here since we just did an insert.
       break;
     } else if (c == l.children.length - 1) { //If we are on the last child and still haven't found or been greater than the page in question we need to add to the list at the end!
-      l.innerHTML += '<li id="' + cKey[0] + '"></li>';
+      l.innerHTML += '<li id="' + cKey[0] + '"><label onclick="CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] + '</label><input type="checkbox" ></li>';
       var li = l.children[l.children.length-1];
-
       if (cKey.length > 1) {
-        li.innerHTML='<label onclick="CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] + '</label><input type="checkbox" ><ol></ol>';
+        li.innerHTML += '<ol></ol>';
         CT.addPageToPageTree(li.children[2], cKey[1]);
-      } else {
-        li.innerHTML = '<a href="javascript:CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] +'</a>';
-        li.classList.add('file');
       }
+      break; //This should not be necessary but for safety.
     }
   }
 }
