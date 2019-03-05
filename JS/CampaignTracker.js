@@ -30,6 +30,8 @@ CT.onLoad = function() {
   setInterval(CT.updateIRLTime,15000); //Only update every 15 seconds. No sense in doing this every second or less.
 
   CT.setStatus("Ready");
+
+  MG.onload();
 }
 
 /*
