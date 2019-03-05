@@ -42,7 +42,7 @@
               </div>
               <strong><a class="w3-bar-item" id="title">Campaign Tracker</a></strong>
             </div>
-            <div class="w3-display-middle w3-small" id="PageTitle">Junk</div>
+            <div class="w3-display-middle w3-small"><span id="PageTitle"></span> <a href="javascript:void();" class="fas fa-edit"></a></div>
             <div class="w3-display-right" id="IGClock">Cal</div>
           </div>
         </div>
@@ -124,11 +124,12 @@
     </div>
 
     <!-- Modals Below This Line -->
-    <div id="ModalPrompt" class="w3-modal w3-animate-opacity" style="display: none;">
+    <!-- Prompt -->
+    <div id="ModalPrompt" class="w3-modal w3-animate-opacity w3-hide">
       <div class="w3-modal-content w3-card-4 w3-animate-top">
-        <header class="w3-display-container w3-text-theme w3-large w3-padding-small"><strong id="ModalPromptTitle">Test</strong></header>
+        <header class="w3-display-container w3-text-theme w3-xlarge w3-padding-small"><strong id="ModalPromptTitle">Test</strong></header>
         <div class="w3-container">
-          <p id="ModalPromptText">Here is some default text.</p>
+          <span id="ModalPromptText">Here is some default text.</span><br/>
           <input type="text" class="w3-input" id="ModalPromptResponse" onkeydown="KB.prompt(event);"><label id="ModalPromptLabel" class="w3-small">Default Label</label>
         </div>
         <footer class="w3-container w3-padding-small">
@@ -159,6 +160,108 @@
         </div>
         <div style="flex:2;overflow: auto;" class="CT-QNDisplay w3-hide w3-small"></div>
         </section>
+      </div>
+    </div>
+
+    <!-- Page Settings -->
+    <div id="PageSettings" class="w3-modal w3-animate-opacity" style="display: none;">
+      <div class="w3-modal-content w3-card-4 w3-animate-top">
+        <header class="w3-display-container w3-text-theme w3-xlarge w3-padding-small"><strong>Page Settings</strong></header>
+        <div class="w3-container">
+          <span>Full Page Path:</span><br/>
+          <input type="text" class="w3-input" id="PageSettingsPath"><label class="w3-small">(Example: Templates/NPC)</label>
+        </div>
+        <footer class="w3-container w3-padding-small">
+          <div class="w3-right">
+            <a class="w3-button" href="javascript:void(0);">Delete</a>
+            <a class="w3-button" href="javascript:void(0);">Cancel</a>
+            <a class="w3-button" href="javascript:void(0);">Ok</a>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Campaign Settings -->
+    <div id="CampaignSettings" class="w3-modal w3-animate-opacity" style="display: none;">
+      <div class="w3-modal-content w3-card-4 w3-animate-top">
+        <header class="w3-display-container w3-text-theme w3-xlarge w3-padding-small"><strong>Campaign Settings</strong></header>
+        <div class="w3-container">
+          <div class="w3-container w3-padding w3-large w3-center w3-text-grey">
+            Main
+          </div>
+          <div class="w3-container w3-padding" id="csTabMain">
+            <input type="text" class="w3-input" id="csName" title="The name of the campaign. This will&#013;influence the save file name."></input>
+            <label class="w3-text-grey w3-small" for="csName">Campaign Name</label>
+            <input type="text" class="w3-input" id="csDefaultDice" title="When adding a roll link this will be&#013;added to the beginning of rolls which&#013;start with -/+ to make them valid rolls.&#013;(Ex. '1d20' or '2d6')"></input>
+            <label class="w3-text-grey w3-small"for="csDefaultDice">Default Dice</label>
+          </div>
+          <div class="w3-container w3-padding w3-large w3-center w3-text-grey">
+            Images
+          </div>
+          <div class="w3-container w3-padding" id="csTabImage">
+            <select id="csIntImages" onchange="CT.loadSettingsImage();" class="w3-select"></select>
+            <label class="w3-text-grey w3-small" for="csIntImages">Internal Images</label><br/>
+            <div align="center">
+              <a href="javascript:CT.loadImageStart();" class="w3-button fas fa-file-upload"></a>&nbsp;
+              <a href="javascript:CT.copyImageName();" class="w3-button far fa-copy"></a>&nbsp;
+              <a href="javascript:CT.imageDelete();" class="w3-button far fa-trash-alt"></a><input type="file" id="csImageFile" onchange="CT.loadImage(event);" style="display:none;" accept='image/*'></input><br/><br/>
+              <img id="csIntImg" style="max-height:250px;max-width:300px;"></img><br/><br/>
+            </div>
+          </div>
+          <div class="w3-container w3-padding w3-large w3-center w3-text-grey">
+            Calendar
+          </div>
+          <div class="w3-container w3-padding csTab" id="csTabCalendar">
+            <div class="w3-container" style="width:100%;text-align:center;"><span class="w3-tiny w3-text-red" >Do NOT modify these settings on an existing save as they have the potential to break scheduled events.</span></div>
+            <div class="w3-row" id="csCalCustom">
+              <div class="w3-third w3-padding-small">
+                <h5 align="center">Year</h5>
+                <input type="number" class="w3-input" id="csYear" title="Initial year for a campaign." step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onchange="Calendar.setYear();"/>
+                <label  class="w3-text-grey w3-small" for="csYear">Starting Year</label>
+              </div>
+              <div class="w3-third w3-padding-small">
+                <h5 align="center">Months</h5>
+                <div class="w3-row">
+                  <div class="w3-quarter">
+                    <input type="number" class="w3-input w3-border-right" id="csMonths" title="Number of months in a year." step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onchange="Calendar.setMonths();"/>
+                    <label  class="w3-text-grey w3-small" for="csMonths"># Months</label>
+                  </div>
+                  <div class="w3-rest">
+                    <select class="w3-select" id="csMonthList" title="Select a specific month to modify it's&#013;properties." onchange="CT.csCalChangeMonth();"></select>
+                    <label class="w3-text-grey w3-small">Month</label>
+                  </div>
+                </div>
+                <input type="text" class="w3-input" id="csMonthName" onchange="Calendar.setMonthName();"/>
+                <label  class="w3-text-grey w3-small" for="csMonthName">Month Name</label>
+                <input type="number" class="w3-input" id="csMonthDays" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onchange="Calendar.setMonthDays();"/>
+                <label  class="w3-text-grey w3-small" for="csMonths">Days in Month</label>
+                <input type="text" class="w3-input" id="csMonthSeason" placeholder="Coming soon&trade;"/>
+                <label  class="w3-text-grey w3-small" for="csMonths">Month's Season</label>
+              </div>
+              <div class="w3-third w3-padding-small">
+                <h5 align="center">Week</h5>
+                <div class="w3-row">
+                  <div class="w3-quarter">
+                    <input type="number" class="w3-input w3-border-right" id="csWeekdays" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onchange="Calendar.setWeekdays();"/>
+                    <label  class="w3-text-grey w3-small" for="csWeekdays"># Days</label>
+                  </div>
+                  <div class="w3-rest">
+                    <select class="w3-select" id="csWeekdayList" onchange="CT.csCalChangeWeekday();"></select>
+                    <label class="w3-text-grey w3-small" for="csWeekdayList">Day</label>
+                  </div>
+                </div>
+                <input type="text" class="w3-input" id="csWeekdayName" onchange="Calendar.setWeekdayName();"/>
+                <label  class="w3-text-grey w3-small" for="csWeekdayName">Day Name</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <footer class="w3-container w3-padding-small">
+          <div class="w3-right">
+            <a class="w3-button" href="javascript:void(0);">Cancel</a>
+            <a class="w3-button" href="javascript:void(0);">Ok</a>
+          </div>
+        </footer>
       </div>
     </div>
   </body>

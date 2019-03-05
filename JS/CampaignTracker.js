@@ -123,6 +123,12 @@ CT.newPage = function(page) {
   CT.selectPage(page);
 }
 
+CT.deletePage = function(page) {
+  delete data.pages[page];
+  CT.removePageFromPageTree(undefined, page);
+  //TODO Empty the view of data!
+}
+
 /*
   Scope: Restricted (CT3.html)
   Description: Selects a page for viewing.
@@ -201,6 +207,7 @@ CT.prompt = function(callback, title, text, label, place) {
   document.getElementById('ModalPromptText').innerHTML = text;
   document.getElementById('ModalPromptLabel').innerHTML = label;
   document.getElementById('ModalPromptResponse').placeholder = place;
+  document.getElementById('ModalPromptResponse').value = "";
   //Open the Modal
   CT.openModal('ModalPrompt')
   //Make the Entry Element Focused.
@@ -223,10 +230,22 @@ CT.promptClose = function(state) {
   }
 }
 
-CT.openModal = function(m) {
-  var e = document.getElementById(m);
+/*
+  Scope: Public
+  Description: Swaps the shown and hidden classes associated with an element.
+*/
+CT.toggleHideShow = function(e) {
+  if (e.classList.contains("w3-hide")) {
+    e.classList.remove("w3-hide");
+    e.classList.add("w3-show");
+  } else {
+    e.classList.remove("w3-show");
+    e.classList.add("w3-hide");
+  }
+}
 
-  e.style.display = 'block';
+CT.openModal = function(m) {
+  CT.toggleHideShow(document.getElementById(m));
 }
 
 CT.closeModal = function(e) {
@@ -236,7 +255,7 @@ CT.closeModal = function(e) {
 
 CT.modalAnimationEnd = function() {
   if (this.children[0].classList.contains('w3-animate-top-r')) {
-    this.style.display = 'none';
+    CT.toggleHideShow(this);
     this.classList.remove('w3-animate-opacity-r');
     this.children[0].classList.remove('w3-animate-top-r');
   }
@@ -264,16 +283,11 @@ CT.buildPageTree = function() {
 /*
   Scope: Public
   Description: Insert a single element into the page tree in order.
-  //TODO Add call to open page function.
 */
-CT.addPageToPageTree = function(l, p, r) {
+CT.addPageToPageTree = function(l, p, r) { //Parameters: List, Page,
   //If no list was provided the assume the top level list!
-  if (l == undefined) {
-    l = document.getElementById('PageTree').children[0];
-  }
-  if (r == undefined) {
-    r = "";
-  }
+  l = ((l == undefined) ? document.getElementById('PageTree').children[0] : l );
+  r = ((r == undefined) ? "" : r);
 
   //Get the current portion of the key.
   var cKey = p.split(/\/(.+)/g);
@@ -282,22 +296,20 @@ CT.addPageToPageTree = function(l, p, r) {
   if (l.children.length == 0) {
     l.innerHTML += '<li id="' + cKey[0] + '"></li>';
     var li = l.children[l.children.length-1];
-
+    li.innerHTML = '<label onclick="CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] + '</label><input type="checkbox">';
     if (cKey.length > 1) {
-      li.innerHTML='<label onclick="CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] + '</label><input type="checkbox"><ol></ol>';
+      li.innerHTML+='<ol></ol>';
       CT.addPageToPageTree(li.children[2], cKey[1], r + ((r != "")? "/" : "") + cKey[0]);
-    } else {
-      li.innerHTML = '<a href="javascript:CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] +'</a>';
-      li.classList.add('file');
     }
   }
 
+  //Loop over the existing children in the list to find the correct one.
   for (var c = 0; c < l.children.length; c++) {
     if (l.children[c].id == cKey[0]) { //If we found the correct parent
       if (cKey.length > 1) { //There is more to this page than the current element. Recusion needed!
         //If the current li is not a parent then make it one!
-        if (l.children[c].children.length == 1) { //TODO this will need to keep in mind that we are adding anchors for regular pages.
-          l.children[c].innerHTML='<label onclick="CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] + '</label><input type="checkbox"><ol></ol>'; //Clear the element.
+        if (l.children[c].children.length == 2) {
+          l.children[c].innerHTML += '<ol></ol>'; //Append a new list.
         }
 
         //Now recurse with the remaining page information.
@@ -308,36 +320,27 @@ CT.addPageToPageTree = function(l, p, r) {
     } else if (l.children[c].id > cKey[0]) { //If we have just passed the correct element then we need to perform an insert before this element.
       var li = document.createElement("li");
       li.id = cKey[0];
-
-      //If there is more then add a parent node
-      if (cKey.length > 1) {
-        li.innerHTML='<label onclick="CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] + '</label><input type="checkbox"><ol></ol>';
-      } else {
-        li.innerHTML = '<a href="javascript:CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] +'</a>';
-        li.classList.add('file');
-      }
+      li.innerHTML = '<label onclick="CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] + '</label><input type="checkbox">';
 
       //Insert before this element to maintain order.
       l.insertBefore(li, l.children[c]);
 
       //Now recurse if there was a reason to.
       if (cKey.length > 1) {
+        li.innerHTML += '<ol></ol>';
         CT.addPageToPageTree(li.children[2], cKey[1], r + ((r != "")? "/" : "") + cKey[0]);
       }
 
       //Break the loop here since we just did an insert.
       break;
     } else if (c == l.children.length - 1) { //If we are on the last child and still haven't found or been greater than the page in question we need to add to the list at the end!
-      l.innerHTML += '<li id="' + cKey[0] + '"></li>';
+      l.innerHTML += '<li id="' + cKey[0] + '"><label onclick="CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] + '</label><input type="checkbox" ></li>';
       var li = l.children[l.children.length-1];
-
       if (cKey.length > 1) {
-        li.innerHTML='<label onclick="CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] + '</label><input type="checkbox" ><ol></ol>';
+        li.innerHTML += '<ol></ol>';
         CT.addPageToPageTree(li.children[2], cKey[1]);
-      } else {
-        li.innerHTML = '<a href="javascript:CT.selectPage(\'' + r + ((r != "")? "/" : "") + cKey[0] + '\');">' + cKey[0] +'</a>';
-        li.classList.add('file');
       }
+      break; //This should not be necessary but for safety.
     }
   }
 }
@@ -345,10 +348,51 @@ CT.addPageToPageTree = function(l, p, r) {
 /*
   Scope: Public
   Description: Remove a single page from the page tree. Will only remove parent
-    elements if they have no children.
+    elements if they have no children and no data.
+  Requires: Page data is already deleted.
 */
-CT.removePageFromPageTree = function(p) {
+CT.removePageFromPageTree = function(l, p, r) {
+  //If no list was provided the assume the top level list!
+  l = ((l == undefined) ? document.getElementById('PageTree').children[0] : l );
+  r = ((r == undefined) ? "" : r);
 
+  //Make sure we stop if there isn't currently anything in the list.
+  if (l.children.length == 0) return;
+
+  var cKey = p.split(/\/(.+)/g);
+
+  //Loop through the current list.
+  for (var c = 0; c < l.children.length; c++) {
+
+    //Find the correct page if there is one.
+    if (l.children[c].id == cKey[0]) {
+      //If there are multiple peices to the key then we know that we will need to recurse first.
+      if (cKey.length > 1) {
+        //If the current element has a sublist.
+        if (l.children[c].children.length == 3) {
+          CT.removePageFromPageTree(l.children[c].children[2], cKey[1], r + ((r != "")? "/" : "") + cKey[0]);
+        }
+      }
+
+      //Now check to see if there we should remove this entry. (It has not children)
+      if ((l.children[c].children.length < 3) && (!data.pages.hasOwnProperty(r + ((r != "")? "/" : "") + cKey[0]))) {
+        l.removeChild(l.children[c]);
+      }
+
+      //If we were the last entry in the list then remove the ordered list of the parent also!
+      if (l.children.length == 0) {
+        if (l !== document.getElementById('PageTree').children[0]) {
+          l.parentElement.removeChild(l);
+        }
+      }
+      return;
+    }
+
+    //If we have traveled past the key in the list then break the loop as there is nothing else to do.
+    if (l.children[c].id > cKey[0]) {
+      return;
+    }
+  }
 }
 
 /*
