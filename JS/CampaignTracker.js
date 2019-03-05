@@ -350,14 +350,9 @@ CT.addPageToPageTree = function(l, p, r) { //Parameters: List, Page,
   Requires: Page data is already deleted.
 */
 CT.removePageFromPageTree = function(l, p, r) {
-
-  //Determine the Parameters
-  if (l == undefined) {
-    l = document.getElementById('PageTree').children[0];
-  }
-  if (r == undefined) {
-    r = "";
-  }
+  //If no list was provided the assume the top level list!
+  l = ((l == undefined) ? document.getElementById('PageTree').children[0] : l );
+  r = ((r == undefined) ? "" : r);
 
   //Make sure we stop if there isn't currently anything in the list.
   if (l.children.length == 0) return;
@@ -378,13 +373,15 @@ CT.removePageFromPageTree = function(l, p, r) {
       }
 
       //Now check to see if there we should remove this entry. (It has not children)
-      if (l.children[c].children.length < 2) {
+      if ((l.children[c].children.length < 3) && (!data.pages.hasOwnProperty(r + ((r != "")? "/" : "") + cKey[0]))) {
         l.removeChild(l.children[c]);
       }
 
       //If we were the last entry in the list then remove the ordered list of the parent also!
       if (l.children.length == 0) {
-        l.parentElement.removeChild(l); //TODO Update the parent to use a href instead of clickable label here. OR make them all labels?
+        if (l !== document.getElementById('PageTree').children[0]) {
+          l.parentElement.removeChild(l);
+        }
       }
       return;
     }
