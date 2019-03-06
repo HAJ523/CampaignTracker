@@ -48,6 +48,7 @@ CT.resetData = function() {
   data.slctView = ""; //Default to no view.
   data.settings = {};
   data.settings.name = "CT";
+  data.macros = {}
   /*data.images = [];
   data.history = {};
   data.settings.imagepath = "";
