@@ -41,7 +41,7 @@ RL.parse = function(s) {
     s = data.settings.dice + s;
   }
 
-  return s.replace(/(\d+)d(\d+)(kh\d+|kl\d+|ku|\!)?(\+\d+|\-\d+)?/g, function() {
+  return s.replace(/(\d+)d(\d+)(kh\d+|kl\d+|ku|\!|ro.\d+)?(\+\d+|\-\d+)?/g, function() {
     var tempAry = [];
     var result;
 
@@ -64,10 +64,19 @@ RL.parse = function(s) {
           }
         }
       } else {
+        //Check if we should re-roll some values.
+        var reroll = ((arguments[3].indexOf("ro") > -1) ? true : false);
+        arguments[3] = ((reroll && (arguments[3].indexOf("=") > -1)) ? arguments[3].replace('=','==').substring(2) : arguments[3].substring(2)); //Handle javascript.
         //'arguements' object will always contain 1 & 2 for number of rolls and dice size.
         //Loop over all f the times we must roll.
         for (var i = 0; i < parseInt(arguments[1]); i++) {
-          tempAry.push(Math.floor(Math.random()*arguments[2])+1);
+          tempAry.push(Math.floor(Math.random() * arguments[2]) + 1);
+          //If we are re-rolling once
+          if (reroll) {
+            if (eval(tempAry[tempAry.length - 1] + arguments[3])) {
+              tempAry[tempAry.length - 1] = Math.floor(Math.random()*arguments[2])+1;
+            }
+          }
         }
         if (arguments[3].indexOf("kh") > -1) { //If we are keeping only the top highest values then sort the array and slice.
           tempAry.sort(function(a,b){return b - a});
