@@ -20,8 +20,32 @@ MG.onload = function() {
   Description: Parse messages to determine if a command was executed.
 */
 MG.parseMessage = function(m) {
+  var idx = m.content.indexOf(' ');
+  var cmd = ((idx > -1) ? m.content.substring(1,idx) : m.content.substring(1)).toLowerCase(); //Grab the first word if there is one.
+
   //Only allow processing if we started with the Key //TODO Make key configurable in bot options.
-  if (m.content.indexOf('?') == 0) {
+  if (cmd.indexOf('?') == 0) {
+    cmd = cmd.substring(1); //Remove the special beginning.
+    //Check for standard bot functions
+    switch (cmd) {
+      case "m":
+      case "macro":
+        var ret = MG.macros(m.content);
+        var em = {embed: {
+          color: 0x00ffff,
+          title: "Macro " + ((ret[0]) ? "Success" : "Failure"),
+          description: ret[1],
+          timestamp: new Date()
+        }});
+        if (ret[0] == "Success") { em.embed.fields = [{name: "Usage", value: ret[2]}]; }
+        m.channel.send(em);
+        break;
+
+      case "r":
+      case "roll":
+        
+        break;
+    }
     //Check for Macros
     //Replace any variables
     //Roll Description & Fields
@@ -52,10 +76,14 @@ MG.pong = function(msg) {
 /*
   Scope: Restricted (Messaging)
   Description: Handles macro creation / update / deletion.
+  Returns:  Array[0] = 1 - Success | 0 - Failure
+            Array[1] = "Macro Code" | "Failure Reason"
+            Array[2] = "Usage" ie ?new_macro
 */
 MG.macros = function(m) {
   //(?:\?m|\?macro) (\S*)     Macro name.
   // /(?:-d (?:['"](.*)['"]|[^\s"']*))/g   Description, text, color or field
+
 }
 
 /*
