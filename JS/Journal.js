@@ -266,3 +266,26 @@ JL.comparer = (idx, asc) => (a, b) => ((v1, v2) =>
     v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
   )(JL.getCellValue(asc ? a : b, idx), JL.getCellValue(asc ? b : a, idx));
 JL.getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+
+/*
+  Scope: Public
+  Description: Reads the HTML of the current table and saves its values to internal rollable table. Can also update an existing table.
+*/
+JL.saveTable = function(e, n) {
+  n = (((n=="") || (n==undefined))? CT.GUID(8) : n) //Make sure that N is valued!
+
+  //Make sure that the table is correct first.
+  if (data.tables.hasOwnProperty(n)) {delete data.tables[n];}
+  data.tables[n] = [];
+
+  var t = e.currentTarget.parentElement.children[0];
+  Array.from(t.querySelectorAll('tr:not(.w3-theme)')).map(function(tr, j) {
+    //Loop over all the columns
+    for (var i = 0; i < tr.children.length; i++) {
+      if (!data.tables[n].hasOwnProperty(i)) {data.tables[n][i] = [];}
+      data.tables[n][i][j] = JL.getCellValue(tr, i);
+    }
+  });
+
+  CT.setStatus("Successfully saved table [" + n + "].");
+}

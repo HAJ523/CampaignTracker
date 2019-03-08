@@ -103,5 +103,27 @@ RL.parse = function(s) {
     } //TODO Add some form of output to show the dice!
     result = tempAry.reduce(function(tot,cur){return tot+cur},tempvalue);
     return result;
-  })
+  }).replace(/(\d*)t(\w*)(?:\((\d*)\))?/g, function(m, a, b, c) {
+    //If the table doesn't exist! Or the column doesn't exist.
+    if (!data.tables.hasOwnProperty(b)) { return ""; }
+    if ((c != "") && (c != undefined) && (data.tables[b][c] == undefined)) { return ""; }
+    c = ((c == undefined) ? "" : c); //Normalize column.
+
+    var ret = ""
+    for (var i = 0; i < parseInt(a); i++) {
+      if (ret != "") {ret += '<br>';}
+      if (c == "") {
+        var r = ""
+        for (c=0;c<data.tables[b].length;c++) {
+          if (r != "") {r += "; "}
+          r += data.tables[b][Math.floor(Math.random()*data.tables[b][0].length)];
+        }
+        ret += r;
+        c=""; //Return to normal.
+      } else {
+        ret += data.tables[b][c][Math.floor(Math.random()*data.tables[b][c].length)];
+      }
+    }
+    return ret;
+  });
 }

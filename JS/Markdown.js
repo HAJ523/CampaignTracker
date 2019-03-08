@@ -176,8 +176,13 @@ MD.listsToHTML = function(s) {
     HTML of tables.
 */
 MD.tableToHTML = function(a, b, c) {
-  var ret = '<table class="w3-table w3-bordered w3-striped w3-margin-small"><thead><tr class="w3-theme">';
+  var ret = '<div class="w3-display-container w3-margin-small"><table class="w3-table w3-bordered w3-striped"><thead><tr class="w3-theme">';
   var aln = [];
+
+  //Get the default id for saving
+  var tableID = "";
+  a = a.replace(/\((\w*)\)?/g, function(m, a) { tableID = a.trim(); return "";});
+  tableID = ((tableID==undefined)? "" : tableID);
 
   //Alignment
   b.replace(/\|([^|\n]*)(?:\|\n)?/g, function(m, a) {
@@ -187,16 +192,18 @@ MD.tableToHTML = function(a, b, c) {
 
   //Headers
   var num = -1;
-  ret += a.replace(/\|([^|\n]*)(?:\|\n)?/g, function(m, a) { //Parameters: Match, Column
+  ret += a.replace(/\|([^|\n]*)(?:\|\n)?/g, function(m, a) { //Parameters: Match, Column, table ID
     num++;
-    return '<th' + (((aln[num]!="") && (aln[num] != undefined)) ? aln[num] : "") + ' onclick="JL.sortTable(this);" >' + a + '</th>';
+    return '<th' + (((aln[num]!="") && (aln[num] != undefined)) ? aln[num] : "") + ' onclick="JL.sortTable(this);" >'+ a.trim() + '</th>';
   }) + '</tr></thead>';
 
   //Data
   var dAry = c.split(/\n/g);
   for (var i = 0; i < dAry.length; i++ ) {
     num =- 1;
+
     if (dAry[i]=="") {break;}
+    if (dAry[i].replace(/\|/g,"") == "") {break;}
     ret += '<tr>' + dAry[i].replace(/\|([^|\n]*)(?:\|\n)?/g, function(m, a) { //Parameters: Match, Column
       num++;
       if (a=="") {return "";}
@@ -204,5 +211,5 @@ MD.tableToHTML = function(a, b, c) {
     }) + '</tr>';
   }
 
-  return ret + '</table>';
+  return ret + '</table><div class="w3-display-topleft w3-theme w3-hover-grey w3-small w3-hover-shadow fas fa-globe" onclick="JL.saveTable(event, \''+tableID+'\')"></div></div>';
 }
