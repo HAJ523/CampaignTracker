@@ -43,7 +43,7 @@ ST.setupDatabase = function() {
 */
 ST.saveData = function() {
   if (ST.db == null) {
-    CT.setStatus("No database available for storage."); //TODO update to status
+    CT.setStatus("No database available for storage.");
     return;
   }
 
@@ -77,4 +77,20 @@ ST.loadData = function(name) {
 
     CT.finishLoad(slctViewFuture);
   };
+}
+
+/*
+  Scope: Public
+  Description: Returns a list of campaigns for use in loading.
+*/
+ST.listCampaigns = function() {
+  if (ST.db == null) {
+    CT.setStatus("No database available for storage.");
+    return "";
+  }
+
+  var tx = ST.db.transaction("Campaigns","readonly");
+  var os = tx.objectStore("Campaigns");
+
+  return os.indexNames;
 }
