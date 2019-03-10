@@ -80,7 +80,7 @@ ST.loadData = function(name) {
 }
 
 /*
-  Scope: Public
+  Scope: Public //TODO get this to return values...
   Description: Returns a list of campaigns for use in loading.
 */
 ST.listCampaigns = function() {

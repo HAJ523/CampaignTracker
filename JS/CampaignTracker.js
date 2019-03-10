@@ -91,7 +91,14 @@ CT.saveDataFinalize = function(name) {
 CT.loadData = function(name) {
   if ((name=="") || (name == null)) return; //Nothing to do if the user didn't provide data.
 
+  //If we have another campaign open already then save it before we move on.
   if (data.settings.name != "") { CT.saveDataFinalize(data.settings.name); }
+
+  //Make sure that the name provided is data that can be loaded.
+  //if (!ST.listCampaigns().contains(name)) { see List campaigns before uncommenting this.
+  //  CT.setStatus(name + " doesn't exist in database.");
+  //  return;
+  //}
 
   //First load the database
   ST.loadData(name);
