@@ -47,7 +47,7 @@ CT.resetData = function() {
   data.slctPage = "";
   data.slctView = ""; //Default to no view.
   data.settings = {};
-  data.settings.name = "CT";
+  data.settings.name = "";
   data.tables = {};
   /*data.images = [];
   data.history = {};
@@ -58,9 +58,21 @@ CT.resetData = function() {
 
 /*
   Scope: Restricted (CT3.html)
-  Description: Save the current campaign.
+  Description: Start of saving process.
 */
 CT.saveData = function() {
+  CT.prompt(CT.saveDataFinalize, "Save Campaign", "Name to save campaign as?", "Name", "Campaign Name", data.settings.name);
+}
+
+/*
+  Scope: Restricted (Campaing Tracker)
+  Description: Finalize the saving process for the current campaign.
+*/
+CT.saveDataFinalize = function(name) {
+  if ((name == null) || (name == "")) {return;} //If we cancelled or a bad name is selected then quit.
+
+  data.settings.name = name; //Update the name!
+
   //Make sure that the currently active view saves its data.
   switch (data.slctView) {
     case "J":
@@ -78,7 +90,8 @@ CT.saveData = function() {
 */
 CT.loadData = function(name) {
   if ((name=="") || (name == null)) return; //Nothing to do if the user didn't provide data.
-  //TODO Save the current campaign if there is one open.
+
+  if (data.settings.name != "") { CT.saveDataFinalize(data.settings.name); }
 
   //First load the database
   ST.loadData(name);
@@ -201,14 +214,14 @@ CT.changeView = function(v) {
   Scope: Public
   Description: Open a modal window that must be accepted or canceled with a value.
 */
-CT.prompt = function(callback, title, text, label, place) {
+CT.prompt = function(callback, title, text, label, place, value) {
   //Change the modal info.
   CT.promptCallback = callback;
   document.getElementById('ModalPromptTitle').innerHTML = title;
   document.getElementById('ModalPromptText').innerHTML = text;
   document.getElementById('ModalPromptLabel').innerHTML = label;
   document.getElementById('ModalPromptResponse').placeholder = place;
-  document.getElementById('ModalPromptResponse').value = "";
+  document.getElementById('ModalPromptResponse').value = ((value!=undefined)? value:"");
   //Open the Modal
   CT.openModal('ModalPrompt')
   //Make the Entry Element Focused.
