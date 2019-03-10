@@ -36,14 +36,14 @@ MG.parseMessage = function(m) {
           title: "Macro " + ((ret[0]) ? "Success" : "Failure"),
           description: ret[1],
           timestamp: new Date()
-        }});
+        }};
         if (ret[0] == "Success") { em.embed.fields = [{name: "Usage", value: ret[2]}]; }
         m.channel.send(em);
         break;
 
       case "r":
       case "roll":
-        
+
         break;
     }
     //Check for Macros

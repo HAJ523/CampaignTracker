@@ -280,10 +280,10 @@ JL.saveTable = function(e, n) {
 
   var t = e.currentTarget.parentElement.children[0];
   Array.from(t.querySelectorAll('tr:not(.w3-theme)')).map(function(tr, j) {
-    //Loop over all the columns
+    data.tables[n][j] = ""; //Make sure that we start with the empty string.
+    //Loop over all the columns Concatenate them into a single list.
     for (var i = 0; i < tr.children.length; i++) {
-      if (!data.tables[n].hasOwnProperty(i)) {data.tables[n][i] = [];}
-      data.tables[n][i][j] = JL.getCellValue(tr, i);
+      data.tables[n][j] += ((data.tables[n][j]=="") ? "" : " | ") + JL.getCellValue(tr, i);
     }
   });
 

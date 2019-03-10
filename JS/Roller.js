@@ -41,7 +41,23 @@ RL.parse = function(s) {
     s = data.settings.dice + s;
   }
 
-  return s.replace(/(\d+)d(\d+)(kh\d+|kl\d+|ku|\!|ro.\d+)?(\+\d+|\-\d+)?/g, function() {
+  return s.replace(/(\d*)t(\w*)(?:\{(\S*)\})?/g, function(m, a, b, c) { //Match, # Rolls, Table, Dice Replacement
+    //If the table doesn't exist! Or the column doesn't exist.
+    if (!data.tables.hasOwnProperty(b)) { return ""; }
+    c = ((c == undefined) ? "" : c); //Normalize Dice.
+
+    //Loop over the number of rolls.
+    var ret = ""
+    for (var i = 0; i < parseInt(a); i++) {
+      if (ret != "") {ret += ' && ';} //Seperate different rolls.
+      if (c == "") { //If we are not rolling dice to select table entries evenly.
+        ret += data.tables[b][Math.floor(Math.random() * data.tables[b].length)];
+      } else { //We need to roll dice or reference another table!
+        ret += data.tables[b][RL.parse(c)];
+      }
+    }
+    return ret;
+  }).replace(/(\d+)d(\d+)(kh\d+|kl\d+|ku|\!|ro.\d+)?/g, function() {
     var tempAry = [];
     var result;
 
@@ -94,36 +110,12 @@ RL.parse = function(s) {
       }
     }
 
-    //Check for an addition at the end of the roll.
-    var tempvalue = 0;
-    if (arguments[4] != null) {
-      if (arguments[4].indexOf("+") || arguments[4].indexOf("-")) {
-        tempvalue = parseInt(arguments[4]);
-      }
-    } //TODO Add some form of output to show the dice!
-    result = tempAry.reduce(function(tot,cur){return tot+cur},tempvalue);
+    //TODO Add some form of output to show the dice!
+    result = tempAry.reduce(function(tot,cur){return tot+cur});
     return result;
-  }).replace(/(\d*)t(\w*)(?:\((\d*)\))?/g, function(m, a, b, c) {
-    //If the table doesn't exist! Or the column doesn't exist.
-    if (!data.tables.hasOwnProperty(b)) { return ""; }
-    if ((c != "") && (c != undefined) && (data.tables[b][c] == undefined)) { return ""; }
-    c = ((c == undefined) ? "" : c); //Normalize column.
-
-    var ret = ""
-    for (var i = 0; i < parseInt(a); i++) {
-      if (ret != "") {ret += '<br>';}
-      if (c == "") {
-        var r = ""
-        for (c=0;c<data.tables[b].length;c++) {
-          if (r != "") {r += "; "}
-          r += data.tables[b][Math.floor(Math.random()*data.tables[b][0].length)];
-        }
-        ret += r;
-        c=""; //Return to normal.
-      } else {
-        ret += data.tables[b][c][Math.floor(Math.random()*data.tables[b][c].length)];
-      }
-    }
-    return ret;
+  }).replace(/\d*[*/]\d/g, function(m) {
+    return eval(m);
+  }).replace(/\d*[+-]\d/g, function(m) {
+    return eval(m);
   });
 }
