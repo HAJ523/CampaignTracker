@@ -24,6 +24,8 @@ CT.onLoad = function() {
 
   //Setup all Modal Animation End functions.
   document.getElementById('ModalPrompt').addEventListener('animationend', CT.modalAnimationEnd);
+  document.getElementById('PageSettings').addEventListener('animationend', CT.modalAnimationEnd);
+  document.getElementById('CampaignSettings').addEventListener('animationend', CT.modalAnimationEnd);
 
   //Keep the real time updated on the screen so that the user doesn't have to go somewhere else!
   CT.updateIRLTime();
@@ -133,7 +135,7 @@ CT.newPage = function(page) {
 
   //Check for the page to exist and if it doesn't then created it.
   if (data.pages.hasOwnProperty(page)) {
-    alert("Page already exists none will be created."); //TODO update alert to be a status message.
+    CT.setStatus("Page '" + page + "' already exists none will be created."); //TODO update alert to be a status message.
   } else {
     data.pages[page] = {}; //Blank Page
   }
@@ -144,10 +146,23 @@ CT.newPage = function(page) {
   CT.selectPage(page);
 }
 
-CT.deletePage = function(page) {
-  delete data.pages[page];
-  CT.removePageFromPageTree(undefined, page);
-  //TODO Empty the view of data!
+CT.deletePage = function() {
+  CT.closeModal(document.getElementById("PageSettings"));
+  delete data.pages[data.slctPage];
+
+  CT.removePageFromPageTree(undefined, data.slctPage);
+  switch (data.slctView) {
+    case "E":
+      break;
+    case "M":
+      break;
+    case "J":
+      JL.clearJournalDisplay();
+      break;
+    default:
+  }
+
+  document.getElementById('PageTitle').innerHTML = "";
 }
 
 /*
@@ -192,6 +207,44 @@ CT.selectPage = function(p, ss) {
       break;
     default:
   }
+}
+
+/*
+  Scope: Restricted (CT3.html)
+  Description: Open the edit page modal.
+*/
+CT.editPage = function() {
+  //TODO Load the current page settings.
+  document.getElementById("PageSettingsPath").value = data.slctPage;
+  CT.openModal("PageSettings");
+}
+
+CT.settingsPage = function() {
+  var newPath = document.getElementById('PageSettingsPath').value;
+
+  if (data.pages.hasOwnProperty(newPath)) {
+    CT.setStatus("Page already exists at path: " + newPath);
+    CT.closeModal(document.getElementById("PageSettings"));
+  }
+
+  if (data.slctPage != newPath) {
+    //If the page previously existed.
+    if ((data.slctPage != "") && (data.slctPage != undefined)) {
+      //Remove the old data.
+      delete data.pages[data.slctPage];
+      CT.removePageFromPageTree(undefined, data.slctPage);
+    }
+
+    //Save page to new location.
+    data.slctPage = newPath;
+    CT.addPageToPageTree(undefined, newPath);
+    CT.selectPage(newPath);
+    CT.closeModal(document.getElementById("PageSettings"));
+  }
+}
+
+CT.cancelPage = function() {
+  CT.closeModal(document.getElementById("PageSettings"));
 }
 
 /*

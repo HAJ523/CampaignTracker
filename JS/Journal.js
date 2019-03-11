@@ -25,12 +25,22 @@ JL.updateJournalDisplay = function() {
 }
 
 /*
+  Scope: Public
+  Description: Remove display information!
+*/
+JL.clearJournalDisplay = function() {
+  document.getElementById('JournalEditor').value="";
+  JL.updateJournalDisplay();
+}
+
+/*
   Scope: Restricted (Journal.js)
   Description: Creates the journal object in the page data.
 */
 JL.createJournalObject = function(page) {
   //Make sure that we are working with a blank slate.
-  if (data.pages.hasOwnProperty(page)) { delete data.pages[page].J;}
+  if (data.pages.hasOwnProperty(page)) { delete data.pages[page].J; }
+  else { data.pages[page] = {}; } //No page existed so create one!
 
   data.pages[page].J = {}
   data.pages[page].J.value = "";
