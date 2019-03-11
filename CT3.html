@@ -55,9 +55,9 @@
                 <div class="w3-display-container w3-theme-d1 w3-center">
                   <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small" title="Forward">&nbsp;<span class="fas fa-arrow-left"></span>&nbsp;</a>
                   <a href="javascript:CT.prompt(CT.newPage,'New Page','Enter the full page path and name:','Page Path','Ex. \'Parent/Sub Parent/Page Name\'');" class="w3-bar-item w3-button w3-padding-small" title="New">&nbsp;<span class="fas fa-plus"></span>&nbsp;</a>
-                  <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small" title="Journal">&nbsp;<span class="fas fa-book"></span>&nbsp;</a>
-                  <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small" title="Encounter">&nbsp;<span class="fas fa-chess-pawn"></span>&nbsp;</a>
-                  <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small" title="Map">&nbsp;<span class="fas fa-map"></span>&nbsp;</a>
+                  <a href="javascript:CT.changeView('J');" class="w3-bar-item w3-button w3-padding-small" title="Journal">&nbsp;<span class="fas fa-book"></span>&nbsp;</a>
+                  <a href="javascript:CT.changeView('E');" class="w3-bar-item w3-button w3-padding-small" title="Encounter">&nbsp;<span class="fas fa-chess-pawn"></span>&nbsp;</a>
+                  <a href="javascript:CT.changeView('M');" class="w3-bar-item w3-button w3-padding-small" title="Map">&nbsp;<span class="fas fa-map"></span>&nbsp;</a>
                   <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small" title="Back">&nbsp;<span class="fas fa-arrow-right"></span>&nbsp;</a>
                 </div>
                 <div class="w3-display-container">
@@ -94,6 +94,9 @@
                     <ol></ol>
                 </div>
               </div>
+              <!-- Map -->
+              <div class="w3-container w3-padding-small w3-rest viewM w3-hide"><canvas id="MapCanvas" class="w3-card" style="height:100%;width:100%;"></canvas></div>
+              <!-- Journal -->
               <div class="w3-container w3-col w3-padding-small w3-hide viewJ" style="height:100%;width:30%;"><textarea class="w3-small w3-textarea w3-card" style="height:100%;width:100%;" onkeydown="KB.markdownShortcut(event);" oninput="JL.updateJournalDisplay();" id="JournalEditor"></textarea></div>
               <div class="w3-container w3-display-container w3-rest w3-padding-small w3-hide viewJ" style="height:100%;">
                 <div id="JournalDisplay" class="w3-padding-small w3-card" style="height:100%;width:100%;overflow-y: auto;"></div>
