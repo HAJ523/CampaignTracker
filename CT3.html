@@ -170,9 +170,21 @@
     <div id="PageSettings" class="w3-modal w3-animate-opacity w3-hide" >
       <div class="w3-modal-content w3-card-4 w3-animate-top">
         <header class="w3-display-container w3-text-theme w3-xlarge w3-padding-small"><strong>Page Settings</strong></header>
-        <div class="w3-container">
+        <div class="w3-container w3-modal-contained-height">
           <span>Full Page Path:</span><br/>
           <input type="text" class="w3-input" id="PageSettingsPath"><label class="w3-small">(Example: Templates/NPC)</label>
+          <div class="w3-container w3-padding w3-large w3-center w3-text-grey">
+            Map Settings
+          </div>
+          <span>Map Size:</span><br/>
+          <div class="w3-row">
+            <div class="w3-half w3-margin-small">
+              <input type="text" class="w3-input" id="PageSettingsWidth"><label class="w3-small">Width</label>
+            </div>
+            <div class="w3-rest w3-margin-small">
+              <input type="text" class="w3-input" id="PageSettingsHeight"><label class="w3-small">Height</label>
+            </div>
+          </div>
         </div>
         <footer class="w3-container w3-padding-small">
           <div class="w3-right">
@@ -188,7 +200,7 @@
     <div id="CampaignSettings" class="w3-modal w3-animate-opacity w3-hide" >
       <div class="w3-modal-content w3-card-4 w3-animate-top">
         <header class="w3-display-container w3-text-theme w3-xlarge w3-padding-small"><strong>Campaign Settings</strong></header>
-        <div class="w3-container" style="max-height: calc(100vh - 290px); overflow-y: auto;">
+        <div class="w3-container w3-modal-contained-height">
           <div class="w3-container w3-padding w3-large w3-center w3-text-grey">
             Main
           </div>
