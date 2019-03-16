@@ -5,7 +5,7 @@
   2019-01 Created.
 */
 
-var KB = {}; //Initialize markdown object.
+var KB = {}; //Initialize keyboard object.
 
 /*
   Scope: Restricted (CampaignTracker.js)
