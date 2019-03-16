@@ -61,17 +61,39 @@
                   <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small" title="Back">&nbsp;<span class="fas fa-arrow-right"></span>&nbsp;</a>
                 </div>
                 <div class="w3-display-container">
+                  <!-- Mapper Controls -->
+                  <div class="w3-center w3-tiny subMenu viewM w3-hide w3-padding-small" id="subMenuM">
+                    <div class="w3-input w3-padding-small">
+                      <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Brush"><span class="">B</span></a>
+                      <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Line"><span class="">L</span></a>
+                      <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Fill"><span class="">F</span></a>
+                    </div>
+                    <div class="w3-input w3-padding-small">
+                      <span>Palette</span><br/>
+                      <div class="" id="paletteDisplay"></div>
+                    </div>
+                    <div class="w3-row w3-padding-small">
+                      <div class="w3-center w3-quarter"><a href="javascript:void(0);" class="w3-button w3-padding-small" title="Remove"><span class="">X</span></a></div>
+                      <div class="w3-center w3-half"><input type="text" size=1 class="w3-small" title="Tile"></input></div>
+                      <div class=" w3-center w3-quarter"><a href="javascript:void(0);" class="w3-button w3-padding-small" title="Add"></span class="">A</span></a></div>
+                    </div>
+                    <div class="w3-row">
+                      <div class="w3-third"><select class="w3-select w3-tiny" title="Lighting"></select></div>
+                      <div class="w3-third"><input type="color" class="w3-input w3-padding-none" title="Foreground Color"></input></div>
+                      <div class="w3-third"><select class="w3-select w3-tiny" title="Occlusion"></select></div>
+                    </div>
+                  </div>
                   <!-- Journal Controls -->
-                  <div class="w3-center w3-tiny subMenu">
+                  <div class="w3-center w3-tiny subMenu viewJ w3-hide" id="subMenuJ">
                     <div class="w3-dropdown-hover" style="background: #FFF;">
                       <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Header"><span class="fas fa-heading"></span></a>
                       <div class="w3-dropdown-content w3-card">
-                        <a href="javascript:JL.headerText(JL.el, 1);" class="w3-button w3-padding-small" title="Header"><strong>1</strong></a>
-                        <a href="javascript:JL.headerText(JL.el, 2);" class="w3-button w3-padding-small" title="Header"><strong>2</strong></a>
-                        <a href="javascript:JL.headerText(JL.el, 3);" class="w3-button w3-padding-small" title="Header"><strong>3</strong></a>
-                        <a href="javascript:JL.headerText(JL.el, 4);" class="w3-button w3-padding-small" title="Header"><strong>4</strong></a>
-                        <a href="javascript:JL.headerText(JL.el, 5);" class="w3-button w3-padding-small" title="Header"><strong>5</strong></a>
-                        <a href="javascript:JL.headerText(JL.el, 6);" class="w3-button w3-padding-small" title="Header"><strong>6</strong></a>
+                        <a href="javascript:JL.headerText(JL.el, 1);" class="w3-button w3-padding-small" title="Header 1"><strong>1</strong></a>
+                        <a href="javascript:JL.headerText(JL.el, 2);" class="w3-button w3-padding-small" title="Header 2"><strong>2</strong></a>
+                        <a href="javascript:JL.headerText(JL.el, 3);" class="w3-button w3-padding-small" title="Header 3"><strong>3</strong></a>
+                        <a href="javascript:JL.headerText(JL.el, 4);" class="w3-button w3-padding-small" title="Header 4"><strong>4</strong></a>
+                        <a href="javascript:JL.headerText(JL.el, 5);" class="w3-button w3-padding-small" title="Header 5"><strong>5</strong></a>
+                        <a href="javascript:JL.headerText(JL.el, 6);" class="w3-button w3-padding-small" title="Header 6"><strong>6</strong></a>
                       </div>
                     </div>
                     <a href="javascript:JL.boldText(JL.el);" class="w3-button w3-padding-small" title="Bold"><span class="fas fa-bold"></span></a>
@@ -185,6 +207,8 @@
               <input type="text" class="w3-input" id="PageSettingsHeight"><label class="w3-small">Height</label>
             </div>
           </div>
+          <span>Map Background:</span><br/>
+          <input type="color" class="w3-input w3-padding-none" id="PageSettingsColor"><label class="w3-small">Background Color</label>
         </div>
         <footer class="w3-container w3-padding-small">
           <div class="w3-right">
