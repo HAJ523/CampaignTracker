@@ -7,7 +7,12 @@
 
 var MR = {};
 MR.PS = 8; //Default font size. Variable until the best size is determined.
+MR.BR = 10; //Border size.
 
+/*
+  Scope:
+  Description:
+*/
 MR.setMapSize = function(p, w, h) {
   //Update the page by creating, trimming, Or expanding the arrays.
   if data.pages[p].hasOwnProperty("M") {
@@ -32,6 +37,18 @@ MR.setMapSize = function(p, w, h) {
 
   //Update the Canvas
   var canvas = document.getElementById("MapCanvas");
-  canvas.width = w * MR.PS + 20; //Add 10px on all sides of the display.
-  canvas.height = h * MR.PS + 20;
+  canvas.width = w * MR.PS + MR.BR*2; //Add 10px on all sides of the display.
+  canvas.height = h * MR.PS + MR.BR*2;
+}
+
+/*
+  Scope: Public
+  Description: Returns the map location coordinates of the canvas coordinates.
+*/
+MR.mouseToMapLoc = function(x, y) {
+  //If the click is in the border then there is nothing to return!
+  if ((x < MR.BR) || (y < MR.BR)) { return null; }
+  if ((x > MR.BR + data.pages[data.slctPage].M.W * MR.PS) || (y > MR.BR + data.pages[data.slctPage].M.W * MR.PS)) { return null; }
+  //Return the map location.
+  return [Math.floor((x-MR.BR)/MR.PS),Math.floor((y-MR.BR)/MR.PS)];
 }
