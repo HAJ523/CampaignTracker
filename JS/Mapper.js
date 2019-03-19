@@ -53,8 +53,7 @@ MR.setMapDetails = function(p, w, h, c) { //Page, Width, Height, Color
   //Update the Canvas
   if (forceupdate) {
     var canvas = document.getElementById("MapCanvas");
-    canvas.width = w * MR.PS + MR.BR*2; //Add 10px on all sides of the display.
-    canvas.height = h * MR.PS + MR.BR*2;
+    MR.updateMapCanvas();
 
     //TODO Call update view function to draw to canvas.
   }
@@ -65,7 +64,31 @@ MR.setMapDetails = function(p, w, h, c) { //Page, Width, Height, Color
   Description: Re-draw everything to the canvas.
 */
 MR.updateMapCanvas = function() {
+  var cvs = document.getElementById('MapCanvas');
+  var ctx = cvs.getContext("2d");
+  //Clear the canvas and reset the dimensions.
+  cvs.width = data.pages[data.slctPage].M.W * MR.PS + MR.BR*2; //Add 10px on all sides of the display.
+  cvs.height = data.pages[data.slctPage].M.H * MR.PS + MR.BR*2;
 
+  //Draw the background first
+  ctx.fillStyle = data.pages[data.slctPage].M.C;
+  ctx.fillRect(0,0,cvs.width, cvs.height);
+
+  //Setup the font for printing to the canvas.
+  ctx.font = MR.PS + "px Square";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "top";
+
+  var tile;
+  for( var i = 0; i < data.pages[data.slctPage].M.W; i++) {
+    for (var j = 0; j < data.pages[data.slctPage].M.H; j++) {
+      tile = data.pages[data.slctPage].M.A[i][j];
+      if (tile == null) { continue; } //If there is nothign to draw move on.
+
+      ctx.fillStyle = tile.C;
+      ctx.fillText(tile.S, MR.BR + i * MR.PS, MR.BR + j * MR.PS);
+    }
+  }
 }
 
 /*
