@@ -216,6 +216,12 @@ CT.selectPage = function(p, ss) {
 CT.editPage = function() {
   //TODO Load the current page settings.
   document.getElementById("PageSettingsPath").value = data.slctPage;
+  if (data.pages[data.slctPage].hasOwnProperty('M')) {
+    document.getElementById('PageSettingsWidth').value = data.pages[data.slctPage].M.W;
+    document.getElementById('PageSettingsHeight').value = data.pages[data.slctPage].M.H;
+    document.getElementById('PageSettingsColor').value = data.pages[data.slctPage].M.C;
+  }
+
   CT.openModal("PageSettings");
 }
 
@@ -244,7 +250,20 @@ CT.settingsPage = function() {
     }
 
     //Save the additional page settings!
-    
+    var h = parseInt(document.getElementById('PageSettingsHeight').value) || 0;
+    var w = parseInt(document.getElementById('PageSettingsWidth').value) || 0;
+    var c = document.getElementById('PageSettingsColor').value;
+
+    //If we have a height and width then perform settings.
+    if ((h > 0) && (w > 0)) {
+      MR.setMapDetails(data.slctPage, w, h, c);
+
+    } else {
+      if (data.pages[data.slctPage].hasOwnProperty('M')) {
+        CT.setStatus('Map removed from page.');
+        delete data.pages[data.slctPage].M; //Remove only the map if any of the height or width are set to 0.
+      }
+    }
 
     CT.closeModal(document.getElementById("PageSettings"));
   }
