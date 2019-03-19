@@ -8,11 +8,11 @@
 var MG = {};
 
 MG.onload = function() {
-  MG.client = new Discord.Client();
+  //MG.client = new Discord.Client();
 
-  MG.client.on('message', MG.pong);
+  //MG.client.on('message', MG.pong);
 
-  MG.client.login(""); //TODO MAKE SURE THAT THIS GETS REMOVED IN A RELEASE VERSION!
+  //MG.client.login(""); //TODO MAKE SURE THAT THIS GETS REMOVED IN A RELEASE VERSION!
 }
 
 /*

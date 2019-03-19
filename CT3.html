@@ -15,6 +15,7 @@
     <script src="JS\Roller.js"></script>
     <script src="JS\QuickNotes.js"></script>
     <script src="JS\Messaging.js"></script>
+    <script src="JS\Mapper.js"></script>
 
     <!-- External CSS -->
     <link rel="stylesheet" type="text/css" href="CSS\W3.css">
@@ -32,6 +33,7 @@
               <div class="w3-dropdown-hover w3-theme-d3">
                 <button class="w3-button w3-padding-small fa fa-bars"></button>
                 <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+                  <a class="w3-bar-item w3-button w3-padding-small w3-small" href="javascript:void(0);"><span class="fas fa-eye"></span> Player View</a>
                   <a class="w3-bar-item w3-button w3-padding-small w3-small" href="javascript:CT.saveData();"><span class="fa fa-save"></span> Save</a>
                   <a class="w3-bar-item w3-button w3-padding-small w3-small" href="javascript:CT.prompt(CT.loadData,'Load Campaign','What campaign do you wish to load?','Campaign','Campaign Name');"><span class="fa fa-folder-open"></span> Load</a>
                   <a class="w3-bar-item w3-button w3-padding-small w3-small" href="javascript:CT.exportData();"><span class="fa fa-download"></span> Export</a>
@@ -117,7 +119,10 @@
                 </div>
               </div>
               <!-- Map -->
-              <div class="w3-container w3-padding-small w3-rest viewM w3-hide"><canvas id="MapCanvas" class="w3-card" style="height:100%;width:100%;"></canvas></div>
+              <div class="w3-container w3-padding-small w3-rest viewM w3-hide">
+                <div id="MapHelp" class="w3-center w3-card">Edit page properties and add map size to create a map for this page.</div>
+                <canvas id="MapCanvas" class="w3-card w3-hide" style="height:100%;width:100%;"></canvas>
+              </div>
               <!-- Journal -->
               <div class="w3-container w3-col w3-padding-small w3-hide viewJ" style="height:100%;width:30%;"><textarea class="w3-small w3-textarea w3-card" style="height:100%;width:100%;" onkeydown="KB.markdownShortcut(event);" oninput="JL.updateJournalDisplay();" id="JournalEditor"></textarea></div>
               <div class="w3-container w3-display-container w3-rest w3-padding-small w3-hide viewJ" style="height:100%;">
@@ -201,10 +206,10 @@
           <span>Map Size:</span><br/>
           <div class="w3-row">
             <div class="w3-half w3-margin-small">
-              <input type="text" class="w3-input" id="PageSettingsWidth"><label class="w3-small">Width</label>
+              <input type="number" class="w3-input" id="PageSettingsWidth" min="0" step="1"><label class="w3-small">Width</label>
             </div>
             <div class="w3-rest w3-margin-small">
-              <input type="text" class="w3-input" id="PageSettingsHeight"><label class="w3-small">Height</label>
+              <input type="number" class="w3-input" id="PageSettingsHeight" min="0" step="1"><label class="w3-small">Height</label>
             </div>
           </div>
           <span>Map Background:</span><br/>

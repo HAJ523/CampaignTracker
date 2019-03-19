@@ -15,6 +15,10 @@ KB.onload = function() {
   window.addEventListener("keydown", KB.keyUD);
   window.addEventListener("keyup", KB.keyUD);
 
+  //Add listeners for specific fields.
+  document.getElementById("PageSettingsWidth").addEventListener("keydown", KB.posIntInputOnly);
+  document.getElementById("PageSettingsHeight").addEventListener("keydown", KB.posIntInputOnly);
+
   KB.modKeys = {};
 }
 
@@ -110,5 +114,18 @@ KB.markdownShortcut = function(e) {
         JL.blockquoteText(e.currentTarget);
         break;
     }
+  }
+}
+
+/*
+  Scope: Public
+  Description: Prevent all entries except digits. (Allows only positive integers to be entered into field.)
+*/
+KB.posIntInputOnly = function(e) {
+  if(!((e.keyCode > 95 && e.keyCode < 106)
+    || (e.keyCode > 47 && e.keyCode < 58)
+    || e.keyCode == 8)) {
+      e.preventDefault(); //Need this for some reason...
+      return false;
   }
 }

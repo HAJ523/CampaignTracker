@@ -222,23 +222,30 @@ CT.editPage = function() {
 CT.settingsPage = function() {
   var newPath = document.getElementById('PageSettingsPath').value;
 
-  if (data.pages.hasOwnProperty(newPath)) {
-    CT.setStatus("Page already exists at path: " + newPath);
-    CT.closeModal(document.getElementById("PageSettings"));
-  }
-
+  //Only update the page path if that is necessary.
   if (data.slctPage != newPath) {
-    //If the page previously existed.
-    if ((data.slctPage != "") && (data.slctPage != undefined)) {
-      //Remove the old data.
-      delete data.pages[data.slctPage];
-      CT.removePageFromPageTree(undefined, data.slctPage);
+    if (data.pages.hasOwnProperty(newPath)) {
+      CT.setStatus("Page already exists at path: " + newPath);
+      break;
     }
 
-    //Save page to new location.
-    data.slctPage = newPath;
-    CT.addPageToPageTree(undefined, newPath);
-    CT.selectPage(newPath);
+    if (data.slctPage != newPath) {
+      //If the page previously existed.
+      if ((data.slctPage != "") && (data.slctPage != undefined)) {
+        //Remove the old data.
+        delete data.pages[data.slctPage];
+        CT.removePageFromPageTree(undefined, data.slctPage);
+      }
+
+      //Save page to new location.
+      data.slctPage = newPath;
+      CT.addPageToPageTree(undefined, newPath);
+      CT.selectPage(newPath);
+    }
+
+    //Save the additional page settings!
+    
+
     CT.closeModal(document.getElementById("PageSettings"));
   }
 }
