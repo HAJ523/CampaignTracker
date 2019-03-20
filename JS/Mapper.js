@@ -19,7 +19,7 @@ MR.PN = ""; //Current Palette name.
 */
 MR.onLoad = function() {
   MR.CV = document.getElementById('MapCanvas');
-  MR.CT = MR.CV.getContext("2d");
+  MR.CX = MR.CV.getContext("2d");
 }
 
 /*
@@ -80,13 +80,13 @@ MR.updateMapCanvas = function() {
   MR.CV.height = data.pages[data.slctPage].M.H * MR.FS + MR.BR*2;
 
   //Draw the background first
-  MR.CT.fillStyle = data.pages[data.slctPage].M.C;
-  MR.CT.fillRect(0,0,MR.CV.width, MR.CV.height);
+  MR.CX.fillStyle = data.pages[data.slctPage].M.C;
+  MR.CX.fillRect(0,0,MR.CV.width, MR.CV.height);
 
   //Setup the font for printing to the canvas.
-  MR.CT.font = MR.FS + "px Square";
-  MR.CT.textAlign = "left";
-  MR.CT.textBaseline = "top";
+  MR.CX.font = MR.FS + "px Square";
+  MR.CX.textAlign = "left";
+  MR.CX.textBaseline = "top";
 
   var tile;
   for( var i = 0; i < data.pages[data.slctPage].M.W; i++) {
@@ -97,8 +97,8 @@ MR.updateMapCanvas = function() {
           tile = data.pages[data.slctPage].M.A[i][j];
           if (tile == null) { continue; } //If there is nothign to draw move on.
 
-          MR.CT.fillStyle = tile.C;
-          MR.CT.fillText(tile.S, MR.BR + i * MR.FS, MR.BR + j * MR.FS);
+          MR.CX.fillStyle = tile.C;
+          MR.CX.fillText(tile.S, MR.BR + i * MR.FS, MR.BR + j * MR.FS);
         }
       }
     }
