@@ -33,13 +33,13 @@
               <div class="w3-dropdown-hover w3-theme-d3">
                 <button class="w3-button w3-padding-small fa fa-bars"></button>
                 <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-                  <a class="w3-bar-item w3-button w3-padding-small w3-small" href="javascript:void(0);"><span class="fas fa-eye"></span> Player View</a>
-                  <a class="w3-bar-item w3-button w3-padding-small w3-small" href="javascript:CT.saveData();"><span class="fa fa-save"></span> Save</a>
-                  <a class="w3-bar-item w3-button w3-padding-small w3-small" href="javascript:CT.prompt(CT.loadData,'Load Campaign','What campaign do you wish to load?','Campaign','Campaign Name');"><span class="fa fa-folder-open"></span> Load</a>
-                  <a class="w3-bar-item w3-button w3-padding-small w3-small" href="javascript:CT.exportData();"><span class="fa fa-download"></span> Export</a>
-                  <a class="w3-bar-item w3-button w3-padding-small w3-small" href="javascript:CT.importData();"><span class="fa fa-upload"></span> Import</a><input type="file" id="ifLoad" onchange="CT.readFile(event);" accept=".json" style="display:none;"></input>
-                  <a class="w3-bar-item w3-button w3-padding-small w3-small" href="javascript:CT.settings();"><span class="fa fa-cog"></span> Settings</a>
-                  <a class="w3-bar-item w3-button w3-padding-small w3-small" href="javascript:CT.changeDisplay('Help');" title=""><span class="fa fa-question"></span> Help</a>
+                  <a class="w3-bar-item w3-button w3-padding-small w3-small w3-nowrap" href="javascript:void(0);"><span class="fas fa-eye"></span> Player View</a>
+                  <a class="w3-bar-item w3-button w3-padding-small w3-small w3-nowrap" href="javascript:CT.saveData();"><span class="fa fa-save"></span> Save</a>
+                  <a class="w3-bar-item w3-button w3-padding-small w3-small w3-nowrap" href="javascript:CT.prompt(CT.loadData,'Load Campaign','What campaign do you wish to load?','Campaign','Campaign Name');"><span class="fa fa-folder-open"></span> Load</a>
+                  <a class="w3-bar-item w3-button w3-padding-small w3-small w3-nowrap" href="javascript:CT.exportData();"><span class="fa fa-download"></span> Export</a>
+                  <a class="w3-bar-item w3-button w3-padding-small w3-small w3-nowrap" href="javascript:CT.importData();"><span class="fa fa-upload"></span> Import</a><input type="file" id="ifLoad" onchange="CT.readFile(event);" accept=".json" style="display:none;"></input>
+                  <a class="w3-bar-item w3-button w3-padding-small w3-small w3-nowrap" href="javascript:CT.settings();"><span class="fa fa-cog"></span> Settings</a>
+                  <a class="w3-bar-item w3-button w3-padding-small w3-small w3-nowrap" href="javascript:CT.changeDisplay('Help');" title=""><span class="fa fa-question"></span> Help</a>
                 </div>
               </div>
               <strong><a class="w3-bar-item" id="title">Campaign Tracker</a></strong>
@@ -74,15 +74,23 @@
                       <span>Palette</span><br/>
                       <div class="" id="paletteDisplay"></div>
                     </div>
+                    <span>Tile</span><br/>
                     <div class="w3-row">
-                      <div class="w3-center w3-quarter"><a href="javascript:void(0);" class="w3-button w3-padding-small" title="Remove"><span class="fas fa-backspace"></span></a></div>
-                      <div class="w3-center w3-half"><input type="text" size=1 class="w3-small" title="Tile"></input></div>
-                      <div class=" w3-center w3-quarter"><a href="javascript:void(0);" class="w3-button w3-padding-small" title="Add"><span class="fas fa-plus-circle"></span></a></div>
-                    </div>
-                    <div class="w3-row">
-                      <div class="w3-third"><select class="w3-select w3-tiny" title="Lighting"></select></div>
-                      <div class="w3-third"><input type="color" class="w3-input w3-padding-none" title="Foreground Color"></input></div>
-                      <div class="w3-third"><select class="w3-select w3-tiny" title="Occlusion"></select></div>
+                      <div class="w3-right-align w3-col s1"><a href="javascript:void(0);" class="w3-button w3-padding-small" title="Remove"><span class="fas fa-times-circle"></span></a></div>
+                      <div class="w3-center w3-col s2"><input type="text" size=1 class="w3-small" title="Tile"></input></div>
+                      <div class="w3-left-align w3-col s1"><a href="javascript:void(0);" class="w3-button w3-padding-small" title="Add"><span class="fas fa-check-circle"></span></a></div>
+                      <div class="w3-col s1"><input type="color" class="w3-input w3-padding-none" title="Foreground Color"></input></div>
+                      <div class="w3-col s2">
+                        <div class="w3-dropdown-hover" style="background: #FFF">
+                          <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Lighting"><span id="TileLight" class="fas fa-lightbulb"></span></a>
+                          <div class="w3-dropdown-content w3-card">
+                            <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Dark"><span class="fas fa-star"></span></a>
+                            <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Dim"><span class="fas fa-moon"></span></a>
+                            <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Bright"><span class="fas fa-sun"></span></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="w3-col s2"><select class="w3-select w3-tiny" title="Occlusion"></select></div>
                     </div>
                   </div>
                   <!-- Journal Controls -->

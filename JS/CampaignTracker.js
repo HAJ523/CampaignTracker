@@ -18,6 +18,7 @@ CT.onLoad = function() {
   JL.onload();
   ST.onload();
   KB.onload();
+  MR.onLoad();
 
   //Load the default view
   CT.changeView("J");
