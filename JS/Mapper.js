@@ -80,11 +80,16 @@ MR.updateMapCanvas = function() {
   var tile;
   for( var i = 0; i < data.pages[data.slctPage].M.W; i++) {
     for (var j = 0; j < data.pages[data.slctPage].M.H; j++) {
-      tile = data.pages[data.slctPage].M.A[i][j];
-      if (tile == null) { continue; } //If there is nothign to draw move on.
+      //Check to make sure that this column exists then the row entry.
+      if (data.pages[data.slctPage].M.A.hasOwnProperty(i)) {
+        if (data.pages[data.slctPage].M.A[i].hasOwnProperty(j)) {
+          tile = data.pages[data.slctPage].M.A[i][j];
+          if (tile == null) { continue; } //If there is nothign to draw move on.
 
-      ctx.fillStyle = tile.C;
-      ctx.fillText(tile.S, MR.BR + i * MR.FS, MR.BR + j * MR.FS);
+          ctx.fillStyle = tile.C;
+          ctx.fillText(tile.S, MR.BR + i * MR.FS, MR.BR + j * MR.FS);
+        }
+      }
     }
   }
 }

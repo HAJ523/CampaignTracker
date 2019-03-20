@@ -119,9 +119,9 @@
                 </div>
               </div>
               <!-- Map -->
-              <div class="w3-container w3-padding-small w3-rest viewM w3-hide">
-                <div id="MapHelp" class="w3-center w3-card">Edit page properties and add map size to create a map for this page.</div>
-                <canvas id="MapCanvas" class="w3-card w3-hide" style="height:100%;width:100%;"></canvas>
+              <div class="w3-container w3-rest w3-padding-small viewM w3-hide" style="height:100%;overflow:auto;">
+                <div id="MapHelp" class="w3-center w3-card w3-hide">Edit page properties and add map size to create a map for this page.</div>
+                <canvas id="MapCanvas" class="w3-card"></canvas>
               </div>
               <!-- Journal -->
               <div class="w3-container w3-col w3-padding-small w3-hide viewJ" style="height:100%;width:30%;"><textarea class="w3-small w3-textarea w3-card" style="height:100%;width:100%;" onkeydown="KB.markdownShortcut(event);" oninput="JL.updateJournalDisplay();" id="JournalEditor"></textarea></div>
