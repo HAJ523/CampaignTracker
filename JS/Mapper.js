@@ -6,7 +6,7 @@
 */
 
 var MR = {};
-MR.PS = 8; //Default font size. Variable until the best size is determined.
+MR.FS = 8; //Default font size. Variable until the best size is determined. in Pixels.
 MR.BR = 10; //Border size.
 
 /*
@@ -54,8 +54,6 @@ MR.setMapDetails = function(p, w, h, c) { //Page, Width, Height, Color
   if (forceupdate) {
     var canvas = document.getElementById("MapCanvas");
     MR.updateMapCanvas();
-
-    //TODO Call update view function to draw to canvas.
   }
 }
 
@@ -67,15 +65,15 @@ MR.updateMapCanvas = function() {
   var cvs = document.getElementById('MapCanvas');
   var ctx = cvs.getContext("2d");
   //Clear the canvas and reset the dimensions.
-  cvs.width = data.pages[data.slctPage].M.W * MR.PS + MR.BR*2; //Add 10px on all sides of the display.
-  cvs.height = data.pages[data.slctPage].M.H * MR.PS + MR.BR*2;
+  cvs.width = data.pages[data.slctPage].M.W * MR.FS + MR.BR*2; //Add 10px on all sides of the display.
+  cvs.height = data.pages[data.slctPage].M.H * MR.FS + MR.BR*2;
 
   //Draw the background first
   ctx.fillStyle = data.pages[data.slctPage].M.C;
   ctx.fillRect(0,0,cvs.width, cvs.height);
 
   //Setup the font for printing to the canvas.
-  ctx.font = MR.PS + "px Square";
+  ctx.font = MR.FS + "px Square";
   ctx.textAlign = "left";
   ctx.textBaseline = "top";
 
@@ -86,7 +84,7 @@ MR.updateMapCanvas = function() {
       if (tile == null) { continue; } //If there is nothign to draw move on.
 
       ctx.fillStyle = tile.C;
-      ctx.fillText(tile.S, MR.BR + i * MR.PS, MR.BR + j * MR.PS);
+      ctx.fillText(tile.S, MR.BR + i * MR.FS, MR.BR + j * MR.FS);
     }
   }
 }
@@ -98,7 +96,20 @@ MR.updateMapCanvas = function() {
 MR.mouseToMapLoc = function(x, y) {
   //If the click is in the border then there is nothing to return!
   if ((x < MR.BR) || (y < MR.BR)) { return null; }
-  if ((x > MR.BR + data.pages[data.slctPage].M.W * MR.PS) || (y > MR.BR + data.pages[data.slctPage].M.W * MR.PS)) { return null; }
+  if ((x > MR.BR + data.pages[data.slctPage].M.W * MR.FS) || (y > MR.BR + data.pages[data.slctPage].M.W * MR.FS)) { return null; }
   //Return the map location.
-  return [Math.floor((x-MR.BR)/MR.PS),Math.floor((y-MR.BR)/MR.PS)];
+  return [Math.floor((x-MR.BR)/MR.FS),Math.floor((y-MR.BR)/MR.FS)];
+}
+
+
+/*
+  Scope: Public
+  Description: Change the selected tool.
+*/
+MR.selectTool = function(t) {//Tool Selected
+  if (data.slctTool != undefined) {
+    document.getElementById("tool" + data.slctTool).classList.remove("w3-btn-pressed");
+  }
+  data.slctTool = t;
+  document.getElementById("tool" + t).classList.add("w3-btn-pressed");
 }
