@@ -198,3 +198,11 @@ MR.selectTool = function(t) {//Tool Selected
   MR.CT = t;
   document.getElementById("tool" + t).classList.add("w3-btn-pressed");
 }
+
+/*
+  Scope: CT3.html
+  Description: Add a tile to the currently selected palette.
+*/
+MR.addTileToPalette = function() {
+  
+}
