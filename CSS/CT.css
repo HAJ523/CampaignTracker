@@ -109,3 +109,10 @@ div.subMenu {
 	}
 		#PageTree li input:checked + ol > li { display: block; margin: 0 0 0.125em;  /* 2px */}
 		#PageTree li input:checked + ol > li:last-child { margin: 0 0 0.063em; /* 1px */ }
+
+@font-face {
+      font-family: Square;
+      src: url(../webfonts/square.ttf);
+    }
+
+#Tile { font-family: Square; text-align: center}
