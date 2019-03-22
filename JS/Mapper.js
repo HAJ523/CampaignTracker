@@ -200,9 +200,36 @@ MR.selectTool = function(t) {//Tool Selected
 }
 
 /*
+  Scope: Public
+  Description: Set the light on the current title and update the display.
+*/
+MR.selectTileLight = function(l, c) {//Lighting, Class
+  //TODO set the light on the current title.
+
+  //Finally update the html display.
+  var el = document.getElementById('TileLight');
+  el.className = el.className.split(' ')[0] + " " + c; //Strip the end and append.
+}
+
+/*
+  Scope: Public
+  Description Set the occlusion on the current tile and update the display.
+*/
+MR.selectTileOcclusion = function(o, v) {//Occlusion, HTML Value
+  //TODO Set the occlusion on the current tile.
+
+  //Finally update the html display!
+  document.getElementById('TileOcclusion').children[0].innerHTML = v;
+}
+
+MR.buildHTMLPalette = function() {
+
+}
+
+/*
   Scope: CT3.html
   Description: Add a tile to the currently selected palette.
 */
 MR.addTileToPalette = function() {
-  
+
 }
