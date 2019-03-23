@@ -284,6 +284,15 @@ CT.cancelPage = function() {
   Description: Change the view displayed to the user.
 */
 CT.changeView = function(v) {
+  //check to make sure the view can be changed
+  switch(v) {
+    case "M":
+      if (data.slctPage=="") {CT.setStatus("Page doesn't exist or have a map."); return;}
+      if (!data.pages[data.slctPage].hasOwnProperty("M")) {CT.setStatus("Page doesn't have a map."); return;}
+      MR.initMapper();
+      break;
+  }
+
   //Clear any open view elements.
   if (data.slctView != "") {
     var toHide = document.getElementsByClassName("view" + data.slctView);

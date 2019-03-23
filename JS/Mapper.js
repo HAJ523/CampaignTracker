@@ -23,6 +23,23 @@ MR.onLoad = function() {
 }
 
 /*
+  Scope: Public
+  Description: Called when switching to map view.
+*/
+MR.initMapper = function() {
+  MR.PL = [{T:".", C:"#FFFFFF", L:0, O:0.0, W:true}] //Default palette
+  MR.slctTile = 0;
+  MR.PN = "";
+  MR.MD = false;
+
+  //Build the HTML of the pallette.
+  MR.buildHTMLPalette();
+  MR.selectTile(0);
+
+  MR.updateMapCanvas();
+}
+
+/*
   Scope: Restricted
   Description: Change the size of the map.
 */
@@ -204,7 +221,7 @@ MR.selectTool = function(t) {//Tool Selected
   Description: Set the light on the current title and update the display.
 */
 MR.selectTileLight = function(l, c) {//Lighting, Class
-  //TODO set the light on the current title.
+  MR.PL[MR.slctTile].L = l;
 
   //Finally update the html display.
   var el = document.getElementById('TileLight');
@@ -216,14 +233,33 @@ MR.selectTileLight = function(l, c) {//Lighting, Class
   Description Set the occlusion on the current tile and update the display.
 */
 MR.selectTileOcclusion = function(o, v) {//Occlusion, HTML Value
-  //TODO Set the occlusion on the current tile.
+  MR.PL[MR.slctTile].O = o;
 
   //Finally update the html display!
   document.getElementById('TileOcclusion').children[0].innerHTML = v;
 }
 
 MR.buildHTMLPalette = function() {
+  //Loop over all the tiles.
+  for(var i = 0; i < MR.PL.length; i++) {
+    MR.addHTMLTileToPalette(i);
+  }
+}
 
+MR.addHTMLTileToPalette = function(i) {
+  var el = document.getElementById('paletteDisplay');
+  el.innerHTML += '<span onclick="javascript:selectTile(' + i + ');" style="background: ' + data.pages[data.slctPage].M.C + '; color: '+MR.PL[i].C+'" id="tile' + i + '">' + MR.PL[i].T + '</span>';
+}
+
+MR.remHTMLTileFromPalette = function(i) {
+  var el = document.getElementById('paletteDisplay');
+  el.removeChild(el.children[i]);
+}
+
+MR.selectTile = function(i) {
+  document.getElementById('tile'+MR.slctTile).classList.remove('selected');
+  MR.slctTile = i;
+  document.getElementById('tile'+MR.slctTile).classList.add('selected');
 }
 
 /*
@@ -231,5 +267,13 @@ MR.buildHTMLPalette = function() {
   Description: Add a tile to the currently selected palette.
 */
 MR.addTileToPalette = function() {
+  MR.PL.push(Object.assign({},MR.PL[MR.slctTile]));
+  MR.addHTMLTileToPalette(MR.PL.length-1);
+  MR.selectTile(MR.PL.length-1);
+}
 
+MR.remTileFromPalette = function() {
+  var i = MR.slctTile;
+  MR.remHTMLTileFromPalette(i);
+  MR.PL.splice(i,1);
 }
