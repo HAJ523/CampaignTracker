@@ -32,9 +32,12 @@ MR.initMapper = function() {
   MR.PN = "";
   MR.MD = false;
 
+  MR.selectTool("B");
+  MR.selectLayer("T");
+
   //Build the HTML of the pallette.
   MR.buildHTMLPalette();
-  MR.selectTile(0);
+  MR.selectTile(null, 0);
 
   MR.updateMapCanvas();
 }
@@ -107,17 +110,26 @@ MR.updateMapCanvas = function() {
 
   var tile;
   for( var i = 0; i < data.pages[data.slctPage].M.W; i++) {
+    if (!data.pages[data.slctPage].M.A.hasOwnProperty(i)) {continue;} //Skip the entire row if it doesn't exist.
     for (var j = 0; j < data.pages[data.slctPage].M.H; j++) {
       //Check to make sure that this column exists then the row entry.
-      if (data.pages[data.slctPage].M.A.hasOwnProperty(i)) {
-        if (data.pages[data.slctPage].M.A[i].hasOwnProperty(j)) {
-          tile = data.pages[data.slctPage].M.A[i][j];
-          if (tile == null) { continue; } //If there is nothign to draw move on.
+      MR.printTile(i,j);
+    }
+  }
+}
 
-          MR.CX.fillStyle = tile.C;
-          MR.CX.fillText(tile.S, MR.BR + i * MR.FS, MR.BR + j * MR.FS);
-        }
-      }
+/*
+  Scope: Public
+  Description: Print a single tile to the canvas.
+*/
+MR.printTile = function(x,y) {
+  if (data.pages[data.slctPage].M.A.hasOwnProperty(i)) {
+    if (data.pages[data.slctPage].M.A[i].hasOwnProperty(j)) {
+      tile = data.pages[data.slctPage].M.A[i][j];
+      if (tile == null) { return; } //If there is nothing to draw move on.
+
+      MR.CX.fillStyle = tile.C;
+      MR.CX.fillText(tile.S, MR.BR + i * MR.FS, MR.BR + j * MR.FS);
     }
   }
 }
@@ -218,6 +230,20 @@ MR.selectTool = function(t) {//Tool Selected
 
 /*
   Scope: Public
+  Description: Select the layer for display.
+*/
+MR.selectLayer = function(l) { //Layer
+  if (MR.LY != undefined) {
+    document.getElementById("layer" + MR.LY).classList.remove("w3-btn-pressed");
+  }
+  MR.LY = l;
+  document.getElementById('layer' + l).classList.add("w3-btn-pressed");
+
+  //TODO Update the entire canvas display to show new layer information!
+}
+
+/*
+  Scope: Public
   Description: Set the light on the current title and update the display.
 */
 MR.selectTileLight = function(l, c) {//Lighting, Class
@@ -248,7 +274,7 @@ MR.buildHTMLPalette = function() {
 
 MR.addHTMLTileToPalette = function(i) {
   var el = document.getElementById('paletteDisplay');
-  el.innerHTML += '<span onclick="javascript:selectTile(' + i + ');" style="background: ' + data.pages[data.slctPage].M.C + '; color: '+MR.PL[i].C+'" id="tile' + i + '">' + MR.PL[i].T + '</span>';
+  el.innerHTML += '<span onclick="javascript:MR.selectTile(this);" style="background: ' + data.pages[data.slctPage].M.C + '; color: '+MR.PL[i].C+'">' + MR.PL[i].T + '</span>';
 }
 
 MR.remHTMLTileFromPalette = function(i) {
@@ -256,10 +282,13 @@ MR.remHTMLTileFromPalette = function(i) {
   el.removeChild(el.children[i]);
 }
 
-MR.selectTile = function(i) {
-  document.getElementById('tile'+MR.slctTile).classList.remove('selected');
+MR.selectTile = function(e, i) {
+  if ((i==null)||(i==undefined)) {i=0;}
+  if (e!= null){while( (e = e.previousSibling) != null )  { i++;}} //Figure out index.
+  e = document.getElementById('paletteDisplay');
+  e.children[MR.slctTile].classList.remove('selected');
   MR.slctTile = i;
-  document.getElementById('tile'+MR.slctTile).classList.add('selected');
+  e.children[i].classList.add('selected');
 }
 
 /*
@@ -269,11 +298,26 @@ MR.selectTile = function(i) {
 MR.addTileToPalette = function() {
   MR.PL.push(Object.assign({},MR.PL[MR.slctTile]));
   MR.addHTMLTileToPalette(MR.PL.length-1);
-  MR.selectTile(MR.PL.length-1);
+  MR.selectTile(null, MR.PL.length-1);
 }
 
 MR.remTileFromPalette = function() {
   var i = MR.slctTile;
   MR.remHTMLTileFromPalette(i);
   MR.PL.splice(i,1);
+  if (MR.slctTile >= MR.PL.length) {
+    MR.selectTile(null, MR.PL.length-1);
+  } else {
+    MR.selectTile(null, MR.slctTile);
+  }
+}
+
+//Update the display of the tile.
+MR.updatePaletteTile = function() {
+  var e = document.getElementById('paletteDisplay');
+  MR.PL[MR.slctTile].T = document.getElementById('Tile').value;
+  e.children[MR.slctTile].innerHTML = MR.PL[MR.slctTile].T;
+
+  MR.PL[MR.slctTile].C = document.getElementById('TileColor').value;
+  e.children[MR.slctTile].style.color = MR.PL[MR.slctTile].C;
 }
