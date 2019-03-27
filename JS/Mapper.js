@@ -31,7 +31,9 @@ MR.initMapper = function() {
   MR.slctTile = 0;
   MR.PN = "";
   MR.MD = false;
+  MR.UNDO = [];
 
+  //Start with the correct tool and layer selected.
   MR.selectTool("B");
   MR.selectLayer("T");
 
@@ -40,6 +42,9 @@ MR.initMapper = function() {
   MR.selectTile(null, 0);
 
   MR.updateMapCanvas();
+  MR.CV.addEventListener("mousedown",MR.mouseChange);
+  MR.CV.addEventListener("mouseup",MR.mouseChange);
+  MR.CV.addEventListener("mouseout", MR.mouseOut);
 }
 
 /*
@@ -123,13 +128,19 @@ MR.updateMapCanvas = function() {
   Description: Print a single tile to the canvas.
 */
 MR.printTile = function(x,y) {
-  if (data.pages[data.slctPage].M.A.hasOwnProperty(i)) {
-    if (data.pages[data.slctPage].M.A[i].hasOwnProperty(j)) {
-      tile = data.pages[data.slctPage].M.A[i][j];
+  if (data.pages[data.slctPage].M.A.hasOwnProperty(x)) {
+    if (data.pages[data.slctPage].M.A[x].hasOwnProperty(y)) {
+      tile = data.pages[data.slctPage].M.A[x][y];
       if (tile == null) { return; } //If there is nothing to draw move on.
 
+      var x = MR.BR + x * MR.FS;
+      var y = MR.BR + y * MR.FS;
+
+      MR.CX.fillStyle = data.pages[data.slctPage].M.C;
+      MR.CX.fillRect(x, y, MR.FS, MR.FS);
+
       MR.CX.fillStyle = tile.C;
-      MR.CX.fillText(tile.S, MR.BR + i * MR.FS, MR.BR + j * MR.FS);
+      MR.CX.fillText(tile.T, x, y);
     }
   }
 }
@@ -154,12 +165,19 @@ MR.mouseChange = function(e) {
   MR.MD = (e.type == "mousedown"); //Prevent problems with draging outside canvas.
 
   if (MR.MD) {
-    MR.CV.addEventListener('mousemove', MR.draw); //Add the move listener.
+    console.log("d");
+    //Setup the undo array. by adding new object to beginning.
+    MR.UNDO.unshift({});
+    if (MR.UNDO.length > 20) {
+      MR.UNDO.pop();
+    }
+
+    MR.CV.addEventListener('mousemove', MR.mouseMove); //Add the move listener.
     //Draw to current location
-    MR.addPointToDrawList(MR.mouseToMapLoc(e.offsetX, e.offsetY));
+    MR.mouseMove(e);
     //TODO undo list
   } else {
-    MR.CV.removeEventListener('mousemove', MR.draw); //Remove the move listener.
+    MR.CV.removeEventListener('mousemove', MR.mouseMove); //Remove the move listener.
     if (!MR.hasOwnProperty("CD")) return;
 
     switch (MR.CT) { //TODO Add more tools here.
@@ -172,9 +190,46 @@ MR.mouseChange = function(e) {
 
 MR.mouseOut = function(e) {
   if (MR.MD) {
-    MR.CV.removeEventListener('mousemove', MR.draw);
+    MR.CV.removeEventListener('mousemove', MR.mouseMove);
     MR.MD = false; //Make sure that we stop drawing!
   }
+}
+
+MR.mouseMove = function(e) {
+  var rect = e.target.getBoundingClientRect();
+  var loc = MR.mouseToMapLoc(e.clientX - rect.left, e.clientY - rect.top);
+
+  MR.drawPoint(loc);
+}
+
+MR.drawPoint = function(loc) {
+  if ((MR.hasOwnProperty('LL')) && (loc[0] == MR.LL[0]) && (loc[1] == MR.LL[1])) {return;} //If there was no movement then quit.
+  MR.LL = loc; //Update the previous loc.
+  switch(MR.CT) {
+    case "B":
+      //Add new tile to the undo if it isn't there already
+      if (MR.UNDO[0].hasOwnProperty(loc[0]+","+loc[1])) {break;}
+      if (data.pages[data.slctPage].M.A.hasOwnProperty(loc[0])) {
+        MR.UNDO[0][loc[0]+","+loc[1]] = data.pages[data.slctPage].M.A[loc[0]][loc[1]];
+      } else {
+        MR.UNDO[0][loc[0]+","+loc[1]] = undefined;
+      }
+      //Repaint the canvas at that location with the new tile.
+      MR.setMapTile(loc[0],loc[1]);
+      break;
+  }
+}
+
+MR.setMapTile = function(x,y) {
+  //Make sure map location can be added.
+  if (!data.pages[data.slctPage].M.A.hasOwnProperty(x)) {
+    data.pages[data.slctPage].M.A[x] = [];
+  }
+
+  //Choose a random tile from the palette.
+  data.pages[data.slctPage].M.A[x][y] = MR.PL[Math.floor(Math.random()*MR.PL.length)];
+
+  MR.printTile(x,y);
 }
 
 /*
