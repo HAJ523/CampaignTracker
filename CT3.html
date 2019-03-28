@@ -97,26 +97,26 @@
                         <input type="text" maxlength=1 class="w3-medium" title="Tile" id="Tile" style="height:1.5em;width:1.5em;" value="." onchange="MR.updatePaletteTile();"></input>
                         <input type="color" class="w3-padding-none" title="Foreground Color" id="TileColor" style="width: 20px;" onchange="MR.updatePaletteTile();"></input><!--TODO change this to a link to match other buttons and have it click an invisible color input.-->
                         <div class="w3-dropdown-hover" style="background: #FFF">
-                          <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Lighting"><span id="TileLight" class="fas fa-lightbulb"></span></a>
+                          <a href="javascript:MR.incTileLight();" class="w3-button w3-padding-small" title="Lighting" id="TileLight"></a>
                           <div class="w3-dropdown-content w3-card">
-                            <a href="javascript:MR.selectTileLight(0,'fa-star');" class="w3-button w3-padding-small" title="Dark"><span class="fas fa-star"></span></a>
-                            <a href="javascript:MR.selectTileLight(1,'fa-moon');" class="w3-button w3-padding-small" title="Dim"><span class="fas fa-moon"></span></a>
-                            <a href="javascript:MR.selectTileLight(2,'fa-sun');" class="w3-button w3-padding-small" title="Bright"><span class="fas fa-sun"></span></a>
+                            <a href="javascript:MR.selectTileLight(0);" id="Light0" class="w3-button w3-padding-small" title="Dark"><span class="fas fa-star"></span></a>
+                            <a href="javascript:MR.selectTileLight(1);" id="Light1" class="w3-button w3-padding-small" title="Dim"><span class="fas fa-moon"></span></a>
+                            <a href="javascript:MR.selectTileLight(2);" id="Light2" class="w3-button w3-padding-small" title="Bright"><span class="fas fa-sun"></span></a>
                           </div>
                         </div>
                         <div class="w3-dropdown-hover" style="background: #FFF">
-                          <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Occlusion"><span id="TileOcclusion"><strong>0&#8260;1</strong></span></a>
+                          <a href="javascript:MR.incTileOcclusion();" class="w3-button w3-padding-small" title="Occlusion"><span id="TileOcclusion"><strong>0&#8260;1</strong></span></a>
                           <div class="w3-dropdown-content w3-card">
-                            <a href="javascript:MR.selectTileOcclusion(0,'0&#8260;1');" class="w3-button w3-padding-small" title="0%"><strong>0&#8260;1</strong></a>
-                            <a href="javascript:MR.selectTileOcclusion(.125,'1&#8260;8');" class="w3-button w3-padding-small" title="12.5%"><strong>1&#8260;8</strong> </a>
-                            <a href="javascript:MR.selectTileOcclusion(.25,'1&#8260;4');" class="w3-button w3-padding-small" title="25%"><strong>1&#8260;4</strong></a>
-                            <a href="javascript:MR.selectTileOcclusion(.5,'1&#8260;2');" class="w3-button w3-padding-small" title="50%"><strong>1&#8260;2</strong></a>
-                            <a href="javascript:MR.selectTileOcclusion(.75,'3&#8260;4');" class="w3-button w3-padding-small" title="75%"><strong>3&#8260;4</strong></a>
-                            <a href="javascript:MR.selectTileOcclusion(.875,'7&#8260;8');" class="w3-button w3-padding-small" title="87.5%"><strong>7&#8260;8</strong></a>
-                            <a href="javascript:MR.selectTileOcclusion(1,'1&#8260;1');" class="w3-button w3-padding-small" title="100%"><strong>1&#8260;1</strong></a>
+                            <a href="javascript:MR.selectTileOcclusion(0);" id="Occ0" class="w3-button w3-padding-small" title="0%"><strong>0&#8260;1</strong></a>
+                            <a href="javascript:MR.selectTileOcclusion(.125);" id="Occ0.125" class="w3-button w3-padding-small" title="12.5%"><strong>1&#8260;8</strong> </a>
+                            <a href="javascript:MR.selectTileOcclusion(.25);" id="Occ0.25" class="w3-button w3-padding-small" title="25%"><strong>1&#8260;4</strong></a>
+                            <a href="javascript:MR.selectTileOcclusion(.5);" id="Occ0.5" class="w3-button w3-padding-small" title="50%"><strong>1&#8260;2</strong></a>
+                            <a href="javascript:MR.selectTileOcclusion(.75);" id="Occ0.75" class="w3-button w3-padding-small" title="75%"><strong>3&#8260;4</strong></a>
+                            <a href="javascript:MR.selectTileOcclusion(.875);" id="Occ0.875" class="w3-button w3-padding-small" title="87.5%"><strong>7&#8260;8</strong></a>
+                            <a href="javascript:MR.selectTileOcclusion(1);" id="Occ1" class="w3-button w3-padding-small" title="100%"><strong>1&#8260;1</strong></a>
                           </div>
                         </div>
-                        <a href="javascript:void(0);" class="w3-button w3-padding-small w3-btn-pressed" title="Walkable?"><span class="fas fa-shoe-prints"></span></a>
+                        <a href="javascript:MR.selectTileWalkable();" id="TileWalkable" class="w3-button w3-padding-small w3-btn-pressed" title="Walkable?"><span class="fas fa-shoe-prints"></span></a>
                         <a href="javascript:MR.addTileToPalette();" class="w3-button w3-padding-small" title="Add"><span class="fas fa-check-circle"></span></a>
                       </div>
                     </div>

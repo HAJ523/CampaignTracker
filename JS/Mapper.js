@@ -6,7 +6,7 @@
 */
 
 var MR = {};
-MR.FS = 8; //Default font size. Variable until the best size is determined. in Pixels.
+MR.FS = 12; //Default font size. Variable until the best size is determined. in Pixels.
 MR.BR = 10; //Border size.
 MR.ZM = 1;
 MR.MD = false;
@@ -206,6 +206,7 @@ MR.mouseMove = function(e) {
 }
 
 MR.drawPoint = function(loc) {
+  if (loc == null) {return;} //If loc isn't populated then there is nothing to do!
   if ((MR.hasOwnProperty('LL')) && (loc[0] == MR.LL[0]) && (loc[1] == MR.LL[1])) {return;} //If there was no movement then quit.
   MR.LL = loc; //Update the previous loc.
   switch(MR.CT) {
@@ -342,16 +343,43 @@ MR.selectLayer = function(l) { //Layer
   //TODO Update the entire canvas display to show new layer information!
 }
 
+MR.incTileLight = function() {
+  switch(MR.PL[MR.slctTile].L) {
+    case 0:
+    case 1:
+      MR.selectTileLight(MR.PL[MR.slctTile].L+1);
+      break;
+    case 2:
+    default:
+      MR.selectTileLight(0);
+  }
+}
+
+MR.incTileOcclusion = function() {
+  switch(MR.PL[MR.slctTile].O) {
+    case 0:
+    case 0.125:
+    case 0.75:
+    case 0.875:
+      MR.selectTileOcclusion(MR.PL[MR.slctTile].O+.125);
+      break;
+    case 0.25:
+    case 0.5:
+      MR.selectTileOcclusion(MR.PL[MR.slctTile].O+.25);
+      break;
+    case 1:
+    default:
+      MR.selectTileOcclusion(0);
+  }
+}
+
 /*
   Scope: Public
   Description: Set the light on the current title and update the display.
 */
-MR.selectTileLight = function(l, c) {//Lighting, Class
+MR.selectTileLight = function(l) {//Lighting
   MR.PL[MR.slctTile].L = l;
-
-  //Finally update the html display.
-  var el = document.getElementById('TileLight');
-  el.className = el.className.split(' ')[0] + " " + c; //Strip the end and append.
+  MR.setLightGui();
 }
 
 /*
@@ -360,9 +388,16 @@ MR.selectTileLight = function(l, c) {//Lighting, Class
 */
 MR.selectTileOcclusion = function(o, v) {//Occlusion, HTML Value
   MR.PL[MR.slctTile].O = o;
+  MR.setOcclusionGui();
+}
 
-  //Finally update the html display!
-  document.getElementById('TileOcclusion').children[0].innerHTML = v;
+/*
+  Scope: Public
+  Description: Change the walkable status of a tile!
+*/
+MR.selectTileWalkable = function() {
+  MR.PL[MR.slctTile].W = !MR.PL[MR.slctTile].W;
+  MR.setWalkableGui();
 }
 
 MR.buildHTMLPalette = function() {
@@ -389,6 +424,32 @@ MR.selectTile = function(e, i) {
   e.children[MR.slctTile].classList.remove('selected');
   MR.slctTile = i;
   e.children[i].classList.add('selected');
+  //Now update the tile editing controls.
+  document.getElementById('Tile').value = MR.PL[MR.slctTile].T;
+  document.getElementById('TileColor').value = MR.PL[MR.slctTile].C;
+  MR.setWalkableGui();
+  MR.setLightGui();
+  MR.setOcclusionGui();
+}
+
+MR.setWalkableGui = function() {
+  var el = document.getElementById('TileWalkable');
+
+  if ((MR.PL[MR.slctTile].W) && (!el.classList.contains('w3-btn-pressed'))) {
+    el.classList.add('w3-btn-pressed');
+    return; //Done so return.
+  }
+  if ((!MR.PL[MR.slctTile].W) && (el.classList.contains('w3-btn-pressed'))) {
+    el.classList.remove('w3-btn-pressed');
+  }
+}
+
+MR.setOcclusionGui = function() {
+  document.getElementById('TileOcclusion').innerHTML = document.getElementById("Occ" + MR.PL[MR.slctTile].O).innerHTML;
+}
+
+MR.setLightGui = function() {
+  document.getElementById('TileLight').innerHTML = document.getElementById("Light" + MR.PL[MR.slctTile].L).innerHTML;
 }
 
 /*
