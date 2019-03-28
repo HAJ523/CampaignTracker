@@ -12,6 +12,8 @@ MR.ZM = 1;
 MR.MD = false;
 MR.PL = []; //Palette should be empty.
 MR.PN = ""; //Current Palette name.
+MR.brushSizesSquare = {S:[[0,0]], M:[[1,0],[1,1],[1,-1],[0,1],[0,-1],[-1,0],[-1,-1],[-1,1]], L:[[2,2],[2,1],[2,0],[2,-1],[2,-2],[1,2],[1,-2],[0,2],[0,-2],[-1,2],[-1,-2],[-2,2],[-2,1],[-2,0],[-2,-1],[-2,-2]]};
+MR.brushSizesHex = {};
 
 /*
   Scope: Public
@@ -36,6 +38,7 @@ MR.initMapper = function() {
   //Start with the correct tool and layer selected.
   MR.selectTool("B");
   MR.selectLayer("T");
+  MR.selectSize("S");
 
   //Build the HTML of the pallette.
   MR.buildHTMLPalette();
@@ -207,16 +210,49 @@ MR.drawPoint = function(loc) {
   MR.LL = loc; //Update the previous loc.
   switch(MR.CT) {
     case "B":
-      //Add new tile to the undo if it isn't there already
-      if (MR.UNDO[0].hasOwnProperty(loc[0]+","+loc[1])) {break;}
-      if (data.pages[data.slctPage].M.A.hasOwnProperty(loc[0])) {
-        MR.UNDO[0][loc[0]+","+loc[1]] = data.pages[data.slctPage].M.A[loc[0]][loc[1]];
-      } else {
-        MR.UNDO[0][loc[0]+","+loc[1]] = undefined;
-      }
       //Repaint the canvas at that location with the new tile.
-      MR.setMapTile(loc[0],loc[1]);
+      switch(MR.TS) {
+        case "L":
+          MR.brushPoint(loc,"L");
+        case "M":
+          MR.brushPoint(loc,"M");
+        case "S":
+        default:
+          MR.brushPoint(loc,"S");
+      }
       break;
+  }
+}
+
+/*
+  Scope: Private
+  Description: paint all tiles in the brush location.
+*/
+MR.brushPoint = function(loc, s) {//Location, Size
+  var x=0;
+  var y=0;
+
+  //Loop over the brush and paint tiles.
+  for(var i=0;i<MR.brushSizesSquare[s].length;i++) {
+    //Brush bristle location.
+    x = loc[0]+MR.brushSizesSquare[s][i][0];
+    y = loc[1]+MR.brushSizesSquare[s][i][1];
+
+    //Check to make sure the bristle is on the map!
+    if (x < 0) {continue;}
+    if (x >= data.pages[data.slctPage].M.W) {continue;}
+    if (y < 0) {continue;}
+    if (y >= data.pages[data.slctPage].M.H) {continue;}
+
+    //Add new tile to the undo if it isn't there already
+    if (MR.UNDO[0].hasOwnProperty(x+","+y)) {continue;}
+    if (data.pages[data.slctPage].M.A.hasOwnProperty(x)) {
+      MR.UNDO[0][x+","+y] = data.pages[data.slctPage].M.A[x][y];
+    } else {
+      MR.UNDO[0][x+","+y] = undefined;
+    }
+
+    MR.setMapTile(x,y);
   }
 }
 
@@ -269,6 +305,15 @@ MR.clearMapper = function() {
   MR.CT = "B"; //Default to the brush.
   delete MR.CD; //Delete any current drawing operations.
   MR.ZM = 1; //Set the zoom scale back to 1.
+}
+
+/*
+  Scope: Public
+  Description: Select the tool size for brushes and lines.
+*/
+MR.selectSize = function(s) {
+  document.getElementById('toolB').innerHTML = document.getElementById('size'+s).innerHTML;
+  MR.TS = s;
 }
 
 /*
