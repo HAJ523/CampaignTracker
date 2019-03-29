@@ -60,19 +60,22 @@ MR.setMapDetails = function(p, w, h, c) { //Page, Width, Height, Color
   if (data.pages[p].hasOwnProperty("M")) {
     //If the width is less then trim the array.
     if (w < data.pages[p].M.W) {
-      data.pages[p].M.A.length = w;
       forceupdate = 1;
     }
 
     //If the height is less then trim the heights.
     if (h < data.pages[p].M.H) {
-      data.pages[p].M.A.map(function(c,i) {
-        //Only trim them if they have a length greater than the limit since they are sparse arrays.
-        if (data.pages[p].M.A[i].length > h) {
-          data.pages[p].M.A[i].length = h;
-          forceupdate = 1;
-        }
-      });
+      forceupdate = 1;
+    }
+
+    //If we trimmed the height or width the loop over the keys and look for bad elements.
+    if (forceupdate) {
+      for (var t in data.pages[p].M.A) {
+        //square
+        var temp = t.split(",");
+        if (parseInt(temp[0]) >= w) {delete data.pages[p].M.A[t]; continue;}
+        if (parseInt(temp[1]) >= h) {delete data.pages[p].M.A[t];}
+      }
     }
 
     //If we are adding then we also need to force an update but no changes to the arrays necesary.
@@ -87,7 +90,7 @@ MR.setMapDetails = function(p, w, h, c) { //Page, Width, Height, Color
     data.pages[p].M.C = c;
 
     //Create the sparse array.
-    data.pages[p].M.A = [];
+    data.pages[p].M.A = {};
     forceupdate = 1; //Always redraw with new.
   }
 
@@ -121,7 +124,7 @@ MR.updateMapCanvas = function() {
     if (!data.pages[data.slctPage].M.A.hasOwnProperty(i)) {continue;} //Skip the entire row if it doesn't exist.
     for (var j = 0; j < data.pages[data.slctPage].M.H; j++) {
       //Check to make sure that this column exists then the row entry.
-      MR.printTile(i,j);
+      MR.printTile([i,j],i+","+j);
     }
   }
 }
@@ -130,21 +133,21 @@ MR.updateMapCanvas = function() {
   Scope: Public
   Description: Print a single tile to the canvas.
 */
-MR.printTile = function(x,y) {
-  if (data.pages[data.slctPage].M.A.hasOwnProperty(x)) {
-    if (data.pages[data.slctPage].M.A[x].hasOwnProperty(y)) {
-      tile = data.pages[data.slctPage].M.A[x][y];
-      if (tile == null) { return; } //If there is nothing to draw move on.
+MR.printTile = function(loc, t) {//Location, TileAddress
+  if (data.pages[data.slctPage].M.A.hasOwnProperty(t)) {
 
-      var x = MR.BR + x * MR.FS;
-      var y = MR.BR + y * MR.FS;
+    tile = data.pages[data.slctPage].M.A[t];
+    if (tile == null) { return; } //If there is nothing to draw move on.
 
-      MR.CX.fillStyle = data.pages[data.slctPage].M.C;
-      MR.CX.fillRect(x, y, MR.FS, MR.FS);
+    //square drawing.
+    var x = MR.BR + loc[0] * MR.FS;
+    var y = MR.BR + loc[1] * MR.FS;
 
-      MR.CX.fillStyle = tile.C;
-      MR.CX.fillText(tile.T, x, y);
-    }
+    MR.CX.fillStyle = data.pages[data.slctPage].M.C;
+    MR.CX.fillRect(x, y, MR.FS, MR.FS);
+
+    MR.CX.fillStyle = tile.C;
+    MR.CX.fillText(tile.T, x, y);
   }
 }
 
@@ -232,12 +235,14 @@ MR.drawPoint = function(loc) {
 MR.brushPoint = function(loc, s) {//Location, Size
   var x=0;
   var y=0;
+  var t;
 
   //Loop over the brush and paint tiles.
   for(var i=0;i<MR.brushSizesSquare[s].length;i++) {
     //Brush bristle location.
     x = loc[0]+MR.brushSizesSquare[s][i][0];
     y = loc[1]+MR.brushSizesSquare[s][i][1];
+    t = x+","+y;
 
     //Check to make sure the bristle is on the map!
     if (x < 0) {continue;}
@@ -246,56 +251,18 @@ MR.brushPoint = function(loc, s) {//Location, Size
     if (y >= data.pages[data.slctPage].M.H) {continue;}
 
     //Add new tile to the undo if it isn't there already
-    if (MR.UNDO[0].hasOwnProperty(x+","+y)) {continue;}
-    if (data.pages[data.slctPage].M.A.hasOwnProperty(x)) {
-      MR.UNDO[0][x+","+y] = data.pages[data.slctPage].M.A[x][y];
-    } else {
-      MR.UNDO[0][x+","+y] = undefined;
-    }
+    if (MR.UNDO[0].hasOwnProperty(t)) {continue;}
+    MR.UNDO[0][t] = data.pages[data.slctPage].M.A[t];
 
-    MR.setMapTile(x,y);
+    MR.setMapTile([x,y], t);
   }
 }
 
-MR.setMapTile = function(x,y) {
-  //Make sure map location can be added.
-  if (!data.pages[data.slctPage].M.A.hasOwnProperty(x)) {
-    data.pages[data.slctPage].M.A[x] = [];
-  }
-
+MR.setMapTile = function(loc, t) {
   //Choose a random tile from the palette.
-  data.pages[data.slctPage].M.A[x][y] = MR.PL[Math.floor(Math.random()*MR.PL.length)];
+  data.pages[data.slctPage].M.A[t] = MR.PL[Math.floor(Math.random()*MR.PL.length)];
 
-  MR.printTile(x,y);
-}
-
-/*
-  Scope: Restricted (Mapper.js)
-  Description: Add element to current draw list.
-*/
-MR.addPointToDrawList = function(loc) {
-  //Make sure that there is a draw list.
-  if (!MR.hasOwnProperty("CD")) {
-    MR.CD = [];
-  }
-  switch(MR.CT) { //TODO update MR.DL list of points to be drawn to and display for each tool.
-    case "L":
-      if (MR.CD.length > 1) {
-        MR.CD[1] = loc;
-      } else {
-        MR.CD.push(loc);
-      }
-      break;
-    case "F":
-      MR.CD[0] = loc;
-      break;
-    case "B":
-    default:
-      MR.CD.push(loc);
-  }
-
-
-
+  MR.printTile(loc, t);
 }
 
 /*
