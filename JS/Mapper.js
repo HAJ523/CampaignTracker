@@ -228,6 +228,14 @@ MR.drawPoint = function(loc) {
   }
 }
 
+
+MR.brushLinePoints = function(s,e,z) {
+  var pts = MR.lerpGrid(s,e);
+  for (var i=0;i<pts.length;i++) {
+    MR.brushPoint(pts[i],z);
+  }
+}
+
 /*
   Scope: Private
   Description: paint all tiles in the brush location.
@@ -448,4 +456,23 @@ MR.updatePaletteTile = function() {
 
   MR.PL[MR.slctTile].C = document.getElementById('TileColor').value;
   e.children[MR.slctTile].style.color = MR.PL[MR.slctTile].C;
+}
+
+MR.mapDiagonalDistance = function(s,e) { //Start, End
+  return Math.max(Math.abs(s[0]-e[0]),Math.abs(s[1]-e[1]));
+}
+
+MR.lerp = function(s,e,t) {
+  return Math.floor(s + t * (e - s));
+}
+
+MR.lerpGrid = function(s,e) {
+  var n = MR.mapDiagonalDistance(s,e);
+  var ret = [];
+  var t;
+  for (var i=0;i<=n;i++) {
+    t = i / n;
+    ret.push([MR.lerp(s[0],e[0],t),MR.lerp(s[1],e[1],t)]);
+  }
+  return ret;
 }
