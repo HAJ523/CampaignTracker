@@ -171,14 +171,13 @@ MR.mouseChange = function(e) {
   MR.MD = (e.type == "mousedown"); //Prevent problems with draging outside canvas.
 
   if (MR.MD) {
-    console.log("d");
     //Setup the undo array. by adding new object to beginning.
     MR.UNDO.unshift({});
     if (MR.UNDO.length > 20) {
       MR.UNDO.pop();
     }
-
     MR.CV.addEventListener('mousemove', MR.mouseMove); //Add the move listener.
+    delete MR.LL;
     //Draw to current location
     MR.mouseMove(e);
     //TODO undo list
@@ -211,29 +210,24 @@ MR.mouseMove = function(e) {
 MR.drawPoint = function(loc) {
   if (loc == null) {return;} //If loc isn't populated then there is nothing to do!
   if ((MR.hasOwnProperty('LL')) && (loc[0] == MR.LL[0]) && (loc[1] == MR.LL[1])) {return;} //If there was no movement then quit.
-  MR.LL = loc; //Update the previous loc.
   switch(MR.CT) {
     case "B":
+      var pts = MR.lerpGrid(loc,MR.LL);
       //Repaint the canvas at that location with the new tile.
-      switch(MR.TS) {
-        case "L":
-          MR.brushPoint(loc,"L");
-        case "M":
-          MR.brushPoint(loc,"M");
-        case "S":
-        default:
-          MR.brushPoint(loc,"S");
+      for (var i=0;i<pts.length;i++) {
+        switch(MR.TS) {
+          case "L":
+            MR.brushPoint(pts[i],"L");
+          case "M":
+            MR.brushPoint(pts[i],"M");
+          case "S":
+          default:
+            MR.brushPoint(pts[i],"S");
+        }
       }
       break;
   }
-}
-
-
-MR.brushLinePoints = function(s,e,z) {
-  var pts = MR.lerpGrid(s,e);
-  for (var i=0;i<pts.length;i++) {
-    MR.brushPoint(pts[i],z);
-  }
+  MR.LL = loc; //Update the previous loc.
 }
 
 /*
@@ -467,6 +461,7 @@ MR.lerp = function(s,e,t) {
 }
 
 MR.lerpGrid = function(s,e) {
+  if (e == null) {return [s];}
   var n = MR.mapDiagonalDistance(s,e);
   var ret = [];
   var t;
