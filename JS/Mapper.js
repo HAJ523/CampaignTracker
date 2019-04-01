@@ -253,9 +253,104 @@ MR.drawPoint = function(loc) {
       });
       break;
     case "F":
-      //TODO Add fill here.
+      var lStk = [];
+      lStk.push(loc);
+      var l,rl,rr,k;
+      while ((l = lStk.pop()) != null) {
+        while ((l[1]--) > 0 && data.pages[data.slctPage].M.A[l[0]+","+l[1]] == undefined) {} //Find the first pixel in the column.
+        rl=false; rr=false;
+        while((l[1]++) < (data.pages[data.slctPage].M.H-1) && data.pages[data.slctPage].M.A[l[0]+","+l[1]] == undefined) {
+          k = l[0]+","+l[1];
+          MR.UNDO[0][k] = undefined; //They will always be undefined as that is the only place we allow fill.
+          MR.setMapTile(l, k);
+          if (l[0] > 0) { //Check left
+            if (data.pages[data.slctPage].M.A[(l[0]-1)+","+l[1]] == undefined) {
+              if (!rl) {
+                lStk.push([l[0]-1,l[1]]);
+                rl = true;
+              }
+            } else {
+              rl = false;
+            }
+          }
+          if (l[0] < (data.pages[data.slctPage].M.W - 1)) { //Check right.
+            if (data.pages[data.slctPage].M.A[(l[0]+1)+","+l[1]] == undefined) {
+              if (!rr) {
+                lStk.push([l[0]+1,l[1]]);
+                rr = true;
+              }
+            } else {
+              rr = false;
+            }
+          }
+        }
+      }
+
       //Don't allow draging a fill operation. It happens then it is done!
       MR.mouseOut();
+      break;
+    case "C":
+      var k = loc[0]+","+loc[1];
+      if (data.pages[data.slctPage].M.A[k] != undefined) { //If there is a tile in the location.
+        MR.addTileToPalette(Object.assign({},data.pages[data.slctPage].M.A[k]));
+      }
+      MR.mouseOut(); //No drag and copy single click only.
+      break;
+    case "S":
+      if (MR.FL == null) {MR.FL = loc;} //Store the first line point for later!
+      var prvKeys = Object.keys(MR.UNDO[0]); //Get all of the old keys in Undo.
+
+      //Side 1
+      var pts = MR.lerpGrid(MR.FL, [MR.FL[0], loc[1]])
+      .concat(MR.lerpGrid(MR.FL, [loc[0], MR.FL[1]]))
+      .concat(MR.lerpGrid(loc, [MR.FL[0], loc[1]]))
+      .concat(MR.lerpGrid(loc, [loc[0], MR.FL[1]]));
+
+      //Repaint the canvas at that location with the new tile.
+      for (var i=0;i<pts.length;i++) {
+        switch(MR.TS) {
+          case "L":
+            MR.brushPoint(pts[i], "L", prvKeys);
+          case "M":
+            MR.brushPoint(pts[i], "M", prvKeys);
+          case "S":
+          default:
+            MR.brushPoint(pts[i], "S", prvKeys);
+        }
+      }
+      prvKeys.map(function(k) { //Loop over the remaining keys and revert the tile.
+        if ( k == undefined ) {return;}
+        data.pages[data.slctPage].M.A[k] = MR.UNDO[0][k];
+        delete MR.UNDO[0][k];
+        MR.printTile(k.split(",").map(function(x) {return parseInt(x,10);}),k);
+      });
+
+      break;
+    case "R":
+      if (MR.FL == null) {MR.FL = loc;} //Store the first line point for later!
+      var prvKeys = Object.keys(MR.UNDO[0]); //Get all of the old keys in Undo.
+
+      //Todo get array of points to be painted.
+      var pts = MR.midPointCircle(MR.FL, Math.floor(Math.hypot(MR.FL[0]-loc[0],MR.FL[1]-loc[1])));
+
+      //Repaint the canvas at that location with the new tile.
+      for (var i=0;i<pts.length;i++) {
+        switch(MR.TS) {
+          case "L":
+            MR.brushPoint(pts[i], "L", prvKeys);
+          case "M":
+            MR.brushPoint(pts[i], "M", prvKeys);
+          case "S":
+          default:
+            MR.brushPoint(pts[i], "S", prvKeys);
+        }
+      }
+      prvKeys.map(function(k) { //Loop over the remaining keys and revert the tile.
+        if ( k == undefined ) {return;}
+        data.pages[data.slctPage].M.A[k] = MR.UNDO[0][k];
+        delete MR.UNDO[0][k];
+        MR.printTile(k.split(",").map(function(x) {return parseInt(x,10);}),k);
+      });
       break;
   }
   MR.LL = loc; //Update the previous loc.
@@ -463,21 +558,26 @@ MR.setLightGui = function() {
   Scope: CT3.html
   Description: Add a tile to the currently selected palette.
 */
-MR.addTileToPalette = function() {
-  MR.PL.push(Object.assign({},MR.PL[MR.slctTile]));
+MR.addTileToPalette = function(t) {
+  if (t == null || t == undefined) {
+    MR.PL.push(Object.assign({},MR.PL[MR.slctTile]));
+  } else {
+    MR.PL.push(t);
+  }
   MR.addHTMLTileToPalette(MR.PL.length-1);
   MR.selectTile(null, MR.PL.length-1);
 }
 
 MR.remTileFromPalette = function() {
+  if (MR.PL.length == 1) {return;} //Prevent removing the last tile of the palette. //TODO reset tile to default.
   var i = MR.slctTile;
-  MR.remHTMLTileFromPalette(i);
   MR.PL.splice(i,1);
   if (MR.slctTile >= MR.PL.length) {
     MR.selectTile(null, MR.PL.length-1);
   } else {
     MR.selectTile(null, MR.slctTile);
   }
+  MR.remHTMLTileFromPalette(i);
 }
 
 //Update the display of the tile.
@@ -508,4 +608,46 @@ MR.lerpGrid = function(s,e) {
     ret.push([MR.lerp(s[0],e[0],t),MR.lerp(s[1],e[1],t)]);
   }
   return ret;
+}
+
+MR.midPointCircle = function(l,r) {//Center, Radius
+  var ret = [];
+  var x = r, y = 0;
+  ret.push([l[0]+x, l[1]]);
+  if (r > 0) {
+    ret.push([l[0]-x, l[1]]);
+    ret.push([l[0], l[1]+x]);
+    ret.push([l[0], l[1]-x]);
+  }
+  var p = 1-r;
+  while(x > y) {
+    y++;
+    if (p <= 0) {
+      p = p + 2 * y + 1;
+    } else {
+      x--;
+      p = p + 2*y - 2*x +1;
+    }
+    if (x < y) {break;}
+
+    ret.push([l[0]+x, l[1]+y]);
+    ret.push([l[0]+x, l[1]-y]);
+    ret.push([l[0]-x, l[1]+y]);
+    ret.push([l[0]-x, l[1]-y]);
+
+    if (x != y) {
+      ret.push([l[0]+y, l[1]+x]);
+      ret.push([l[0]+y, l[1]-x]);
+      ret.push([l[0]-y, l[1]+x]);
+      ret.push([l[0]-y, l[1]-x]);
+    }
+  }
+
+  return ret;
+}
+
+MR.distance = function(s,e) {//Loc 1, Loc 2
+  var a = s[0]-e[0];
+  var b = s[1]-e[1];
+  return Math.sqrt(a*a + b*b);
 }

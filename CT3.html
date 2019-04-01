@@ -85,6 +85,8 @@
                       <a href="javascript:MR.selectTool('L');" class="w3-btn w3-padding-small" id="toolL" title="Line"><span class="fas fa-pencil-ruler"></span></a>
                       <a href="javascript:MR.selectTool('F');" class="w3-btn w3-padding-small" id="toolF" title="Fill"><span class="fas fa-fill"></span></a>
                       <a href="javascript:MR.selectTool('C');" class="w3-btn w3-padding-small" id="toolC" title="Copy"><span class="fas fa-eye-dropper"></span></a>
+                      <a href="javascript:MR.selectTool('S');" class="w3-btn w3-padding-small" id="toolS" title="Square"><span class="far fa-square"></span></a>
+                      <a href="javascript:MR.selectTool('R');" class="w3-btn w3-padding-small" id="toolR" title="Circle"><span class="far fa-circle"></span></a>
                     </div>
                     <div>
                       <span>Palette</span><br/>
@@ -94,7 +96,7 @@
                     <div class="w3-cell-row">
                       <div class="w3-display-flex-center">
                         <a href="javascript:MR.remTileFromPalette();" class="w3-button w3-padding-small" title="Remove"><span class="fas fa-times-circle"></span></a>
-                        <input type="text" maxlength=1 class="w3-medium" title="Tile" id="Tile" style="height:1.5em;width:1.5em;" value="." onchange="MR.updatePaletteTile();"></input>
+                        <input type="text" maxlength=1 class="w3-medium" title="Tile" id="Tile" style="height:1.5em;width:1.5em;" value="." onchange="MR.updatePaletteTile();" onfocus="this.select();"></input>
                         <input type="color" class="w3-padding-none" title="Foreground Color" id="TileColor" style="width: 20px;" onchange="MR.updatePaletteTile();"></input><!--TODO change this to a link to match other buttons and have it click an invisible color input.-->
                         <div class="w3-dropdown-hover" style="background: #FFF">
                           <a href="javascript:MR.incTileLight();" class="w3-button w3-padding-small" title="Lighting" id="TileLight"></a>

@@ -116,5 +116,6 @@ div.subMenu {
     }
 
 #Tile { font-family: Square; text-align: center}
-#paletteDisplay span {font-family: Square; text-align: center; border: 1px solid #ccc;cursor:pointer}
+#paletteDisplay { overflow-wrap:break-word; padding-left: 5px; padding-right: 5px;}
+#paletteDisplay span {font-family: Square; text-align: center; border: 1px solid #ccc;cursor:pointer;}
 .selected {border: 1px solid #000!important}
