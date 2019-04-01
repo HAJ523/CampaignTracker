@@ -212,6 +212,7 @@ MR.mouseMove = function(e) {
 MR.drawPoint = function(loc) {
   if (loc == null) {return;} //If loc isn't populated then there is nothing to do!
   if ((MR.hasOwnProperty('LL')) && (loc[0] == MR.LL[0]) && (loc[1] == MR.LL[1])) {return;} //If there was no movement then quit.
+  console.log(MR.UNDO[0]);
   switch(MR.CT) {
     case "B":
       var pts = MR.lerpGrid(loc,MR.LL);
@@ -244,11 +245,16 @@ MR.drawPoint = function(loc) {
             MR.brushPoint(pts[i], "S", prvKeys);
         }
       }
-      for (var k in prvKeys) { //Loop over the remaining keys and revert the tile.
+      prvKeys.map(function(k) { //Loop over the remaining keys and revert the tile.
+        if ( k == undefined ) {return;}
         data.pages[data.slctPage].M.A[k] = MR.UNDO[0][k];
         delete MR.UNDO[0][k];
-        MR.printTile(k.split(",").map(parseInt),k);
-      }
+        MR.printTile(k.split(",").map(function(x) {return parseInt(x,10);}),k);
+      });
+      break;
+    case "F":
+      //Don't allow draging a fill operation. It happens then it is done!
+      MR.mouseOut();
       break;
   }
   MR.LL = loc; //Update the previous loc.
@@ -276,16 +282,16 @@ MR.brushPoint = function(loc, s, keys) {//Location, Size, oldKeyArray
     if (y < 0) {continue;}
     if (y >= data.pages[data.slctPage].M.H) {continue;}
 
-    //Add new tile to the undo if it isn't there already
-    if (MR.UNDO[0].hasOwnProperty(t)) {continue;}
-    MR.UNDO[0][t] = data.pages[data.slctPage].M.A[t];
-
     if (keys != null) { //If we have an old key set then we need to record that we are still paining at the current location.
       var idx = keys.indexOf(t);
       if (idx > -1) {
-        keys.splice(idx,1);
+        delete keys[idx];
       }
     }
+
+    //Add new tile to the undo if it isn't there already
+    if (MR.UNDO[0].hasOwnProperty(t)) {continue;}
+    MR.UNDO[0][t] = data.pages[data.slctPage].M.A[t];
 
     MR.setMapTile([x,y], t);
   }
@@ -497,7 +503,7 @@ MR.lerpGrid = function(s,e) {
   var ret = [];
   var t;
   for (var i=0;i<=n;i++) {
-    t = i / n;
+    t = ((n==0) ? 0 : i / n);
     ret.push([MR.lerp(s[0],e[0],t),MR.lerp(s[1],e[1],t)]);
   }
   return ret;
