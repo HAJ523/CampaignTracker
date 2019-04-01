@@ -395,7 +395,7 @@ MR.brushPoint = function(loc, s, keys) {//Location, Size, oldKeyArray
 
 MR.setMapTile = function(loc, t) {
   //Choose a random tile from the palette.
-  data.pages[data.slctPage].M.A[t] = MR.PL[Math.floor(Math.random()*MR.PL.length)];
+  data.pages[data.slctPage].M.A[t] = Object.assign({},MR.PL[Math.floor(Math.random()*MR.PL.length)]);
 
   MR.printTile(loc, t);
 }
