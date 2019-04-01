@@ -404,10 +404,20 @@ MR.setMapTile = function(loc, k) {
   Scope: Public
   Description: Used to clear any undo / selection data when changing pages.
 */
-MR.clearMapper = function() {
+MR.clearMapper = function() { //TODO determine if this is needed with initMapper existing.
   MR.CT = "B"; //Default to the brush.
-  delete MR.CD; //Delete any current drawing operations.
+  MR.CL = "T";
+  delete MR.UNDO; //Delete any current drawing operations.
   MR.ZM = 1; //Set the zoom scale back to 1.
+}
+
+MR.undo = function() {
+  var l = MR.UNDO.shift(); //Get the first element.
+
+  for (var k in l) {
+    data.pages[data.slctPage].M.A[k] = l[k];
+    MR.printTile(k.split(",").map(function(x) {return parseInt(x,10);}),k);
+  }
 }
 
 /*
