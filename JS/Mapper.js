@@ -119,13 +119,9 @@ MR.updateMapCanvas = function() {
   MR.CX.textAlign = "left";
   MR.CX.textBaseline = "top";
 
-  var tile;
-  for( var i = 0; i < data.pages[data.slctPage].M.W; i++) {
-    if (!data.pages[data.slctPage].M.A.hasOwnProperty(i)) {continue;} //Skip the entire row if it doesn't exist.
-    for (var j = 0; j < data.pages[data.slctPage].M.H; j++) {
-      //Check to make sure that this column exists then the row entry.
-      MR.printTile([i,j],i+","+j);
-    }
+  //Loop over the current elements.
+  for (var k in data.pages[data.slctPage].M.A) {
+    MR.printTile(k.split(",").map(function(x) {return parseInt(x,10);}),k);
   }
 }
 
@@ -212,8 +208,8 @@ MR.mouseMove = function(e) {
 MR.drawPoint = function(loc) {
   if (loc == null) {return;} //If loc isn't populated then there is nothing to do!
   if ((MR.hasOwnProperty('LL')) && (loc[0] == MR.LL[0]) && (loc[1] == MR.LL[1])) {return;} //If there was no movement then quit.
-  console.log(MR.UNDO[0]);
   switch(MR.CT) {
+    case "E":
     case "B":
       var pts = MR.lerpGrid(loc,MR.LL);
       //Repaint the canvas at that location with the new tile.
@@ -393,11 +389,15 @@ MR.brushPoint = function(loc, s, keys) {//Location, Size, oldKeyArray
   }
 }
 
-MR.setMapTile = function(loc, t) {
+MR.setMapTile = function(loc, k) {
   //Choose a random tile from the palette.
-  data.pages[data.slctPage].M.A[t] = Object.assign({},MR.PL[Math.floor(Math.random()*MR.PL.length)]);
+  if (MR.CT == "E") {
+    data.pages[data.slctPage].M.A[k] = undefined;
+  } else {
+    data.pages[data.slctPage].M.A[k] = Object.assign({},MR.PL[Math.floor(Math.random()*MR.PL.length)]);
+  }
 
-  MR.printTile(loc, t);
+  MR.printTile(loc, k);
 }
 
 /*
@@ -503,6 +503,7 @@ MR.selectTileWalkable = function() {
 }
 
 MR.buildHTMLPalette = function() {
+  document.getElementById('paletteDisplay').innerHTML=""; //Clear the palette before rebuilding.
   //Loop over all the tiles.
   for(var i = 0; i < MR.PL.length; i++) {
     MR.addHTMLTileToPalette(i);

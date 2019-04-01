@@ -202,6 +202,11 @@ CT.selectPage = function(p, ss) {
     case "E":
       break;
     case "M":
+      if (!data.pages[data.slctPage].hasOwnProperty("M")) {
+        CT.changeView("J");
+      } else {
+        MR.initMapper();
+      }
       break;
     case "J":
       JL.loadPage();
