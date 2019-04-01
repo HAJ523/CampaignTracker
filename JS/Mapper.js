@@ -137,7 +137,6 @@ MR.printTile = function(loc, t) {//Location, TileAddress
   if (data.pages[data.slctPage].M.A.hasOwnProperty(t)) {
 
     tile = data.pages[data.slctPage].M.A[t];
-    if (tile == null) { return; } //If there is nothing to draw move on.
 
     //square drawing.
     var x = MR.BR + loc[0] * MR.FS;
@@ -145,6 +144,8 @@ MR.printTile = function(loc, t) {//Location, TileAddress
 
     MR.CX.fillStyle = data.pages[data.slctPage].M.C;
     MR.CX.fillRect(x, y, MR.FS, MR.FS);
+
+    if (tile == null) { return; } //If there is nothing to draw move on.
 
     MR.CX.fillStyle = tile.C;
     MR.CX.fillText(tile.T, x, y);
@@ -178,6 +179,7 @@ MR.mouseChange = function(e) {
     }
     MR.CV.addEventListener('mousemove', MR.mouseMove); //Add the move listener.
     delete MR.LL;
+    delete MR.FL;
     //Draw to current location
     MR.mouseMove(e);
     //TODO undo list
@@ -217,13 +219,35 @@ MR.drawPoint = function(loc) {
       for (var i=0;i<pts.length;i++) {
         switch(MR.TS) {
           case "L":
-            MR.brushPoint(pts[i],"L");
+            MR.brushPoint(pts[i], "L");
           case "M":
-            MR.brushPoint(pts[i],"M");
+            MR.brushPoint(pts[i], "M");
           case "S":
           default:
-            MR.brushPoint(pts[i],"S");
+            MR.brushPoint(pts[i], "S");
         }
+      }
+      break;
+    case "L":
+      if (MR.FL == null) {MR.FL = loc;} //Store the first line point for later!
+      var prvKeys = Object.keys(MR.UNDO[0]); //Get all of the old keys in Undo.
+      var pts = MR.lerpGrid(loc,MR.FL);
+      //Repaint the canvas at that location with the new tile.
+      for (var i=0;i<pts.length;i++) {
+        switch(MR.TS) {
+          case "L":
+            MR.brushPoint(pts[i], "L", prvKeys);
+          case "M":
+            MR.brushPoint(pts[i], "M", prvKeys);
+          case "S":
+          default:
+            MR.brushPoint(pts[i], "S", prvKeys);
+        }
+      }
+      for (var k in prvKeys) { //Loop over the remaining keys and revert the tile.
+        data.pages[data.slctPage].M.A[k] = MR.UNDO[0][k];
+        delete MR.UNDO[0][k];
+        MR.printTile(k.split(",").map(parseInt),k);
       }
       break;
   }
@@ -234,7 +258,7 @@ MR.drawPoint = function(loc) {
   Scope: Private
   Description: paint all tiles in the brush location.
 */
-MR.brushPoint = function(loc, s) {//Location, Size
+MR.brushPoint = function(loc, s, keys) {//Location, Size, oldKeyArray
   var x=0;
   var y=0;
   var t;
@@ -255,6 +279,13 @@ MR.brushPoint = function(loc, s) {//Location, Size
     //Add new tile to the undo if it isn't there already
     if (MR.UNDO[0].hasOwnProperty(t)) {continue;}
     MR.UNDO[0][t] = data.pages[data.slctPage].M.A[t];
+
+    if (keys != null) { //If we have an old key set then we need to record that we are still paining at the current location.
+      var idx = keys.indexOf(t);
+      if (idx > -1) {
+        keys.splice(idx,1);
+      }
+    }
 
     MR.setMapTile([x,y], t);
   }
