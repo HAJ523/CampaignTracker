@@ -253,6 +253,7 @@ MR.drawPoint = function(loc) {
       });
       break;
     case "F":
+      //TODO Add fill here.
       //Don't allow draging a fill operation. It happens then it is done!
       MR.mouseOut();
       break;
