@@ -290,6 +290,7 @@ MR.drawPoint = function(loc) {
       if (data.pages[data.slctPage].M.A[k] != undefined) { //If there is a tile in the location.
         MR.addTileToPalette(Object.assign({},data.pages[data.slctPage].M.A[k]));
       }
+      MR.UNDO.shift(); //remove extra undo option for copying to palette.
       MR.mouseOut(); //No drag and copy single click only.
       break;
     case "S":
