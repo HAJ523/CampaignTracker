@@ -606,22 +606,6 @@ MR.mapDiagonalDistance = function(s,e) { //Start, End
   return Math.max(Math.abs(s[0]-e[0]),Math.abs(s[1]-e[1]));
 }
 
-MR.lerp = function(s,e,t) {
-  return Math.floor(s + t * (e - s));
-}
-
-MR.lerpGrid = function(s,e) {
-  if (e == null) {return [s];}
-  var n = MR.mapDiagonalDistance(s,e);
-  var ret = [];
-  var t;
-  for (var i=0;i<=n;i++) {
-    t = ((n==0) ? 0 : i / n);
-    ret.push([MR.lerp(s[0],e[0],t),MR.lerp(s[1],e[1],t)]);
-  }
-  return ret;
-}
-
 MR.bresLine = function(s,e) {
   var ret = [];
   // Translate coordinates
