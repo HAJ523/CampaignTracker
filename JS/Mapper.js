@@ -211,7 +211,7 @@ MR.drawPoint = function(loc) {
   switch(MR.CT) {
     case "E":
     case "B":
-      var pts = MR.lerpGrid(loc,MR.LL);
+      var pts = MR.bresLine(loc,MR.LL);
       //Repaint the canvas at that location with the new tile.
       for (var i=0;i<pts.length;i++) {
         switch(MR.TS) {
@@ -228,7 +228,7 @@ MR.drawPoint = function(loc) {
     case "L":
       if (MR.FL == null) {MR.FL = loc;} //Store the first line point for later!
       var prvKeys = Object.keys(MR.UNDO[0]); //Get all of the old keys in Undo.
-      var pts = MR.lerpGrid(loc,MR.FL);
+      var pts = MR.bresLine(loc,MR.FL);
       //Repaint the canvas at that location with the new tile.
       for (var i=0;i<pts.length;i++) {
         switch(MR.TS) {
@@ -298,10 +298,10 @@ MR.drawPoint = function(loc) {
       var prvKeys = Object.keys(MR.UNDO[0]); //Get all of the old keys in Undo.
 
       //Side 1
-      var pts = MR.lerpGrid(MR.FL, [MR.FL[0], loc[1]])
-      .concat(MR.lerpGrid(MR.FL, [loc[0], MR.FL[1]]))
-      .concat(MR.lerpGrid(loc, [MR.FL[0], loc[1]]))
-      .concat(MR.lerpGrid(loc, [loc[0], MR.FL[1]]));
+      var pts = MR.bresLine(MR.FL, [MR.FL[0], loc[1]])
+      .concat(MR.bresLine(MR.FL, [loc[0], MR.FL[1]]))
+      .concat(MR.bresLine(loc, [MR.FL[0], loc[1]]))
+      .concat(MR.bresLine(loc, [loc[0], MR.FL[1]]));
 
       //Repaint the canvas at that location with the new tile.
       for (var i=0;i<pts.length;i++) {
@@ -619,6 +619,39 @@ MR.lerpGrid = function(s,e) {
     t = ((n==0) ? 0 : i / n);
     ret.push([MR.lerp(s[0],e[0],t),MR.lerp(s[1],e[1],t)]);
   }
+  return ret;
+}
+
+MR.bresLine = function(s,e) {
+  var ret = [];
+  // Translate coordinates
+  var x1 = s[0];
+  var y1 = s[1];
+  var x2 = e[0];
+  var y2 = e[1];
+  // Define differences and error check
+  var dx = Math.abs(x2 - x1);
+  var dy = Math.abs(y2 - y1);
+  var sx = (x1 < x2) ? 1 : -1;
+  var sy = (y1 < y2) ? 1 : -1;
+  var err = dx - dy;
+  // Set first coordinates
+  ret.push([x1, y1]);
+  // Main loop
+  while (!((x1 == x2) && (y1 == y2))) {
+    var e2 = err << 1;
+    if (e2 > -dy) {
+      err -= dy;
+      x1 += sx;
+    }
+    if (e2 < dx) {
+      err += dx;
+      y1 += sy;
+    }
+    // Set coordinates
+    ret.push([x1, y1]);
+  }
+  // Return the result
   return ret;
 }
 
