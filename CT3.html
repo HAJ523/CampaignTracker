@@ -91,14 +91,14 @@
                       <a href="javascript:MR.undo();" class="w3-btn w3-padding-small" title="Undo"><span class="fas fa-undo"></span></a>
                     </div>
                     <div>
-                      <a href="javascript:void(0);" title="" class="fas fa-save"></a>
+                      <a href="javascript:MR.savePalette();" title="Save Palette" class="fas fa-save"></a>
                       <div class="w3-dropdown-hover" style="background: #FFF">
                         <span> Palette </span>
                         <div class="w3-dropdown-content w3-card" id="PaletteList">
-                          <a href="javascript:void(0);">Palette</a>
+                          <a href="javascript:MR.newPalette();" class="w3-btn w3-padding-none" title="New Palette">New</a>
                         </div>
                       </div>
-                      <a href="javascript:void(0);" title="" class="fas fa-trash"></a>
+                      <a href="javascript:MR.deletePalette();" title="Delete Palette" class="fas fa-trash"></a>
                       <div class="w3-small" id="paletteDisplay"></div>
                     </div>
                     <span>Tile</span><br/>

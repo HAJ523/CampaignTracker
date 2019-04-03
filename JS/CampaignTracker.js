@@ -52,6 +52,7 @@ CT.resetData = function() {
   data.settings = {};
   data.settings.name = "";
   data.tables = {};
+  data.palettes = {};
   /*data.images = [];
   data.history = {};
   data.settings.imagepath = "";

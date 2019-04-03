@@ -29,7 +29,7 @@ MR.onLoad = function() {
   Description: Called when switching to map view.
 */
 MR.initMapper = function() {
-  MR.PL = [{T:".", C:"#FFFFFF", L:0, O:0.0, W:true}] //Default palette
+  MR.newPalette(); //Default palette
   MR.slctTile = 0;
   MR.PN = "";
   MR.MD = false;
@@ -41,7 +41,6 @@ MR.initMapper = function() {
   MR.selectSize("S");
 
   //Build the HTML of the pallette.
-  MR.buildHTMLPalette();
   MR.selectTile(null, 0);
 
   MR.updateMapCanvas();
@@ -679,4 +678,73 @@ MR.distance = function(s,e) {//Loc 1, Loc 2
   var a = s[0]-e[0];
   var b = s[1]-e[1];
   return Math.sqrt(a*a + b*b);
+}
+
+MR.savePalette = function() {
+  CT.prompt(MR.savePaletteFinalize, "Save Palette", "Name to save palette as?", "Name", "Palette Name", MR.PN);
+}
+
+MR.savePaletteFinalize = function(name) {
+  if ((name == null) || (name == "")) {return;} //If we cancelled or a bad name is selected then quit.
+
+  var add = false;
+
+  if (!data.hasOwnProperty("palettes")) {
+    data.palettes = {}
+  }
+
+  if (data.palettes.hasOwnProperty(name)) {
+    delete data.palettes[name];
+  } else {
+    add = true;
+  }
+  data.palettes[name] = [];
+
+  //Loop through the palette and save a copy of each tile to the named palette.
+  for (var i=0;i<MR.PL.length;i++) {
+    data.palettes[name].push(Object.assign({},MR.PL[i]));
+  }
+
+  MR.addPaletteHTML(name);
+}
+
+MR.selectPalette = function(k) {
+  MR.PN = k;
+
+  delete MR.PL;
+  MR.PL = [];
+  for (var i=0;i<data.palettes[k].length;i++) {
+    MR.PL.push(Object.assign({},data.palettes[k][i])); //Make a copy so that we don't accidentally change the palette values without clicking save.
+  }
+
+  if (add) {MR.buildHTMLPalette();} //Only add to the HTML if necessary.
+}
+
+MR.deletePalette = function() {
+  delete data.palettes[MR.PN]
+  MR.removePaletteHTML(MR.PN);
+  delete MR.PN;
+
+  MR.newPalette(); //Refill the palette.
+}
+
+MR.newPalette = function() {
+  delete MR.PL;
+  MR.PL = [{T:".", C:"#FFFFFF", L:0, O:0.0, W:true}];
+  MR.buildHTMLPalette();
+}
+
+MR.buildPaletteHTML = function() {
+  for (var k in data.palettes) {
+    MR.addPaletteHTML(k);
+  }
+}
+
+MR.addPaletteHTML = function(k) {//Key
+  var el = document.getElementById('PaletteList');
+  el.innerHTML += "<a href=\"javascript:MR.selectPalette('"+k+"');\" class=\"w3-btn w3-padding-none\" id=\"pl"+k+"\">"+k+"</a>";
+}
+
+MR.removePaletteHTML = function(k) {
+  document.getElementById('PaletteList').removeChild(document.getElementById("pl" + k));
 }
