@@ -611,7 +611,7 @@ MR.selectTile = function(e, i) {
   MR.setOcclusionGui();
 }
 
-MR.setOcclusionGui = function() {
+MR.setOcclusionGui = function() { //TODO Combine these gui functions into 1 since they are so similiar?
   document.getElementById('TileOcclusion').innerHTML = document.getElementById("Occ" + MR.PL[MR.slctTile].O).innerHTML;
 }
 
