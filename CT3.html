@@ -130,10 +130,10 @@
                         <div class="w3-dropdown-hover" style="background: #FFF">
                           <a href="javascript:incTileWalkable();" id="TileWalkable" class="w3-button w3-padding-small" title="Walkable?"></a>
                           <div class="w3-dropdown-content w3-card">
-                            <a href="javascript:MR.selectTileWalkable(0);" id="Walk0" class="w3-button w3-padding-small" title="Difficult"><span class="fas fa-ban"></span></a>
-                            <a href="javascript:MR.selectTileWalkable(.5);" id="Walk0.5" class="w3-button w3-padding-small" title="Difficult"><span class="fas fa-running"></span></a>
-                            <a href="javascript:MR.selectTileWalkable(1);" id="Walk1" class="w3-button w3-padding-small" title="Difficult"><span class="fas fa-walking"></span></a>
-                            <a href="javascript:MR.selectTileWalkable(2);" id="Walk2" class="w3-button w3-padding-small" title="Difficult"><span class="fas fa-hiking"></span></a>
+                            <a href="javascript:MR.selectTileWalkable(0);" id="Walk0" class="w3-button w3-padding-small" title="Not Walkable"><span class="fas fa-ban"></span></a>
+                            <a href="javascript:MR.selectTileWalkable(.5);" id="Walk0.5" class="w3-button w3-padding-small" title="Quick Terrain"><span class="fas fa-running"></span></a>
+                            <a href="javascript:MR.selectTileWalkable(1);" id="Walk1" class="w3-button w3-padding-small" title="Walkable"><span class="fas fa-walking"></span></a>
+                            <a href="javascript:MR.selectTileWalkable(2);" id="Walk2" class="w3-button w3-padding-small" title="Difficult Terrain"><span class="fas fa-hiking"></span></a>
                           </div>
                         </div>
                         <a href="javascript:MR.addTileToPalette();" class="w3-button w3-padding-small" title="Add"><span class="fas fa-check-circle"></span></a>
@@ -173,9 +173,8 @@
                     <ol></ol>
                 </div>
               </div>
-              <!-- Map -->
-              <div class="w3-container w3-rest w3-padding-small viewM w3-hide" style="height:100%;overflow:auto;">
-                <div id="MapHelp" class="w3-center w3-card w3-hide">Edit page properties and add map size to create a map for this page.</div>
+              <!-- Map & Encounters -->
+              <div class="w3-container w3-rest w3-padding-small viewM viewE w3-hide" style="height:100%;overflow:auto;">
                 <canvas id="MapCanvas" class="w3-card"></canvas>
               </div>
               <!-- Journal -->
