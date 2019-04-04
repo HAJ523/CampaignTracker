@@ -127,7 +127,15 @@
                             <a href="javascript:MR.selectTileOcclusion(1);" id="Occ1" class="w3-button w3-padding-small" title="100%"><strong>1&#8260;1</strong></a>
                           </div>
                         </div>
-                        <a href="javascript:MR.selectTileWalkable();" id="TileWalkable" class="w3-button w3-padding-small w3-btn-pressed" title="Walkable?"><span class="fas fa-shoe-prints"></span></a>
+                        <div class="w3-dropdown-hover" style="background: #FFF">
+                          <a href="javascript:incTileWalkable();" id="TileWalkable" class="w3-button w3-padding-small" title="Walkable?"></a>
+                          <div class="w3-dropdown-content w3-card">
+                            <a href="javascript:MR.selectTileWalkable(0);" id="Walk0" class="w3-button w3-padding-small" title="Difficult"><span class="fas fa-ban"></span></a>
+                            <a href="javascript:MR.selectTileWalkable(.5);" id="Walk0.5" class="w3-button w3-padding-small" title="Difficult"><span class="fas fa-running"></span></a>
+                            <a href="javascript:MR.selectTileWalkable(1);" id="Walk1" class="w3-button w3-padding-small" title="Difficult"><span class="fas fa-walking"></span></a>
+                            <a href="javascript:MR.selectTileWalkable(2);" id="Walk2" class="w3-button w3-padding-small" title="Difficult"><span class="fas fa-hiking"></span></a>
+                          </div>
+                        </div>
                         <a href="javascript:MR.addTileToPalette();" class="w3-button w3-padding-small" title="Add"><span class="fas fa-check-circle"></span></a>
                       </div>
                     </div>

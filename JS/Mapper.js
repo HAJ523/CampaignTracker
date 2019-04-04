@@ -177,7 +177,20 @@ MR.printTile = function(loc, t) {//Location, TileAddress
         }
         break;
       case "W":
-        MR.CX.fillText(tile.W, x, y);
+        switch(tile.W) {
+          case 0:
+            MR.CX.fillText(tile.W, x, y);
+            break;
+          case .5:
+            MR.CX.fillText("4", x, y);
+            break;
+          case 1:
+            MR.CX.fillText("2", x, y);
+            break;
+          case 2:
+            MR.CX.fillText("1", x, y);
+            break;
+        }
         break;
     }
 
@@ -523,6 +536,21 @@ MR.incTileOcclusion = function() {
   }
 }
 
+MR.incWalkable = function() {
+  switch(MR.PL[MR.slctTile.W]) {
+    case 0:
+    case .5:
+      MR.selectTileWalkable(MR.PL[MR.slctTile.W]+.5);
+      break;
+    case 1:
+      MR.selectTileWalkable(2);
+      break;
+    case 2:
+      MR.selectTileWalkable(0);
+      break;
+  }
+}
+
 /*
   Scope: Public
   Description: Set the light on the current title and update the display.
@@ -536,7 +564,7 @@ MR.selectTileLight = function(l) {//Lighting
   Scope: Public
   Description Set the occlusion on the current tile and update the display.
 */
-MR.selectTileOcclusion = function(o, v) {//Occlusion, HTML Value
+MR.selectTileOcclusion = function(o) {//Occlusion
   MR.PL[MR.slctTile].O = o;
   MR.setOcclusionGui();
 }
@@ -545,8 +573,8 @@ MR.selectTileOcclusion = function(o, v) {//Occlusion, HTML Value
   Scope: Public
   Description: Change the walkable status of a tile!
 */
-MR.selectTileWalkable = function() { //TODO Update for easy / difficult terrain!
-  MR.PL[MR.slctTile].W = !MR.PL[MR.slctTile].W;
+MR.selectTileWalkable = function(w) {
+  MR.PL[MR.slctTile].W = w;
   MR.setWalkableGui();
 }
 
@@ -583,24 +611,16 @@ MR.selectTile = function(e, i) {
   MR.setOcclusionGui();
 }
 
-MR.setWalkableGui = function() {
-  var el = document.getElementById('TileWalkable');
-
-  if ((MR.PL[MR.slctTile].W) && (!el.classList.contains('w3-btn-pressed'))) {
-    el.classList.add('w3-btn-pressed');
-    return; //Done so return.
-  }
-  if ((!MR.PL[MR.slctTile].W) && (el.classList.contains('w3-btn-pressed'))) {
-    el.classList.remove('w3-btn-pressed');
-  }
-}
-
 MR.setOcclusionGui = function() {
   document.getElementById('TileOcclusion').innerHTML = document.getElementById("Occ" + MR.PL[MR.slctTile].O).innerHTML;
 }
 
 MR.setLightGui = function() {
   document.getElementById('TileLight').innerHTML = document.getElementById("Light" + MR.PL[MR.slctTile].L).innerHTML;
+}
+
+MR.setWalkableGui = function() {
+  document.getElementById('TileWalkable').innerHTML = document.getElementById("Walk" + MR.PL[MR.slctTile].W).innerHTML;
 }
 
 /*
