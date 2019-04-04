@@ -44,7 +44,6 @@ MR.initMapper = function() {
   MR.selectTile(null, 0);
   MR.buildHTMLPalette();
 
-  MR.updateMapCanvas();
   MR.CV.addEventListener("mousedown",MR.mouseChange);
   MR.CV.addEventListener("mouseup",MR.mouseChange);
   MR.CV.addEventListener("mouseout", MR.mouseOut);
@@ -144,7 +143,45 @@ MR.printTile = function(loc, t) {//Location, TileAddress
     if (tile == null) { return; } //If there is nothing to draw move on.
 
     MR.CX.fillStyle = tile.C;
-    MR.CX.fillText(tile.T, x, y);
+
+    switch(MR.LY) {
+      case "T":
+        MR.CX.fillText(tile.T, x, y);
+        break;
+      case "L":
+        MR.CX.fillText(tile.L, x, y);
+      break;
+      case "O":
+        switch (tile.O) {
+          case 0:
+            MR.CX.fillText("0", x, y);
+            break;
+          case .125:
+            MR.CX.fillText("1", x, y);
+            break;
+          case .25:
+            MR.CX.fillText("2", x, y);
+            break;
+          case .5:
+            MR.CX.fillText("5", x, y);
+            break;
+          case .75:
+            MR.CX.fillText("7", x, y);
+            break;
+          case .875:
+            MR.CX.fillText("8", x, y);
+            break;
+          case 1:
+            MR.CX.fillText("#", x, y);
+            break;
+        }
+        break;
+      case "W":
+        MR.CX.fillText(tile.W, x, y);
+        break;
+    }
+
+
   }
 }
 
@@ -453,7 +490,7 @@ MR.selectLayer = function(l) { //Layer
   MR.LY = l;
   document.getElementById('layer' + l).classList.add("w3-btn-pressed");
 
-  //TODO Update the entire canvas display to show new layer information!
+  MR.updateMapCanvas();
 }
 
 MR.incTileLight = function() {
@@ -508,7 +545,7 @@ MR.selectTileOcclusion = function(o, v) {//Occlusion, HTML Value
   Scope: Public
   Description: Change the walkable status of a tile!
 */
-MR.selectTileWalkable = function() {
+MR.selectTileWalkable = function() { //TODO Update for easy / difficult terrain!
   MR.PL[MR.slctTile].W = !MR.PL[MR.slctTile].W;
   MR.setWalkableGui();
 }
@@ -727,6 +764,7 @@ MR.selectPalette = function(k) {
 }
 
 MR.deletePalette = function() {
+  if (MR.PN == "") { return; }
   delete data.palettes[MR.PN]
   MR.removePaletteHTML(MR.PN);
   delete MR.PN;
@@ -738,7 +776,7 @@ MR.newPalette = function() {
   delete MR.PL;
   delete MR.PN;
   delete MR.slctTile;
-  MR.PL = [{T:".", C:"#ffffff", L:0, O:0.0, W:true}];
+  MR.PL = [{T:".", C:"#ffffff", L:0, O:0.0, W:1}];
   MR.buildHTMLPalette();
   MR.selectTile(null, 0);
   document.getElementById('PaletteName').innerHTML="Palette";
