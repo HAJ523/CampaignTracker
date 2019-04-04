@@ -42,6 +42,7 @@ MR.initMapper = function() {
 
   //Build the HTML of the pallette.
   MR.selectTile(null, 0);
+  MR.buildHTMLPalette();
 
   MR.updateMapCanvas();
   MR.CV.addEventListener("mousedown",MR.mouseChange);
@@ -531,10 +532,10 @@ MR.remHTMLTileFromPalette = function(i) {
 }
 
 MR.selectTile = function(e, i) {
-  if ((i==null)||(i==undefined)) {i=0;}
-  if (e!= null){while( (e = e.previousSibling) != null )  { i++;}} //Figure out index.
+  if ((i == null) || ( i == undefined)) { i = 0; }
+  if (e != null){ while( (e = e.previousSibling) != null )  { i++; }} //Figure out index.
   e = document.getElementById('paletteDisplay');
-  e.children[MR.slctTile].classList.remove('selected');
+  if (MR.slctTile != undefined) {e.children[MR.slctTile].classList.remove('selected');}
   MR.slctTile = i;
   e.children[i].classList.add('selected');
   //Now update the tile editing controls.
@@ -606,6 +607,7 @@ MR.mapDiagonalDistance = function(s,e) { //Start, End
 }
 
 MR.bresLine = function(s,e) {
+  if (e == null) {return [s];}
   var ret = [];
   // Translate coordinates
   var x1 = s[0];
@@ -705,7 +707,9 @@ MR.savePaletteFinalize = function(name) {
     data.palettes[name].push(Object.assign({},MR.PL[i]));
   }
 
-  MR.addPaletteHTML(name);
+  if (add) {MR.addPaletteHTML(name);} //Only add new name if this is really a new addition.
+  MR.PN = name;
+  document.getElementById('PaletteName').innerHTML=name;
 }
 
 MR.selectPalette = function(k) {
@@ -717,7 +721,9 @@ MR.selectPalette = function(k) {
     MR.PL.push(Object.assign({},data.palettes[k][i])); //Make a copy so that we don't accidentally change the palette values without clicking save.
   }
 
-  if (add) {MR.buildHTMLPalette();} //Only add to the HTML if necessary.
+  MR.buildHTMLPalette();
+  MR.selectTile(null, 0);
+  document.getElementById('PaletteName').innerHTML=k;
 }
 
 MR.deletePalette = function() {
@@ -730,8 +736,12 @@ MR.deletePalette = function() {
 
 MR.newPalette = function() {
   delete MR.PL;
-  MR.PL = [{T:".", C:"#FFFFFF", L:0, O:0.0, W:true}];
+  delete MR.PN;
+  delete MR.slctTile;
+  MR.PL = [{T:".", C:"#ffffff", L:0, O:0.0, W:true}];
   MR.buildHTMLPalette();
+  MR.selectTile(null, 0);
+  document.getElementById('PaletteName').innerHTML="Palette";
 }
 
 MR.buildPaletteHTML = function() {
