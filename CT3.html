@@ -73,7 +73,23 @@
                       <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Fog of War"><span class="fas fa-low-vision"></span></a>
                     </div>
                     <div>
-                        <span>Objects & Creatures</span><br/>
+                      <a href="javascript:EN.addOC();" class="w3-button w3-padding-small" title="Remove"><span class="fas fa-times-circle"></span></a>
+                      <span>Objects & Creatures</span>
+                      <a href="javascript:EN.addOC();" class="w3-button w3-padding-small" title="New"><span class="fas fa-plus-circle"></span></a><br/>
+                      <div class="w3-cell-row">
+                        <div class="w3-display-flex-center">
+                      <input type="text" maxlength=1 class="w3-medium" title="Object" id="OCTile" style="height:1.5em;width:1.5em;" value="." onchange="" onfocus="this.select();"></input>
+                      <input type="color" class="w3-padding-none" title="Foreground Color" id="OCColor" style="width: 20px;" onchange=""></input><!--TODO change this to a link to match other buttons and have it click an invisible color input.-->
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <span>Stencils</span><br/>
+                      <a href="javascript:void();" class="w3-btn w3-padding-small" id="toolL" title="Line"><span class="fas fa-pencil-ruler"></span></a>
+                      <a href="javascript:void();" class="w3-btn w3-padding-small" id="toolS" title="Square"><span class="far fa-square"></span></a>
+                      <a href="javascript:void();" class="w3-btn w3-padding-small" id="toolC" title="Circle"><span class="far fa-circle"></span></a>
+                      <a href="javascript:void();" class="w3-btn w3-padding-small" id="toolN" title="Cone"><span class="fas fa-drafting-compass"></span></a>
+
                     </div>
                   </div>
                   <!-- Mapper Controls -->

@@ -11,6 +11,10 @@ EN.initEncounter = function() {
 
 }
 
+EN.addOC = function() {
+  
+}
+
 EN.updateEncounterCanvas = function() {
   //Update the layers based on current object properties.
   //Occlusion

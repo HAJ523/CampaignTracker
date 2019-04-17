@@ -693,7 +693,7 @@ MR.bresLine = function(s,e,d) {//Start, End, Distance
   // Set first coordinates
   ret.push([x1, y1]);
   // Main loop
-  while (!((x1 == x2) && (y1 == y2)) && (d>0)) {
+  while (!((x1 == x2) && (y1 == y2)) && (d >= 0)) {
     e2 = err << 1;
     if (e2 > -dy) {
       err -= dy;
