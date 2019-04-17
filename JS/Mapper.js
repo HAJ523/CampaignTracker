@@ -663,7 +663,8 @@ MR.mapDiagonalDistance = function(s,e) { //Start, End
   return Math.max(Math.abs(s[0]-e[0]),Math.abs(s[1]-e[1]));
 }
 
-MR.bresLine = function(s,e) {
+//10k lines on average in 15.715 ms.
+MR.bresLine = function(s,e,d) {//Start, End, Distance
   if (e == null) {return [s];}
   var ret = [];
   // Translate coordinates
@@ -677,11 +678,23 @@ MR.bresLine = function(s,e) {
   var sx = (x1 < x2) ? 1 : -1;
   var sy = (y1 < y2) ? 1 : -1;
   var err = dx - dy;
+  var e2;
+  var dd;
+  if (d == undefined) { //Handle distance lines.
+    d=1;
+    dd=0;
+  } else {
+    if ((dx == 0) || (dy == 0)) {
+      dd = 1;
+    } else {
+      dd = ((dx<dy) ? 1/Math.cos(Math.atan2(dx,dy)) : 1/Math.cos(Math.atan2(dy,dx)));
+    }
+  }
   // Set first coordinates
   ret.push([x1, y1]);
   // Main loop
-  while (!((x1 == x2) && (y1 == y2))) {
-    var e2 = err << 1;
+  while (!((x1 == x2) && (y1 == y2)) && (d>0)) {
+    e2 = err << 1;
     if (e2 > -dy) {
       err -= dy;
       x1 += sx;
@@ -692,9 +705,96 @@ MR.bresLine = function(s,e) {
     }
     // Set coordinates
     ret.push([x1, y1]);
+    d -= dd;
   }
   // Return the result
   return ret;
+}
+
+//10k lines on average in 17.808 ms so much for extremely fast!
+MR.EFLA = function(s,e,d) {//Start, End, Distance
+  var yl=false, incVal, endVal, ret=[],i,dd;
+
+  var sLen = e[1]-s[1];
+  var lLen = e[0]-s[0];
+
+  if (Math.abs(sLen) > Math.abs(lLen)) {
+    var sw = sLen;
+    sLen = lLen;
+    lLen = sw;
+    yl=true;
+  }
+
+  endVal=lLen;
+  if (d == undefined) {
+    d = 1;
+    dd = 0;
+  } else {
+    dd = 1/Math.cos(Math.atan2(Math.abs(sLen),Math.abs(lLen)));
+  }
+  if (lLen < 0) {
+    incVal = -1;
+    lLen=-lLen;
+  } else {
+    incVal = 1;
+  }
+
+  var fInc = ((lLen == 0) ? sLen : sLen/lLen);
+  var de;
+  if (yl) {
+    for (i=0;((i!=endVal) && (d > 0));i+=incVal) {
+      ret.push([s[0]+(de|0), s[1]+i]);
+      de += fInc;
+      d -= dd;
+    }
+  } else {
+    for (i=0;((i!=endVal) && (d > 0));i+=incVal) {
+      ret.push([s[0]+i, s[1]+(de|0)]);
+      de += fInc;
+      d -= dd;
+    }
+  }
+
+  return ret;
+}
+
+MR.linePerformance = function() {
+
+  var starts=[],ends=[],t;
+  for (var i=0;i<10;i++) {
+    t = Math.floor(Math.random()*50);
+    starts.push([t,0]);
+    t = Math.floor(Math.random()*50);
+    ends.push([t,49]);
+  }
+
+  //Without distance
+ for(var k=0;k<100;k++) {
+   MR.linePerformanceHelper('Bresenham', MR.bresLine,starts,ends);
+ }
+ for(var k=0;k<100;k++) {
+   MR.linePerformanceHelper('EFLA', MR.EFLA,starts,ends);
+ }
+
+ //Without distance
+for(var k=0;k<100;k++) {
+  MR.linePerformanceHelper('BresenhamDist', MR.bresLine,starts,ends,25);
+}
+for(var k=0;k<100;k++) {
+  MR.linePerformanceHelper('EFLADist', MR.EFLA,starts,ends,25);
+}
+}
+
+MR.linePerformanceHelper = function(n,cb,starts,ends,d) {
+  var i;
+
+  console.time(n);
+  for (i=0;i<500;i++) {
+    cb(starts[i%10],ends[i%10],d);
+    //Do both line slopes.
+    cb(ends[i%10],starts[i%10],d);
+  }
+  console.timeEnd(n);
 }
 
 MR.midPointCircle = function(l,r) {//Center, Radius
