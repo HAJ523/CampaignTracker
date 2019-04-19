@@ -69,7 +69,7 @@
                     <div>
                       <span>View</span><br/>
                       <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Show" id="ShowEncounter"><span class="fas fa-power-off"></span></a>
-                      <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Pause"><span class="fas fa-pause"></span></a><br/>
+                      <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Pause"><span class="fas fa-pause"></span></a>
                       <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Fog of War"><span class="fas fa-low-vision"></span></a>
                       <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Show Invisible"><span class="fas fa-braille"></span></a>
                     </div>
@@ -79,8 +79,17 @@
                       <a href="javascript:EN.addOC();" class="w3-button w3-padding-small" title="New"><span class="fas fa-plus-circle"></span></a><br/>
                       <div class="w3-cell-row">
                         <div class="w3-display-flex-center">
-                      <input type="text" maxlength=1 class="w3-medium" title="Object" id="OCTile" style="height:1.5em;width:1.5em;" value="." onchange="" onfocus="this.select();"></input>
-                      <input type="color" class="w3-padding-none" title="Foreground Color" id="OCColor" style="width: 20px;" onchange=""></input><!--TODO change this to a link to match other buttons and have it click an invisible color input.-->
+                          <input type="text" maxlength=1 class="w3-medium" title="Object" id="OCTile" style="height:1.5em;width:1.5em;" value="." onchange="" onfocus="this.select();"></input>
+                          <input type="color" class="w3-padding-none" title="Foreground Color" id="OCColor" style="width: 20px;" onchange=""></input><!--TODO change this to a link to match other buttons and have it click an invisible color input.-->
+                          <div class="w3-dropdown-hover">
+                            <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Type" id="OCType"><span class="fas fa-dragon"></span></a>
+                            <div class="w3-dropdown-content">
+                              <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Type"><span class="fas fa-dragon"></span></a>
+                              <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Type"><span class="fas fa-user"></span></a>
+                              <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Type"><span class="fas fa-mountain"></span></a>
+                            </div>
+                          </div>
+                          <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Visible?"><span class="fas fa-eye"></span></a>
                         </div>
                       </div>
                     </div>
