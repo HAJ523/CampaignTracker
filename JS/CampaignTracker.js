@@ -107,13 +107,21 @@ CT.loadData = function(name) {
   //First load the database
   ST.loadData(name);
 }
+
 CT.finishLoad = function(v) {
   //Now make sure that the displays are updated to be the loaded data.
   CT.changeView(v);
   CT.buildPageTree();
   CT.selectPage(data.slctPage, true); //Skip saving
+  CT.setTitles();
 
   CT.setStatus("Campaign successfully loaded.");
+
+}
+
+CT.setTitles = function() {
+  document.getElementById('ctTitle').innerHTML = "Campaign Tracker - " + data.settings.name;
+  document.getElementById('Title').innerHTML = data.settings.name;
 }
 
 CT.exportData = function() {} //TODO

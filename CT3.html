@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Campaign Tracker</title>
+    <title id="ctTitle">Campaign Tracker</title>
     <link rel="shortcut icon" type="image/png" href="IMG/CT.ico">
     <!-- External Scripts -->
     <script src="LIB\discord.11.4.2.min.js"></script>
@@ -43,7 +43,7 @@
                   <a class="w3-bar-item w3-button w3-padding-small w3-small w3-nowrap" href="javascript:CT.changeDisplay('Help');" title=""><span class="fa fa-question"></span> Help</a>
                 </div>
               </div>
-              <strong><a class="w3-bar-item" id="title">Campaign Tracker</a></strong>
+              <strong><a class="w3-bar-item" id="Title">Campaign Tracker</a></strong>
             </div>
             <div class="w3-display-middle w3-small"><span id="PageTitle"></span> <a href="javascript:CT.editPage();" class="fas fa-scroll"></a></div>
             <div class="w3-display-right" id="IGClock">Cal</div>
@@ -74,9 +74,15 @@
                       <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Show Invisible"><span class="fas fa-braille"></span></a>
                     </div>
                     <div>
+                      <span>Actions</span><br/>
+                      <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Select"><span class="fas fa-hand-point-up"></span></a>
+                      <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Move"><span class="fas fa-route"></span></a>
+                    </div>
+                    <div>
                       <a href="javascript:EN.removeOC();" class="w3-button w3-padding-small" title="Remove"><span class="fas fa-times-circle"></span></a>
                       <span>Objects & Creatures</span>
                       <a href="javascript:EN.addOC();" class="w3-button w3-padding-small" title="New"><span class="fas fa-plus-circle"></span></a><br/>
+                      <input type="text" title="Name"/>
                       <div class="w3-cell-row">
                         <div class="w3-display-flex-center">
                           <input type="text" maxlength=1 class="w3-medium" title="Object" id="OCTile" style="height:1.5em;width:1.5em;" value="." onchange="" onfocus="this.select();"></input>
@@ -84,9 +90,9 @@
                           <div class="w3-dropdown-hover">
                             <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Type" id="OCType"><span class="fas fa-dragon"></span></a>
                             <div class="w3-dropdown-content">
-                              <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Type"><span class="fas fa-dragon"></span></a>
-                              <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Type"><span class="fas fa-user"></span></a>
-                              <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Type"><span class="fas fa-mountain"></span></a>
+                              <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Monster"><span class="fas fa-dragon"></span></a>
+                              <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Player"><span class="fas fa-user"></span></a>
+                              <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Object"><span class="fas fa-mountain"></span></a>
                             </div>
                           </div>
                           <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Visible?"><span class="fas fa-eye"></span></a>
