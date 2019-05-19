@@ -15,8 +15,8 @@ var MD = {}; //Initialize markdown object.
     HTML
 */
 MD.toHTML = function(s) {
-  var headers = [];
-  var i=-1;
+  var heads = [];
+  var i = -1;
   return s.split('```').map(function (s) {
     i++;
     if (i%2) {
@@ -50,7 +50,7 @@ MD.toHTML = function(s) {
       //Headers
       .replace(/(?:^|\n)([#]+)[\t ]*(.*)/g, function(m, a, b) { //Parameters: Match, #.*, Header   Return: <h#>text</h#>
         var guid = CT.GUID(8);
-        headers.push({"id": guid, "name":b, "length": a.length});
+        heads.push({"id": guid, "name":b, "length": a.length});
         return '\n<h' + a.length + ' id="H_' + guid + '">' + b + '</h' + a.length + '>';
       })
       //Horizontal Seperator
@@ -105,8 +105,8 @@ MD.toHTML = function(s) {
       });
     }
   }).map(function(t) {
-    if (i == (s.length-1)) {
-      return /*MD.headerDiv() +*/ t;
+    if (heads.length > 0) {
+      return MD.headerDiv(heads) + t;
     } else {
       return t;
     }
@@ -117,13 +117,14 @@ MD.toHTML = function(s) {
   Scope: Private
   Description: Aggregates the headers and the IDs into a displayable floating div!
 */
-MD.headerDiv = function() { //TODO Make collapsable!
-  var s = "<div>";
+MD.headerDiv = function(heads) { //TODO Make collapsable!
+  var s = '<div class="journalContents w3-tiny w3-padding-small w3-no-select"><span onclick="JL.toggleContents(this);">- <strong>Contents</strong> -</span><div id="journalNav" class="w3-left-align">';
   //Loop over all of the headers
-  for (var i = 0; i < headers.length; i++) {
-    //TODO Add contents with numbering for level.
+  for (var i = 0; i < heads.length; i++) {
+    s += '\u00A0\u00A0'.repeat(heads[i].length) + '<a href="javascript:JL.scrollTo(\'' + heads[i].id + '\');">' + heads[i].name + '</a><br/>';
   }
-  return s + "</div>";
+  heads = [];
+  return s + "</div></div>";
 }
 
 /*
@@ -144,7 +145,7 @@ MD.listsToHTML = function(s) {
   //Loop over all of the lines.
   for (var i = 0; i < sa.length; i++) {
     //In case we get an empty line ignore it!
-    if (sa[i]=="") {continue;}
+    if (sa[i] == "") { continue; }
 
     //Determine list type.
     ct = ((sa[i].search(/^[ ]*[^*\-+ ]+.*$/g)>-1) ? 2 : ((sa[i].search(/^[ ]*[+]/g)>-1) ? 0 : 1 ))

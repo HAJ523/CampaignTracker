@@ -282,7 +282,7 @@ JL.getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].te
   Description: Reads the HTML of the current table and saves its values to internal rollable table. Can also update an existing table.
 */
 JL.saveTable = function(e, n) {
-  n = (((n=="") || (n==undefined))? CT.GUID(8) : n) //Make sure that N is valued!
+  n = (((n == "") || (n == undefined)) ? CT.GUID(8) : n) //Make sure that N is valued!
 
   //Make sure that the table is correct first.
   if (data.tables.hasOwnProperty(n)) {delete data.tables[n];}
@@ -298,4 +298,29 @@ JL.saveTable = function(e, n) {
   });
 
   CT.setStatus("Successfully saved table [" + n + "].");
+}
+
+/*
+  Scope: Public
+  Description: Toggle the visibility of the contents navigation div on the journal display.
+*/
+JL.toggleContents = function(e) {
+  var inner = e.innerHTML;
+  if (inner.indexOf("+") >= 0) { //Open
+    inner = inner.replace(/[+]/g,"-");
+    document.getElementById("journalNav").classList.remove("w3-hide");
+  } else { //Close
+    inner = inner.replace(/[-]/g,"+");
+    document.getElementById("journalNav").classList.add("w3-hide");
+  }
+  e.innerHTML = inner;
+}
+
+/*
+  Scope: Public
+  Description: Scroll to element.
+*/
+JL.scrollTo = function(guid) {
+  var tp = document.getElementById("H_"+guid).offsetTop;
+  document.getElementById("JournalDisplay").scrollTop = tp;
 }
