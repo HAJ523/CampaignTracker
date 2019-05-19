@@ -22,7 +22,7 @@ MD.toHTML = function(s) {
     if (i%2) {
       return '<pre onclick="CT.copy(this.children[0]);"><code>' + s.replace(/^[\n]+|[\n]+$/g,"") + '</code></pre>';
     } else {
-      return s.replace(/^[\n]+|[\n]+$/g,""); //Trim extra spaces!
+      return s.replace(/^[\n]+|[\n]+$/g,"") //Trim extra spaces!
       //Paragraph
       .replace(/(?:(?:^|\n)+((?:[^#\|\n>\-*+ ](?:.*)(?:\n|$))+))/g, function (m, a) {//Parameters Match, Paragraph   Returns: <p>Paragraph</p>
         return '\n<p>' + a.replace(/\n/g,"<br>") + '</p>\n';
@@ -106,7 +106,7 @@ MD.toHTML = function(s) {
     }
   }).map(function(t) {
     if (i == (s.length-1)) {
-      return MD.headerDiv() + t;
+      return /*MD.headerDiv() +*/ t;
     } else {
       return t;
     }
@@ -117,7 +117,7 @@ MD.toHTML = function(s) {
   Scope: Private
   Description: Aggregates the headers and the IDs into a displayable floating div!
 */
-MR.headerDiv = function() { //TODO Make collapsable!
+MD.headerDiv = function() { //TODO Make collapsable!
   var s = "<div>";
   //Loop over all of the headers
   for (var i = 0; i < headers.length; i++) {
