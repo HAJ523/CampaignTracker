@@ -15,13 +15,14 @@ var MD = {}; //Initialize markdown object.
     HTML
 */
 MD.toHTML = function(s) {
+  var headers = [];
   var i=-1;
   return s.split('```').map(function (s) {
     i++;
     if (i%2) {
       return '<pre onclick="CT.copy(this.children[0]);"><code>' + s.replace(/^[\n]+|[\n]+$/g,"") + '</code></pre>';
     } else {
-      return s.replace(/^[\n]+|[\n]+$/g,"") //Trim extra spaces!
+      return s.replace(/^[\n]+|[\n]+$/g,""); //Trim extra spaces!
       //Paragraph
       .replace(/(?:(?:^|\n)+((?:[^#\|\n>\-*+ ](?:.*)(?:\n|$))+))/g, function (m, a) {//Parameters Match, Paragraph   Returns: <p>Paragraph</p>
         return '\n<p>' + a.replace(/\n/g,"<br>") + '</p>\n';
@@ -48,7 +49,9 @@ MD.toHTML = function(s) {
       })
       //Headers
       .replace(/(?:^|\n)([#]+)[\t ]*(.*)/g, function(m, a, b) { //Parameters: Match, #.*, Header   Return: <h#>text</h#>
-        return '\n<h' + a.length + '>' + b + '</h' + a.length + '>';
+        var guid = CT.GUID(8);
+        headers.push({"id": guid, "name":b, "length": a.length});
+        return '\n<h' + a.length + ' id="H_' + guid + '">' + b + '</h' + a.length + '>';
       })
       //Horizontal Seperator
       .replace(/(?:^|\n)[\t ]*[\-\*\_]{3}[\t ]*(?:$|\n)/g, function(m, a) {//Parameters: Match, Horizontal Seperator   Return: <hr></hr>
@@ -101,8 +104,26 @@ MD.toHTML = function(s) {
         return MD.listsToHTML(a);
       });
     }
-
+  }).map(function(t) {
+    if (i == (s.length-1)) {
+      return MD.headerDiv() + t;
+    } else {
+      return t;
+    }
   }).join('');
+}
+
+/*
+  Scope: Private
+  Description: Aggregates the headers and the IDs into a displayable floating div!
+*/
+MR.headerDiv = function() { //TODO Make collapsable!
+  var s = "<div>";
+  //Loop over all of the headers
+  for (var i = 0; i < headers.length; i++) {
+    //TODO Add contents with numbering for level.
+  }
+  return s + "</div>";
 }
 
 /*
