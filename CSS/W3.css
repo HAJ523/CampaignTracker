@@ -30,6 +30,7 @@ h1{font-size:36px}h2{font-size:30px}h3{font-size:24px}h4{font-size:20px}h5{font-
 h1,h2,h3,h4,h5,h6{font-family:"Segoe UI",Arial,sans-serif;font-weight:400;margin:10px 0 0 0}.w3-wide{letter-spacing:4px}
 hr{border:0;border-top:1px solid #eee;margin:20px 0}
 p{display: block;margin-block-start: 0; margin-block-end: 0em;}
+p + p {margin-top: 1em;}
 code,pre{background-color: #EEE;padding-left: 4px;padding-right: 4px; cursor: copy;}
 pre{padding-top:4px;padding-bottom: 4px}
 ::-webkit-scrollbar {width: 12px;height: 12px;}
