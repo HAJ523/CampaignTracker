@@ -299,8 +299,8 @@
 
     <!-- Notes Container-->
     <div id="Notes" style="position:absolute; perspective:2000px; top:0px;left:0px;">
-      <div class="w3-modal-content-mobile w3-card-4 w3-hide" style="top:100px;left:100px;z-index:10;" id="QuickNoteTemplate" title="0">
-        <section style="height:100%;width:100%;display:flex;flex-flow:column;">
+      <div class="w3-modal-content-mobile w3-card-4 w3-hide" style="top:100px;left:100px;z-index:10;height: 450px; width:350px;" id="QuickNoteTemplate" title="0">
+        <section style="height:100%;width:100%;display:flex;flex-flow:column;position:relative;">
         <header class="w3-theme-d3 w3-display-container" style="user-select:none;" id="QuickNoteTemplateHeader">
           <div class="w3-left">
             &nbsp;<a href="javascript:void(0);" class="fas fa-sync" title="Edit/View"></a>
@@ -316,6 +316,7 @@
         </div>
         <div style="flex:2;overflow: auto;" class="CT-QNDisplay w3-hide w3-small"></div>
         </section>
+        <span class="fas fa-expand-arrows-alt" style="position: absolute; bottom: 2px; right: 2px;opacity: .1;" onmousedown="QN.resizeNote(this);"></span>
       </div>
     </div>
 

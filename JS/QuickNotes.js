@@ -100,11 +100,13 @@ QN.newNote = function() {
   template.getElementsByClassName("w3-display-middle")[0].innerHTML = template.title;
   template.getElementsByClassName("CT-QNDisplay")[0].id = "Note" + id + "Display";
   template.getElementsByClassName("CT-QNEditor")[0].id = "Note" + id + "Editor";
+  template.getElementsByClassName("fa-expand-arrows-alt")[0].id = "Note" + id + "Resize";
   template.classList.add("w3-animate-zoom");
   template.classList.remove("w3-hide");
 
   notes.appendChild(template);
   QN.makeDraggable(template);
+  QN.makeResizable(template);
   template.addEventListener('animationend', QN.animationEnd);
   document.getElementById('Note' + id + 'Editor').children[0].focus();
 
@@ -163,6 +165,57 @@ QN.makeDraggable = function(el) {
     // set the element's new position:
     el.style.top = (((el.offsetTop - py) < 0)? 0 : (el.offsetTop - py)) + "px";
     el.style.left = (((el.offsetLeft - px) < 0)? 0 : (el.offsetLeft - px)) + "px";
+  }
+
+  function dragMouseUp() {
+    // stop moving when mouse button is released:
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
+
+/*
+  Scope: Public
+  Description: Make the note resize.
+*/
+QN.makeResizable = function(el) {
+  var px = 0, py = 0, ipx = 0, ipy = 0;
+  if (document.getElementById(el.id + "Resize")) {
+    //If present, the header is where you move the DIV from:
+    document.getElementById(el.id + "Resize").onmousedown = dragMouseDown;
+  } else { //Move the DIV from anywhere inside the DIV:
+    el.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    if (e.currentTarget != e.target) return;
+    e.preventDefault();
+    // get the mouse cursor position at startup:
+    ipx = e.clientX;
+    ipy = e.clientY;
+    document.onmouseup = dragMouseUp;
+    // call a function whenever the cursor moves:
+    document.onmousemove = drag;
+
+    if (e.currentTarget.id.includes("Resize")) {
+      QN.topNote(e.currentTarget.parentElement);
+    } else {
+      QN.topNote(e.currentTarget);
+    }
+  }
+
+  function drag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // calculate the new cursor position:
+    px = ipx - e.clientX;
+    py = ipy - e.clientY;
+    ipx = e.clientX; //TODO check for element going outside the bounds of the screen bottom and right!
+    ipy = e.clientY;
+    // set the element's new position:
+    el.style.height = (((el.clientHeight - py) < 200)? 200 : (el.clientHeight - py)) + "px";
+    el.style.width = (((el.clientWidth - px) < 200)? 200 : (el.clientWidth - px)) + "px";
   }
 
   function dragMouseUp() {
