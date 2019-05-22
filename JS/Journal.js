@@ -21,7 +21,7 @@ JL.onload = function() {
 */
 JL.updateJournalDisplay = function() {
   //TODO Add page title as the first header w/o parrent folder information.
-  document.getElementById('JournalDisplay').innerHTML = MD.toHTML(document.getElementById('JournalEditor').value);
+  document.getElementById('JournalDisplay').innerHTML = MD.toHTML(document.getElementById('JournalEditor').value, []);
 }
 
 /*

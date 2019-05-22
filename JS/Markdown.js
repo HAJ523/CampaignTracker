@@ -14,8 +14,7 @@ var MD = {}; //Initialize markdown object.
   Returns:
     HTML
 */
-MD.toHTML = function(s) {
-  var heads = [];
+MD.toHTML = function(s, heads) {
   var i = -1;
   return s.split('```').map(function (s) {
     i++;
@@ -50,7 +49,7 @@ MD.toHTML = function(s) {
       //Headers
       .replace(/(?:^|\n)([#]+)[\t ]*(.*)/g, function(m, a, b) { //Parameters: Match, #.*, Header   Return: <h#>text</h#>
         var guid = CT.GUID(8);
-        heads.push({"id": guid, "name":b, "length": a.length});
+        if (Array.isArray(heads)) { heads.push({"id": guid, "name":b, "length": a.length}); }
         return '\n<h' + a.length + ' id="H_' + guid + '">' + b + '</h' + a.length + '>';
       })
       //Horizontal Seperator
@@ -105,11 +104,8 @@ MD.toHTML = function(s) {
       });
     }
   }).map(function(t) {
-    if (heads.length > 0) {
-      return MD.headerDiv(heads) + t;
-    } else {
-      return t;
-    }
+    if (!Array.isArray(heads)) {return t;}
+    return MD.headerDiv(heads) + t;
   }).join('');
 }
 
@@ -123,7 +119,7 @@ MD.headerDiv = function(heads) { //TODO Make collapsable!
   for (var i = 0; i < heads.length; i++) {
     s += '\u00A0\u00A0'.repeat(heads[i].length) + '<a href="javascript:JL.scrollTo(\'' + heads[i].id + '\');">' + heads[i].name + '</a><br/>';
   }
-  heads = [];
+  heads = null;
   return s + "</div></div>";
 }
 
