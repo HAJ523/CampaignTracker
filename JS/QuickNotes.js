@@ -100,7 +100,7 @@ QN.newNote = function() {
   template.getElementsByClassName("w3-display-middle")[0].innerHTML = template.title;
   template.getElementsByClassName("CT-QNDisplay")[0].id = "Note" + id + "Display";
   template.getElementsByClassName("CT-QNEditor")[0].id = "Note" + id + "Editor";
-  template.getElementsByClassName("fa-expand-arrows-alt")[0].id = "Note" + id + "Resize";
+  template.getElementsByClassName("fa-vector-square")[0].id = "Note" + id + "Resize";
   template.classList.add("w3-animate-zoom");
   template.classList.remove("w3-hide");
 
