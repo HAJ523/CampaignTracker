@@ -64,7 +64,7 @@ MD.toHTML = function(s, heads) {
       .replace(/\!\[(.*?)\](?:\((\".*\"|[^ \n]*)[ ]?(.*)?\))?/g, function(m, a, b, c) {
         b = ((b == null) ? a : b);
         c = ((c == null) ? a : c);
-        return '<img src="' + b + '" title="' + c + '" onclick="'+'">';
+        return '<img src="' + b + '" title="' + c + '" onclick="CT.imageShow(this);">';
       })
       //Dice Roller
       .replace(/\?\[(.*?)\]/g, function(m, a) { //Parameters: Match, Roll   Return: <a href='roll'>Roll</a>

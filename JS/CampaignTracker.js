@@ -27,6 +27,7 @@ CT.onLoad = function() {
   document.getElementById('ModalPrompt').addEventListener('animationend', CT.modalAnimationEnd);
   document.getElementById('PageSettings').addEventListener('animationend', CT.modalAnimationEnd);
   document.getElementById('CampaignSettings').addEventListener('animationend', CT.modalAnimationEnd);
+  document.getElementById('ImageDisplay').addEventListener('animationend', CT.imageAnimationEnd);
 
   //Keep the real time updated on the screen so that the user doesn't have to go somewhere else!
   CT.updateIRLTime();
@@ -586,4 +587,34 @@ CT.copy = function(e) {
   window.getSelection().addRange(range);
   document.execCommand("copy");
   window.getSelection().removeAllRanges();
+}
+
+/*
+  Scope: Public
+  Description: Opens the image viewer.
+*/
+CT.imageShow = function(img) {
+  document.getElementById("ImageDisplay").classList.add("w3-display-flex-center");
+  document.getElementById("ImageDisplayImg").src = img.src;
+}
+
+/*
+  Scope: Public
+  Description: Starts the closing animations for the image viewer.
+*/
+CT.imageClose = function() {
+  document.getElementById("ImageDisplay").classList.add("w3-animate-opacity-r");
+  document.getElementById("ImageDisplayImg").classList.add("w3-animate-zoom-r");
+}
+
+/*
+  Scope: Public
+  Description: Completes the closing operations for the image viewer.
+*/
+CT.imageAnimationEnd = function() {
+  if (this.children[0].classList.contains('w3-animate-zoom-r')) {
+    this.classList.remove('w3-display-flex-center');
+    this.classList.remove('w3-animate-opacity-r');
+    this.children[0].classList.remove('w3-animate-zoom-r');
+  }
 }
