@@ -105,6 +105,7 @@ MD.toHTML = function(s, heads) {
     }
   }).map(function(t) {
     if (!Array.isArray(heads)) {return t;}
+    if (heads.length == 0) {return t;}
     return MD.headerDiv(heads) + t;
   }).join('');
 }
@@ -113,7 +114,7 @@ MD.toHTML = function(s, heads) {
   Scope: Private
   Description: Aggregates the headers and the IDs into a displayable floating div!
 */
-MD.headerDiv = function(heads) { //TODO Make collapsable!
+MD.headerDiv = function(heads) {
   var s = '<div class="journalContents w3-tiny w3-padding-small w3-no-select"><span onclick="JL.toggleContents(this);">+ <strong>Contents</strong> +</span><div id="journalNav" class="w3-left-align w3-hide">';
   //Loop over all of the headers
   for (var i = 0; i < heads.length; i++) {
