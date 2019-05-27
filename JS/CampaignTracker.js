@@ -310,6 +310,11 @@ CT.changeView = function(v) {
       if (!data.pages[data.slctPage].hasOwnProperty("M")) {CT.setStatus("Page doesn't have a map."); return;}
       MR.initMapper();
       break;
+    case "E":
+      if (data.slctPage=="") {CT.setStatus("Page doesn't exist or have a map."); return;}
+      if (!data.pages[data.slctPage].hasOwnProperty("M")) {CT.setStatus("Page doesn't have a map."); return;}
+      EN.initEncounter();
+      break;
   }
 
   //Clear any open view elements.

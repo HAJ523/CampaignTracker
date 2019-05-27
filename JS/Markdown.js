@@ -62,7 +62,7 @@ MD.toHTML = function(s, heads) {
       })
       //Images     Needs to come before links to be able to differentiate.
       .replace(/\!\[(.*?)\](?:\((\".*\"|[^ \n]*)[ ]?(.*)?\))?/g, function(m, a, b, c) {
-        b = ((b == null) ? a : b);
+        b = ((b == null) ? a : b); //TODO if b not provided then make a = campaign prefix + a;
         c = ((c == null) ? a : c);
         return '<img src="' + b + '" title="' + c + '" onclick="CT.imageShow(this);">';
       })

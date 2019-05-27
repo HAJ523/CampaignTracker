@@ -1,5 +1,5 @@
 /*
-  Encounter map halding, lighting, visiion.
+  Encounter map halding, lighting, vision.
 
   Author: HAJ523
   2019-04 Created.
@@ -8,7 +8,12 @@
 var EN = {};
 
 EN.initEncounter = function() {
-
+  if (!data.pages[data.slctPage].hasOwnProperty("E")) {
+    data.pages[data.slctPage].E = {F:{}};
+    //TODO add individual vs team fog of war init.
+    data.pages[data.slctPage].E.F.P = {};
+    data.pages[data.slctPage].E.F.M = {};
+  }
 }
 
 EN.addOC = function() {
