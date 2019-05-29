@@ -16,6 +16,23 @@ EN.addOC = function() {
 
 }
 
+EN.initTempLayers = function() {
+  //Create the objects.
+  data.pages[data.slctPage].E.O = {};
+  data.pages[data.slctPage].E.L = {};
+  data.pages[data.slctPage].E.W = {};
+  data.pages[data.slctPage].E.F = {}; //These arrays can be empty becuase no value is the same as not seen.
+  data.pages[data.slctPage].E.F.P = {};
+  data.pages[data.slctPage].E.F.M = {};
+
+  //Loop through all keys
+  for (var k in data.pages[data.slctPage].M.A) {
+    data.pages[data.slctPage].E.O[k] = data.pages[data.slctPage].M.A[k].O
+    data.pages[data.slctPage].E.L[k] = data.pages[data.slctPage].M.A[k].L
+    data.pages[data.slctPage].E.W[k] = data.pages[data.slctPage].M.A[k].W
+  }
+}
+
 EN.resetEncounterCanvas = function() {
   //Clear the canvas and reset the dimensions.
   MR.CV.width = data.pages[data.slctPage].M.W * MR.FS + MR.BR*2; //Add 10px on all sides of the display.
