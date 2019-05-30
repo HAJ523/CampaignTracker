@@ -49,6 +49,13 @@ MR.initMapper = function() {
   MR.CV.addEventListener("mouseout", MR.mouseOut);
 }
 
+MR.closeMapper = function() {
+  //Remove the event listeners to prevent conflict when leaving map view.
+  MR.CV.removeEventListener("mousedown",MR.mouseChange);
+  MR.CV.removeEventListener("mouseup",MR.mouseChange);
+  MR.CV.removeEventListener("mouseout", MR.mouseOut);
+}
+
 /*
   Scope: Restricted
   Description: Change the size of the map.

@@ -323,6 +323,16 @@ CT.changeView = function(v) {
     for (var i = 0; i < toHide.length; i++) {
       if (!toHide[i].classList.contains("w3-hide")) { toHide[i].classList.add("w3-hide"); }
     }
+
+    //Call closing code if there is any.
+    switch(data.slctView) {
+      case "M":
+        MR.closeMapper();
+        break;
+      case "E":
+        MR.closeEncounter();
+        break;
+    }
   }
 
   //Update the selected view.
