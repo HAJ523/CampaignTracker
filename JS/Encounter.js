@@ -8,17 +8,7 @@
 var EN = {};
 
 EN.initEncounter = function() {
-<<<<<<< HEAD
-  if (!data.pages[data.slctPage].hasOwnProperty("E")) {
-    data.pages[data.slctPage].E = {F:{}};
-    //TODO add individual vs team fog of war init.
-    data.pages[data.slctPage].E.F.P = {};
-    data.pages[data.slctPage].E.F.M = {};
-  }
-=======
-
   //Add Event Listeners to the canvas.
->>>>>>> c09599ce8ff9db7e860aea876a098eaa0b61bee0
 }
 
 EN.addOC = function() {
