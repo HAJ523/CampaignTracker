@@ -15,6 +15,14 @@ EN.addOC = function() {
 
 }
 
+EN.updateOC = function() {
+  
+}
+
+EN.removeOC = function() {
+
+}
+
 EN.initTempLayers = function() {
   //Create the objects.
   data.pages[data.slctPage].E.O = {};

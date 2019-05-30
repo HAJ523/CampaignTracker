@@ -330,7 +330,7 @@ CT.changeView = function(v) {
         MR.closeMapper();
         break;
       case "E":
-        MR.closeEncounter();
+        EN.closeEncounter();
         break;
     }
   }
