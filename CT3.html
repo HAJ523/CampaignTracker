@@ -79,9 +79,18 @@
                       <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Move"><span class="fas fa-route"></span></a>
                     </div>
                     <div>
+                      <span>Stencils</span><br/>
+                      <a href="javascript:void();" class="w3-btn w3-padding-small" id="toolL" title="Line"><span class="fas fa-pencil-ruler"></span></a>
+                      <a href="javascript:void();" class="w3-btn w3-padding-small" id="toolS" title="Square"><span class="far fa-square"></span></a>
+                      <a href="javascript:void();" class="w3-btn w3-padding-small" id="toolC" title="Circle"><span class="far fa-circle"></span></a>
+                      <a href="javascript:void();" class="w3-btn w3-padding-small" id="toolN" title="Cone"><span class="fas fa-drafting-compass"></span></a>
+                    </div>
+                    <div>
                       <a href="javascript:EN.removeOC();" class="w3-button w3-padding-small" title="Remove"><span class="fas fa-times-circle"></span></a>
+                      <a href="javascript:EN.addOC();" class="w3-button w3-padding-small" title="New"><span class="fas fa-plus-circle"></span></a>
                       <span>Objects & Creatures</span>
-                      <a href="javascript:EN.addOC();" class="w3-button w3-padding-small" title="New"><span class="fas fa-plus-circle"></span></a><br/>
+                      <a href="javascript:EN.updateOC();" class="w3-button w3-padding-small" title="Update"><span class="fas fa-check-circle"></span></a>
+                      <a href="javascript:EN.copyOC();" class="w3-button w3-padding-small" title="Duplicate"><span class="fas fa-exclamation-circle"></span></a><br/>
                       <input type="hidden" id="OCID" />
                       <input type="text" id="OCName" title="Name" placeholder="Name" style="text-align:center;"/>
                       <div class="w3-cell-row">
@@ -96,22 +105,16 @@
                               <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Object"><span class="fas fa-mountain"></span></a>
                             </div>
                           </div>
-                          <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Visible?"><span class="fas fa-eye"></span></a>
+                          <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Invisible?"><span class="fas fa-eye-slash"></span></a>
                           <input type="text" title="Location" id="OCLoc" size="4" style="text-align:center;" placeholder="Loc"><br/>
                         </div>
                       </div>
-                      <input type="text" title="Vision" id="OCBright" size="2" style="text-align:center;">
-                      <input type="text" title="Dimvision" id="OCDim" size="2" style="text-align:center;">
-                      <input type="text" title="Darkvision" id="OCDark" size="2" style="text-align:center;">
-                      <a href="javascript:EN.updateOC();" class="w3-button w3-padding-small" title="Update"><span class="fas fa-check-circle"></span></a>
-                    </div>
-                    <div>
-                      <span>Stencils</span><br/>
-                      <a href="javascript:void();" class="w3-btn w3-padding-small" id="toolL" title="Line"><span class="fas fa-pencil-ruler"></span></a>
-                      <a href="javascript:void();" class="w3-btn w3-padding-small" id="toolS" title="Square"><span class="far fa-square"></span></a>
-                      <a href="javascript:void();" class="w3-btn w3-padding-small" id="toolC" title="Circle"><span class="far fa-circle"></span></a>
-                      <a href="javascript:void();" class="w3-btn w3-padding-small" id="toolN" title="Cone"><span class="fas fa-drafting-compass"></span></a>
-
+                      <span class="fas fa-eye"></span> <input type="text" title="Vision" id="OCBright" size="3" style="text-align:center;">
+                      <input type="text" title="Dimvision" id="OCDim" size="3" style="text-align:center;">
+                      <input type="text" title="Darkvision" id="OCDark" size="3" style="text-align:center;"><br/>
+                      <span class="fas fa-hat-wizard"></span> <input type="text" title="Bright Light" id="OCBright" size="3" style="text-align:center;">
+                      <input type="text" title="Dim Light" id="OCDim" size="3" style="text-align:center;">
+                      <input type="text" title="Darkvision" id="OCDark" size="3" style="text-align:center;">
                     </div>
                   </div>
                   <!-- Mapper Controls -->

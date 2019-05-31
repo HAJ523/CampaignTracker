@@ -16,6 +16,10 @@ EN.addOC = function() {
 }
 
 EN.updateOC = function() {
+
+}
+
+EN.copyOC = function() {
   
 }
 
