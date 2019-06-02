@@ -129,28 +129,27 @@
                           <a href="javascript:EN.slctEffShape('2');" class="w3-button w3-padding-small fas fa-square" title="Square"></a>
                         </div>
                       </div>
-                      <!-- Start condintional effect controls -->
                       <input type="text" title="Size" id="OCEFSize" size="4" style="text-align:center;" placeholder="Size"/>
-                      <input type="text" title="Radius" id="OCEFRadius" size="4" style="text-align:center;" placeholder="Rad"/>
-                      <div class="w3-dropdown-hover" style="background: #FFF" id="OCEFOcc">
-                        <a href="javascript:MR.incTileOcclusion();" class="w3-button w3-padding-small" title="Occlusion"><span id="EffectOcclusion"><strong>0&#8260;1</strong></span></a>
+                      <!-- Start condintional effect controls -->
+                      <div class="w3-dropdown-hover" style="background: #FFF" id="OCEFOccSlct">
+                        <a href="javascript:MR.incTileOcclusion();" class="w3-button w3-padding-small" title="Occlusion"><span id="EffectOcclusion"><strong>0&#8260;1</strong></span></a><input type="hidden" id="OCEFOcc"/>
                         <div class="w3-dropdown-content w3-card">
-                          <a href="javascript:MR.selectTileOcclusion(0);" id="EfO0" class="w3-button w3-padding-small" title="0%"><strong>0&#8260;1</strong></a>
-                          <a href="javascript:MR.selectTileOcclusion(.125);" id="EfO0.125" class="w3-button w3-padding-small" title="12.5%"><strong>1&#8260;8</strong> </a>
-                          <a href="javascript:MR.selectTileOcclusion(.25);" id="EfO0.25" class="w3-button w3-padding-small" title="25%"><strong>1&#8260;4</strong></a>
-                          <a href="javascript:MR.selectTileOcclusion(.5);" id="EfO0.5" class="w3-button w3-padding-small" title="50%"><strong>1&#8260;2</strong></a>
-                          <a href="javascript:MR.selectTileOcclusion(.75);" id="EfO0.75" class="w3-button w3-padding-small" title="75%"><strong>3&#8260;4</strong></a>
-                          <a href="javascript:MR.selectTileOcclusion(.875);" id="EfO0.875" class="w3-button w3-padding-small" title="87.5%"><strong>7&#8260;8</strong></a>
-                          <a href="javascript:MR.selectTileOcclusion(1);" id="EfO1" class="w3-button w3-padding-small" title="100%"><strong>1&#8260;1</strong></a>
+                          <a href="javascript:EN.slctEffOcc(0);" id="EfO0" class="w3-button w3-padding-small" title="0%"><strong>0&#8260;1</strong></a>
+                          <a href="javascript:EN.slctEffOcc(.125);" id="EfO0.125" class="w3-button w3-padding-small" title="12.5%"><strong>1&#8260;8</strong></a>
+                          <a href="javascript:EN.slctEffOcc(.25);" id="EfO0.25" class="w3-button w3-padding-small" title="25%"><strong>1&#8260;4</strong></a>
+                          <a href="javascript:EN.slctEffOcc(.5);" id="EfO0.5" class="w3-button w3-padding-small" title="50%"><strong>1&#8260;2</strong></a>
+                          <a href="javascript:EN.slctEffOcc(.75);" id="EfO0.75" class="w3-button w3-padding-small" title="75%"><strong>3&#8260;4</strong></a>
+                          <a href="javascript:EN.slctEffOcc(.875);" id="EfO0.875" class="w3-button w3-padding-small" title="87.5%"><strong>7&#8260;8</strong></a>
+                          <a href="javascript:EN.slctEffOcc(1);" id="EfO1" class="w3-button w3-padding-small" title="100%"><strong>1&#8260;1</strong></a>
                         </div>
                       </div>
-                      <div class="w3-dropdown-hover" style="background: #FFF" id="OCEFWalk">
-                        <a href="javascript:incTileWalkable();" id="EffectWalkable" class="w3-button w3-padding-small" title="Walkable?"><span class="fas fa-walking"></span></a>
+                      <div class="w3-dropdown-hover" style="background: #FFF" id="OCEFWalkSlct">
+                        <a href="javascript:void(0);" id="EffectWalkable" class="w3-button w3-padding-small" title="Walkable?"><span class="fas fa-walking"></span></a><input type="hidden" id="OCEFWalk"/>
                         <div class="w3-dropdown-content w3-card">
-                          <a href="javascript:MR.selectTileWalkable(0);" id="EfW0" class="w3-button w3-padding-small" title="Not Walkable"><span class="fas fa-ban"></span></a>
-                          <a href="javascript:MR.selectTileWalkable(.5);" id="EfW0.5" class="w3-button w3-padding-small" title="Quick Terrain"><span class="fas fa-running"></span></a>
-                          <a href="javascript:MR.selectTileWalkable(1);" id="EfW1" class="w3-button w3-padding-small" title="Walkable"><span class="fas fa-walking"></span></a>
-                          <a href="javascript:MR.selectTileWalkable(2);" id="EfW2" class="w3-button w3-padding-small" title="Difficult Terrain"><span class="fas fa-hiking"></span></a>
+                          <a href="javascript:EN.slctEffWalk(0);" id="EfW0" class="w3-button w3-padding-small" title="Not Walkable"><span class="fas fa-ban"></span></a>
+                          <a href="javascript:EN.slctEffWalk(.5);" id="EfW0.5" class="w3-button w3-padding-small" title="Quick Terrain"><span class="fas fa-running"></span></a>
+                          <a href="javascript:EN.slctEffWalk(1);" id="EfW1" class="w3-button w3-padding-small" title="Walkable"><span class="fas fa-walking"></span></a>
+                          <a href="javascript:EN.slctEffWalk(2);" id="EfW2" class="w3-button w3-padding-small" title="Difficult Terrain"><span class="fas fa-hiking"></span></a>
                         </div>
                       </div>
                       <!-- End condintional effect controls -->

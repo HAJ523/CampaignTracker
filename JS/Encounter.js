@@ -70,6 +70,18 @@ EN.slctEffShape = function(n) {
   var elEffShape = document.getElementById('OCEFShape');
   EN.updateEffectShapeDisplay(elEffShape.value,n);
   elEffShape.value = n;
+
+  //Update the sizing element display.
+  var el = document.getElementById("OCEFSize")
+  switch(n) {
+    case "1":
+      el.title = "Radius";
+      el.placeholder = "Rad";
+      break;
+    case "2":
+      el.title = "Size";
+      el.placeholder = "Size";
+  }
 }
 
 EN.updateEffectTypeDisplay = function(o,n) {
@@ -115,6 +127,20 @@ EN.slctEffType = function(n) {
   var elEffType = document.getElementById('OCEFType');
   EN.updateEffectTypeDisplay(elEffType.value,n);
   elEffType.value = n;
+}
+
+EN.updateEffectInnerDisplay = function(id,pre,n) {
+  document.getElementById(id).innerHTML = document.getElementById(pre+n).innerHTML;
+}
+
+EN.slctEffOcc = function(n) {
+  document.getElementById('OCEFOcc').value = n;
+  EN.updateEffectInnerDisplay("EffectOcclusion","EfO",n);
+}
+
+EN.slctEffWalk = function(n) {
+  document.getElementById('OCEFWalk').value = n;
+  EN.updateEffectInnerDisplay("EffectWalkable","EfW",n);
 }
 
 EN.initTempLayers = function() {
