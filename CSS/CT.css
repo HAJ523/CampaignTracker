@@ -120,3 +120,4 @@ div.subMenu {
 #paletteDisplay span {font-family: Square; text-align: center; border: 1px solid #ccc;cursor:pointer;}
 .selected {border: 1px solid #000!important}
 .journalContents {border: 1px solid #CCC; background-color: #EEE; top: 5px; float: right; position: sticky; text-align: center; display: block;}
+#OCEffectList {max-height: 3em;}
