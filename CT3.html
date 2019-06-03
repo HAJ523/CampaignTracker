@@ -88,7 +88,11 @@
                     <div>
                       <a href="javascript:EN.removeOC();" class="w3-btn w3-padding-small" title="Remove"><span class="fas fa-times-circle"></span></a>
                       <a href="javascript:EN.addOC();" class="w3-btn w3-padding-small" title="New"><span class="fas fa-plus-circle"></span></a>
-                      <span>Objects & Creatures</span>
+                      <div class="w3-dropdown-hover">
+                        <span>Objects & Creatures</span>
+                        <div class="w3-dropdown-content" id="OCList">
+                        </div>
+                      </div>
                       <a href="javascript:EN.updateOC();" class="w3-btn w3-padding-small" title="Update"><span class="fas fa-check-circle"></span></a>
                       <a href="javascript:EN.copyOC();" class="w3-btn w3-padding-small" title="Duplicate"><span class="fas fa-exclamation-circle"></span></a><br/>
                       <input type="hidden" id="OCID" />
