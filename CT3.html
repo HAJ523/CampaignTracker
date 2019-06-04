@@ -68,33 +68,34 @@
                   <div class="w3-center w3-tiny subMenu viewE w3-hide" id="subMenuE">
                     <div>
                       <span>View</span><br/>
-                      <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Show" id="ShowEncounter"><span class="fas fa-power-off"></span></a>
-                      <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Pause"><span class="fas fa-pause"></span></a>
-                      <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Fog of War"><span class="fas fa-low-vision"></span></a>
-                      <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Show Invisible"><span class="fas fa-braille"></span></a>
+                      <a href="javascript:void(0);" class="w3-btn w3-padding-small-square fas fa-power-off" title="Show" id="ShowEncounter"></a>
+                      <a href="javascript:void(0);" class="w3-btn w3-padding-small-square fas fa-pause" title="Pause"></a>
+                      <a href="javascript:void(0);" class="w3-btn w3-padding-small-square fas fa-low-vision" title="Fog of War"></a>
+                      <a href="javascript:void(0);" class="w3-btn w3-padding-small-square fas fa-braille" title="Show Invisible"></a>
                     </div>
                     <div>
                       <span>Actions</span><br/>
-                      <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Select"><span class="fas fa-hand-point-up"></span></a>
-                      <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Move"><span class="fas fa-route"></span></a>
+                      <a href="javascript:void(0);" class="w3-btn w3-padding-small-square fas fa-hand-point-up" title="Select"></a>
+                      <a href="javascript:void(0);" class="w3-btn w3-padding-small-square fas fa-route" title="Move"></a>
+                      <a href="javascript:void(0);" class="w3-btn w3-padding-small-square fas fa-street-view" title="Individual View"></a>
                     </div>
                     <div>
                       <span>Stencils</span><br/>
-                      <a href="javascript:void();" class="w3-btn w3-padding-small" id="toolL" title="Line"><span class="fas fa-pencil-ruler"></span></a>
-                      <a href="javascript:void();" class="w3-btn w3-padding-small" id="toolS" title="Square"><span class="far fa-square"></span></a>
-                      <a href="javascript:void();" class="w3-btn w3-padding-small" id="toolC" title="Circle"><span class="far fa-circle"></span></a>
-                      <a href="javascript:void();" class="w3-btn w3-padding-small" id="toolN" title="Cone"><span class="fas fa-drafting-compass"></span></a>
+                      <a href="javascript:void(0);" class="w3-btn w3-padding-small-square fas fa-pencil-ruler" id="toolL" title="Line"></a>
+                      <a href="javascript:void(0);" class="w3-btn w3-padding-small-square far fa-square" id="toolS" title="Square"></a>
+                      <a href="javascript:void(0);" class="w3-btn w3-padding-small-square far fa-circle" id="toolC" title="Circle"></a>
+                      <a href="javascript:void(0);" class="w3-btn w3-padding-small-square fas fa-drafting-compass" id="toolN" title="Cone"></a>
                     </div>
                     <div>
-                      <a href="javascript:EN.removeOC();" class="w3-btn w3-padding-small" title="Remove"><span class="fas fa-times-circle"></span></a>
-                      <a href="javascript:EN.addOC();" class="w3-btn w3-padding-small" title="New"><span class="fas fa-plus-circle"></span></a>
+                      <a href="javascript:EN.removeOC();" class="w3-btn w3-padding-small-square fas fa-times-circle" title="Remove"></a>
+                      <a href="javascript:EN.addOC();" class="w3-btn w3-padding-small-square fas fa-plus-circle" title="New"></a>
                       <div class="w3-dropdown-hover">
                         <span>Objects & Creatures</span>
                         <div class="w3-dropdown-content" id="OCList">
                         </div>
                       </div>
-                      <a href="javascript:EN.updateOC();" class="w3-btn w3-padding-small" title="Update"><span class="fas fa-check-circle"></span></a>
-                      <a href="javascript:EN.copyOC();" class="w3-btn w3-padding-small" title="Duplicate"><span class="fas fa-exclamation-circle"></span></a><br/>
+                      <a href="javascript:EN.updateOC();" class="w3-btn w3-padding-small-square fas fa-check-circle" title="Update"></a>
+                      <a href="javascript:EN.copyOC();" class="w3-btn w3-padding-small-square fas-fa-exclamation-circle" title="Duplicate"></a><br/>
                       <input type="hidden" id="OCID" />
                       <input type="text" id="OCName" title="Name" placeholder="Name" style="text-align:center;"/>
                       <div class="w3-cell-row">
@@ -102,14 +103,14 @@
                           <input type="text" maxlength=1 class="w3-medium" title="Symbol" id="OCTile" style="height:1.5em;width:1.5em;" value="@" onchange="" onfocus="this.select();"></input>
                           <input type="color" class="w3-padding-none" title="Foreground Color" id="OCColor" style="width: 20px;" onchange=""></input><!--TODO change this to a link to match other buttons and have it click an invisible color input.-->
                           <div class="w3-dropdown-hover">
-                            <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Type" id="OCType"><span class="fas fa-dragon"></span></a>
+                            <a href="javascript:void(0);" class="w3-button w3-padding-small-square fas fa-dragon" title="Type" id="OCType"></a>
                             <div class="w3-dropdown-content">
-                              <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Monster"><span class="fas fa-dragon"></span></a>
-                              <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Player"><span class="fas fa-user"></span></a>
-                              <a href="javascript:void(0);" class="w3-button w3-padding-small" title="Object"><span class="fas fa-mountain"></span></a>
+                              <a href="javascript:void(0);" class="w3-button w3-padding-small-square fas fa-dragon" title="Monster"></a>
+                              <a href="javascript:void(0);" class="w3-button w3-padding-small-square fas fa-user" title="Player"></a>
+                              <a href="javascript:void(0);" class="w3-button w3-padding-small-square fas fa-mountain" title="Object"></a>
                             </div>
                           </div>
-                          <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Invisible?"><span class="fas fa-eye-slash"></span></a>
+                          <a href="javascript:void(0);" class="w3-btn w3-padding-small-square fas fa-eye-slash" title="Invisible?"></a>
                           <input type="text" title="Location" id="OCLoc" size="4" style="text-align:center;" placeholder="Loc"><br/>
                         </div>
                       </div>
@@ -118,19 +119,19 @@
                       <input type="text" title="Darkvision" id="OCDark" size="3" style="text-align:center;"><br/>
                       <span>Effects</span><br/>
                       <div class="w3-dropdown-hover">
-                        <a href="javascript:void(0);" class="w3-button w3-padding-small fas fa-hat-wizard" title="Effect" id="OCEFTypeDisp"></a><input type="hidden" id="OCEFType" value="0">
+                        <a href="javascript:void(0);" class="w3-button w3-padding-small-square fas fa-hat-wizard" title="Effect" id="OCEFTypeDisp"></a><input type="hidden" id="OCEFType" value="0">
                         <div class="w3-dropdown-content">
-                          <a href="javascript:EN.slctEffType('1');" class="w3-button w3-padding-small far fa-lightbulb" title="Bright Light"></a>
-                          <a href="javascript:EN.slctEffType('2');" class="w3-button w3-padding-small fas fa-lightbulb" title="Dim Light"></a>
-                          <a href="javascript:EN.slctEffType('3');" class="w3-button w3-padding-small fas fa-cloud" title="Obstruction"></a>
-                          <a href="javascript:EN.slctEffType('4');" class="w3-button w3-padding-small fas fa-walking" title="Terrain"></a>
+                          <a href="javascript:EN.slctEffType('1');" class="w3-button w3-padding-small-square far fa-lightbulb" title="Bright Light"></a>
+                          <a href="javascript:EN.slctEffType('2');" class="w3-button w3-padding-small-square fas fa-lightbulb" title="Dim Light"></a>
+                          <a href="javascript:EN.slctEffType('3');" class="w3-button w3-padding-small-square fas fa-cloud" title="Obstruction"></a>
+                          <a href="javascript:EN.slctEffType('4');" class="w3-button w3-padding-small-square fas fa-walking" title="Terrain"></a>
                         </div>
                       </div>
                       <div class="w3-dropdown-hover">
-                        <a href="javascript:void(0);" class="w3-button w3-padding-small fas fa-shapes" title="Shape" id="OCEFShapeDisp"></a><input type="hidden" id="OCEFShape" value="0">
+                        <a href="javascript:void(0);" class="w3-button w3-padding-small-square fas fa-shapes" title="Shape" id="OCEFShapeDisp"></a><input type="hidden" id="OCEFShape" value="0">
                         <div class="w3-dropdown-content">
-                          <a href="javascript:EN.slctEffShape('1');" class="w3-button w3-padding-small fas fa-circle" title="Circle"></a>
-                          <a href="javascript:EN.slctEffShape('2');" class="w3-button w3-padding-small fas fa-square" title="Square"></a>
+                          <a href="javascript:EN.slctEffShape('1');" class="w3-button w3-padding-small-square fas fa-circle" title="Circle"></a>
+                          <a href="javascript:EN.slctEffShape('2');" class="w3-button w3-padding-small-square fas fa-square" title="Square"></a>
                         </div>
                       </div>
                       <input type="text" title="Size" id="OCEFSize" size="4" style="text-align:center;" placeholder="Size"/>
@@ -148,12 +149,12 @@
                         </div>
                       </div>
                       <div class="w3-dropdown-hover" style="background: #FFF" id="OCEFWalkSlct">
-                        <a href="javascript:void(0);" id="EffectWalkable" class="w3-button w3-padding-small" title="Walkable?"><span class="fas fa-walking"></span></a><input type="hidden" id="OCEFWalk"/>
+                        <a href="javascript:void(0);" id="EffectWalkable" class="w3-button w3-padding-small-square fas fa-walking" title="Walkable?"></a><input type="hidden" id="OCEFWalk"/>
                         <div class="w3-dropdown-content w3-card">
-                          <a href="javascript:EN.slctEffWalk(0);" id="EfW0" class="w3-button w3-padding-small" title="Not Walkable"><span class="fas fa-ban"></span></a>
-                          <a href="javascript:EN.slctEffWalk(.5);" id="EfW0.5" class="w3-button w3-padding-small" title="Quick Terrain"><span class="fas fa-running"></span></a>
-                          <a href="javascript:EN.slctEffWalk(1);" id="EfW1" class="w3-button w3-padding-small" title="Walkable"><span class="fas fa-walking"></span></a>
-                          <a href="javascript:EN.slctEffWalk(2);" id="EfW2" class="w3-button w3-padding-small" title="Difficult Terrain"><span class="fas fa-hiking"></span></a>
+                          <a href="javascript:EN.slctEffWalk(0);" id="EfW0" class="w3-button w3-padding-small-square fas fa-ban" title="Not Walkable"></a>
+                          <a href="javascript:EN.slctEffWalk(.5);" id="EfW0.5" class="w3-button w3-padding-small-square fas fa-running" title="Quick Terrain"></a>
+                          <a href="javascript:EN.slctEffWalk(1);" id="EfW1" class="w3-button w3-padding-small-square fas fa-walking" title="Walkable"></a>
+                          <a href="javascript:EN.slctEffWalk(2);" id="EfW2" class="w3-button w3-padding-small-square fas fa-hiking" title="Difficult Terrain"></a>
                         </div>
                       </div>
                       <!-- End condintional effect controls -->
