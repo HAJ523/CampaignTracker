@@ -11,7 +11,7 @@ dfn{font-style:italic}mark{background:#ff0;color:#000}
 small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
 sub{bottom:-0.25em}sup{top:-0.5em}figure{margin:1em 40px}img{border-style:none}svg:not(:root){overflow:hidden}
 code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}hr{box-sizing:content-box;height:0;overflow:visible}
-button,input,select,textarea{font:inherit;margin:0}optgroup{font-weight:bold}
+button,input,select,textarea,option{font:inherit;margin:0}optgroup{font-weight:bold}
 button,input{overflow:visible}button,select{text-transform:none}
 button,html [type=button],[type=reset],[type=submit]{-webkit-appearance:button}
 button::-moz-focus-inner, [type=button]::-moz-focus-inner, [type=reset]::-moz-focus-inner, [type=submit]::-moz-focus-inner{border-style:none;padding:0}
@@ -55,7 +55,8 @@ pre{padding-top:4px;padding-bottom: 4px}
 .w3-ripple:active{opacity:0.5}.w3-ripple{transition:opacity 0s}
 .w3-textarea{outline:none;padding-top:8px;padding-left:8px;padding-bottom:8px;resize:none;display:block;border:none;width:100%}
 .w3-input{outline:none;padding:8px;display:block;border:none;border-bottom:1px solid #ccc;width:100%}.w3-input:focus{border-bottom:1px solid #666}
-.w3-select{outline:none;padding:9px 0;width:100%;border:none;border-bottom:1px solid #ccc}.w3-select:focus{border-bottom:1px solid #666}
+.w3-fa{font-family: 'Font Awesome 5 Free', 'sans-serif'!important;font-weight: 900!important;}
+.w3-select{outline:none;border:none;-webkit-appearance:none;appearance:none;text-align: center;text-align-last: center;}.w3-select:hover{box-shadow:0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)}
 .w3-dropdown-click,.w3-dropdown-hover{position:relative;display:inline-block;cursor:pointer}
 .w3-dropdown-hover:hover .w3-dropdown-content{display:block}
 .w3-dropdown-hover:first-child,.w3-dropdown-click:hover{background-color:#ccc;color:#000}
@@ -157,7 +158,7 @@ pre{padding-top:4px;padding-bottom: 4px}
 .w3-margin-small{margin:8px!important}
 .w3-margin{margin:16px!important}.w3-margin-top{margin-top:16px!important}.w3-margin-bottom{margin-bottom:16px!important}
 .w3-margin-left{margin-left:16px!important}.w3-margin-right{margin-right:16px!important}
-.w3-padding-none{padding: 0px 2px!important}.w3-padding-small{padding:4px 8px!important}.w3-padding{padding:8px 16px!important}.w3-padding-large{padding:12px 24px!important}
+.w3-padding-none{padding: 0px 2px!important}.w3-padding-small{padding:4px 8px!important}.w3-padding-small-square{padding:8px 8px!important}.w3-padding{padding:8px 16px!important}.w3-padding-large{padding:12px 24px!important}
 .w3-padding-16{padding-top:16px!important;padding-bottom:16px!important}.w3-padding-24{padding-top:24px!important;padding-bottom:24px!important}
 .w3-padding-32{padding-top:32px!important;padding-bottom:32px!important}.w3-padding-48{padding-top:48px!important;padding-bottom:48px!important}
 .w3-padding-64{padding-top:64px!important;padding-bottom:64px!important}

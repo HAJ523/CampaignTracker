@@ -35,112 +35,28 @@ EN.addEffect = function() {
 
 }
 
+EN.changeType = function() {
+
+}
+
+EN.changeShape = function() {
+  var el = document.getElementById('OCEFSize');
+  var s = document.getElementById('OCEFShape').value;
+
+  switch(s) {
+    case "1":
+      el.placeholder = "Rad";
+      el.title = "Radius";
+      break;
+    default:
+      el.placeholder = "Size";
+      el.title="Size";
+      break;
+  }
+}
+
 EN.removeEffect = function() {
 
-}
-
-EN.updateEffectShapeDisplay = function(o,n) {
-  var elShapeDisp = document.getElementById('OCEFShapeDisp');
-  switch(o) {
-    case "0":
-      elShapeDisp.classList.remove("fa-shapes");
-      break;
-    case "1":
-      elShapeDisp.classList.remove("fa-circle");
-      break;
-    case "2":
-      elShapeDisp.classList.remove("fa-square");
-      break;
-    }
-
-  switch(n) {
-    case "0":
-      elShapeDisp.classList.add("fa-shapes");
-      break;
-    case "1":
-      elShapeDisp.classList.add("fa-circle");
-      break;
-    case "2":
-      elShapeDisp.classList.add("fa-square");
-      break;
-  }
-}
-
-EN.slctEffShape = function(n) {
-  var elEffShape = document.getElementById('OCEFShape');
-  EN.updateEffectShapeDisplay(elEffShape.value,n);
-  elEffShape.value = n;
-
-  //Update the sizing element display.
-  var el = document.getElementById("OCEFSize")
-  switch(n) {
-    case "1":
-      el.title = "Radius";
-      el.placeholder = "Rad";
-      break;
-    case "2":
-      el.title = "Size";
-      el.placeholder = "Size";
-  }
-}
-
-EN.updateEffectTypeDisplay = function(o,n) {
-  var elTypeDisp = document.getElementById('OCEFTypeDisp');
-  switch(o) {
-    case "0":
-      elTypeDisp.classList.remove("fas","fa-hat-wizard");
-      break;
-    case "1":
-      elTypeDisp.classList.remove("far","fa-lightbulb");
-      break;
-    case "2":
-      elTypeDisp.classList.remove("fas","fa-lightbulb");
-      break;
-    case "3":
-      elTypeDisp.classList.remove("fas","fa-cloud");
-      break;
-    case "4":
-      elTypeDisp.classList.remove("fas","fa-walking");
-      break;
-  }
-
-  switch(n) {
-    case "0":
-      elTypeDisp.classList.add("fas","fa-hat-wizard");
-      break;
-    case "1":
-      elTypeDisp.classList.add("far","fa-lightbulb");
-      break;
-    case "2":
-      elTypeDisp.classList.add("fas","fa-lightbulb");
-      break;
-    case "3":
-      elTypeDisp.classList.add("fas","fa-cloud");
-      break;
-    case "4":
-      elTypeDisp.classList.add("fas","fa-walking");
-      break;
-  }
-}
-
-EN.slctEffType = function(n) {
-  var elEffType = document.getElementById('OCEFType');
-  EN.updateEffectTypeDisplay(elEffType.value,n);
-  elEffType.value = n;
-}
-
-EN.updateEffectInnerDisplay = function(id,pre,n) {
-  document.getElementById(id).innerHTML = document.getElementById(pre+n).innerHTML;
-}
-
-EN.slctEffOcc = function(n) {
-  document.getElementById('OCEFOcc').value = n;
-  EN.updateEffectInnerDisplay("EffectOcclusion","EfO",n);
-}
-
-EN.slctEffWalk = function(n) {
-  document.getElementById('OCEFWalk').value = n;
-  EN.updateEffectInnerDisplay("EffectWalkable","EfW",n);
 }
 
 EN.initTempLayers = function() {
