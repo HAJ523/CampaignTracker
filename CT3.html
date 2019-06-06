@@ -95,61 +95,75 @@
                         </div>
                       </div>
                       <a href="javascript:EN.updateOC();" class="w3-btn w3-padding-small-square fas fa-check-circle" title="Update"></a>
-                      <a href="javascript:EN.copyOC();" class="w3-btn w3-padding-small-square fas-fa-exclamation-circle" title="Duplicate"></a><br/>
+                      <a href="javascript:EN.copyOC();" class="w3-btn w3-padding-small-square fas fa-exclamation-circle" title="Duplicate"></a><br/>
                       <input type="hidden" id="OCID" />
                       <input type="text" id="OCName" title="Name" placeholder="Name" style="text-align:center;"/>
                       <div class="w3-cell-row">
                         <div class="w3-display-flex-center">
                           <input type="text" maxlength=1 class="w3-medium" title="Symbol" id="OCTile" style="height:1.5em;width:1.5em;" value="@" onchange="" onfocus="this.select();"></input>
-                          <input type="color" class="w3-padding-none" title="Foreground Color" id="OCColor" style="width: 20px;" onchange=""></input><!--TODO change this to a link to match other buttons and have it click an invisible color input.-->
+                          <input type="color" class="w3-padding-none" title="Foreground Color" id="OCColor" style="width: 20px;" onchange="" value="#FFFFFF"></input><!--TODO change this to a link to match other buttons and have it click an invisible color input.-->
                           <select class="w3-select w3-fa w3-padding-small" id="OCType" title="Type">
                             <option value="0" title="Type" disabled selected hidden>&#xf02b;</option>
                             <option value="1" title="Monster">&#xf6d5;</option>
                             <option value="2" title="Player">&#xf007;</option>
                             <option value="3" title="Object">&#xf6fc;</option>
                           </select>
-                          <a href="javascript:void(0);" class="w3-btn w3-padding-small" title="Invisible?"><span class="fas fa-eye-slash"></span></a>
+                          <select class="w3-select w3-fa w3-padding-small" id="OCVisible" title="Visibility">
+                            <option value="1" title="Visible" selected>&#xf06e;</option>
+                            <option value="0" title="Invisible">&#xf070;</option>
+                          </select>
+                          <select class="w3-select w3-fa w3-padding-small" id="OCSize" title="Size">
+                            <option value="1" title="Tiny - Medium" selected>&#xf525;</option>
+                            <option value="2" title="Large">&#xf528;</option>
+                            <option value="3" title="Huge">&#xf527;</option>
+                            <option value="4" title="Giant">&#xf524;</option>
+                            <option value="5" title="Gargantuan">&#xf523;</option>
+                            <option value="6" title="Colossal">&#xf526;</option>
+                            <option value="10" title="Titanic">&#xf6cf;</option>
+                          </select>
                           <input type="text" title="Location" id="OCLoc" size="4" style="text-align:center;" placeholder="Loc"><br/>
                         </div>
                       </div>
-                      <span class="fas fa-eye"></span> <input type="text" title="Vision" id="OCBright" size="3" style="text-align:center;">
+                      <span class="fas fa-lightbulb"></span> <input type="text" title="Vision" id="OCBright" size="3" style="text-align:center;">
                       <input type="text" title="Dimvision" id="OCDim" size="3" style="text-align:center;">
                       <input type="text" title="Darkvision" id="OCDark" size="3" style="text-align:center;"><br/>
-                      <span>Effects</span><br/>
-                      <select class="w3-select w3-fa w3-padding-small" id="OCEFType" title="Type" onchange="EN.changeType();">
-                        <option value="0" title="Type" disabled selected hidden>&#xf6e8;</option>
-                        <option value="1" title="Bright Light">&#xf185;</option>
-                        <option value="2" title="Dim Light">&#xf186;</option>
-                        <option value="3" title="Obstruction">&#xf0c2;</option>
-                        <option value="4" title="Terrain">&#xf554;</option>
-                      </select>
-                      <select class="w3-select w3-fa w3-padding-small" id="OCEFShape" title="Shape" onchange="EN.changeShape();">
-                        <option value="0" title="Shape" disabled selected hidden>&#xf61f;</option>
-                        <option value="1" title="Circle">&#xf111;</option>
-                        <option value="2" title="Square">&#xf0c8;</option>
-                      </select>
-                      <input type="text" title="Size" id="OCEFSize" size="4" style="text-align:center;" placeholder="Size"/>
-                      <!-- Start condintional effect controls -->
-                      <select class="w3-select w3-fa w3-padding-small" id="OCEFOcc" title="Occlusion">
-                        <option value="-1" title="Occlusion" disabled selected hidden>&#xf0c2;</option>
-                        <option value="0" title="0%">0&#8260;1</option>
-                        <option value=".125" title="12%">1&#8260;8</option>
-                        <option value=".25" title="25%">1&#8260;4</option>
-                        <option value=".5" title="50%">1&#8260;2</option>
-                        <option value=".75" title="75%">3&#8260;4</option>
-                        <option value=".875" title="87%">7&#8260;8</option>
-                        <option value="1" title="100%">1&#8260;1</option>
-                      </select>
-                      <select class="w3-select w3-fa w3-padding-small" id="OCEFTer" title="Terrain">
-                        <option value="-1" title="Terrain" disabled selected hidden>&#xf54b;</option>
-                        <option value="0" title="Obstructed">&#xf54b;</option>
-                        <option value=".5" title="Quick">&#xf70c;</option>
-                        <option value="1" title="Normal">&#xf554;</option>
-                        <option value="2" title="Difficult">&#xf6ec;</option>
-                      </select>
-                      <!-- End condintional effect controls -->
-                      <a href="javascript:void(0);" class="w3-btn w3-padding-small-square fas fa-plus-circle"></a><br/>
-                      <div id="OCEffectList"></div>
+                      <div id="Effects" class="w3-hide">
+                        <span>Effects</span><br/>
+                        <select class="w3-select w3-fa w3-padding-small" id="OCEFType" title="Type" onchange="EN.changeType();">
+                          <option value="0" title="Type" disabled selected hidden>&#xf6e8;</option>
+                          <option value="1" title="Bright Light">&#xf185;</option>
+                          <option value="2" title="Dim Light">&#xf186;</option>
+                          <option value="3" title="Obstruction">&#xf0c2;</option>
+                          <option value="4" title="Terrain">&#xf554;</option>
+                        </select>
+                        <select class="w3-select w3-fa w3-padding-small" id="OCEFShape" title="Shape" onchange="EN.changeShape();">
+                          <option value="0" title="Shape" disabled selected hidden>&#xf61f;</option>
+                          <option value="1" title="Circle">&#xf111;</option>
+                          <option value="2" title="Square">&#xf0c8;</option>
+                        </select>
+                        <input type="text" title="Size" id="OCEFSize" size="4" style="text-align:center;" placeholder="Size"/>
+                        <!-- Start condintional effect controls -->
+                        <select class="w3-select w3-fa w3-padding-small" id="OCEFOcc" title="Occlusion">
+                          <option value="-1" title="Occlusion" disabled selected hidden>&#xf0c2;</option>
+                          <option value="0" title="0%">0&#8260;1</option>
+                          <option value=".125" title="12%">1&#8260;8</option>
+                          <option value=".25" title="25%">1&#8260;4</option>
+                          <option value=".5" title="50%">1&#8260;2</option>
+                          <option value=".75" title="75%">3&#8260;4</option>
+                          <option value=".875" title="87%">7&#8260;8</option>
+                          <option value="1" title="100%">1&#8260;1</option>
+                        </select>
+                        <select class="w3-select w3-fa w3-padding-small" id="OCEFTer" title="Terrain">
+                          <option value="-1" title="Terrain" disabled selected hidden>&#xf54b;</option>
+                          <option value="0" title="Obstructed">&#xf54b;</option>
+                          <option value=".5" title="Quick">&#xf70c;</option>
+                          <option value="1" title="Normal">&#xf554;</option>
+                          <option value="2" title="Difficult">&#xf6ec;</option>
+                        </select>
+                        <!-- End condintional effect controls -->
+                        <a href="javascript:EN.addEffect();" class="w3-btn w3-padding-small-square fas fa-plus-circle"></a><br/>
+                        <div id="OCEffectList"></div>
+                      </div>
                     </div>
                   </div>
                   <!-- Mapper Controls -->
