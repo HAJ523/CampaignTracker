@@ -105,11 +105,7 @@ EN.addEffect = function() {
 
 
   //Add Effect to display list.
-<<<<<<< HEAD
   document.getElementById('OCEffectList').innerHTML += '<div id="Eff' + id + '"><a href="javascript:EN.removeEffect(\'' + id + '\');" class="w3-btn w3-padding-small-square fas fa-minus-circle"></a> <i class="fas">'+EN.eType[obj.Es[id].Ty]+' '+EN.eShape[obj.Es[id].Sh]+'</i> <i class="fas fa-glasses"></i></span></div>';
-=======
-  document.getElementById('OCEffectList').innerHTML += '<div id="Eff' + id + '"><a href="javascript:EN.removeEffect(\'' + id + '\');" class="w3-btn w3-padding-small-square fas fa-minus-circle"></a> <i class="fas ' +  + '"></i> <i class="fas fa-glasses"></i></span></div>';
->>>>>>> e4cd2e33d092cd22b6cc178dbcb77f4ba48e34eb
 
   //Clear the Effect inputs.
   EN.clearEffectInput();
