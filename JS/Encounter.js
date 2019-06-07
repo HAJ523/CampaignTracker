@@ -11,7 +11,7 @@ var EN = {};
 EN.effType = {"1":"&#xf185;","2":"&#xf186","3":"&#xf0c2","4":"&#xf554;"};
 EN.eShape = {"1":"&#xf111;","2":"&#xf0c8;"};
 EN.eTerrain = {"0":"&#xf54b;",".5":"&#xf70c;","1":"&#xf554;","2":"&#xf6ec;"};
-EN.eOcclusion = {"0":"0&#8260;1",".125":"1&#8260;8",".25":"1&#8260;4",".5":"1&#8260;2",".75":3&#8260;4,".875":"7&#8260;8","1":"1&#8260;1"};
+EN.eOcclusion = {"0":"0&#8260;1",".125":"1&#8260;8",".25":"1&#8260;4",".5":"1&#8260;2",".75":"3&#8260;4",".875":"7&#8260;8","1":"1&#8260;1"};
 
 EN.initEncounter = function() {
   //Add Event Listeners to the canvas.
@@ -112,7 +112,25 @@ EN.addEffect = function() {
 }
 
 EN.changeType = function() {
+  var type = document.getElementById('OCEFType').value;
+  var cond1 = document.getElementById('OCEFOcc');
+  var cond2 = document.getElementById('OCEFTer');
 
+  switch(type) {
+    case "1":
+    case "2":
+      cond1.classList.add("w3-hide");
+      cond2.classList.add("w3-hide");
+      break;
+    case "3":
+      cond1.classList.remove('w3-hide');
+      cond2.classList.add('w3-hide');
+      break;
+    case "4":
+      cond1.classList.add('w3-hide');
+      cond2.classList.remove('w3-hide');
+      break;
+  }
 }
 
 EN.changeShape = function() {
