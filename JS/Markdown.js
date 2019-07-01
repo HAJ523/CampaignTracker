@@ -18,8 +18,8 @@ MD.toHTML = function(s, heads) {
   var i = -1;
   return s.split('```').map(function (s) {
     i++;
-    if (i%2) {
-      return '<pre onclick="CT.copy(this.children[0]);"><code>' + s.replace(/^[\n]+|[\n]+$/g,"") + '</code></pre>';
+    if (i%2) { //Make sure that HTML is properly escaped for later copying.
+      return '<pre onclick="CT.copy(this.children[0]);"><code>' + s.replace(/^[\n]+|[\n]+$/g,"").replace(/</g,"&lt;").replace(/>/g,"&gt;") + '</code></pre>';
     } else {
       return s.replace(/^[\n]+|[\n]+$/g,"") //Trim extra spaces!
       //Paragraph
