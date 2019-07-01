@@ -52,12 +52,12 @@ CT.resetData = function() {
   data.slctView = ""; //Default to no view.
   data.settings = {};
   data.settings.name = "";
+  data.settings.dice = "1d20";
   data.tables = {};
   data.palettes = {};
   /*data.images = [];
   data.history = {};
   data.settings.imagepath = "";
-  data.settings.dice = "1d20";
   */
 }
 
