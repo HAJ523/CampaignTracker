@@ -113,9 +113,9 @@ RL.parse = function(s) {
     //TODO Add some form of output to show the dice!
     result = tempAry.reduce(function(tot,cur){return tot+cur});
     return result;
-  }).replace(/\d*[*/]\d/g, function(m) {
+  }).replace(/\d*[*/]\d+/g, function(m) {
     return eval(m);
-  }).replace(/\d*[+-]\d/g, function(m) {
+  }).replace(/\d*[+-]\d+/g, function(m) {
     return eval(m);
   });
 }
