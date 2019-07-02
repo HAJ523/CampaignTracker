@@ -15,7 +15,34 @@ EN.eOcclusion = {"0":"0&#8260;1",".125":"1&#8260;8",".25":"1&#8260;4",".5":"1&#8
 
 EN.initEncounter = function() {
   //Add Event Listeners to the canvas.
+  window.addEventListener("resize", EN.resizeHandler);
 }
+
+EN.closeEncounter = function() {
+  //Remove the event listeners to prevent conflict with mapper.
+  window.removeEventListener("resize", EN.resizeHandler);
+  if (EN.timer != undefined) {
+    clearTimeout(EN.timer);
+    EN.timer = undefined;
+  }
+}
+
+
+EN.resizeHandler = function() {
+  if (EN.timer != undefined) {
+    clearTimeout(EN.timer);
+    EN.timer = undefined;
+  }
+  EN.timer = setTimeout(function() {
+    EN.timer = undefined;
+    EN.resizeCB();
+  }, 1000); //Wait one second before redrawing to make sure that no more resize events will occur.
+}
+
+EN.resizeCB = function() {
+  //TODO Add canvas redraw here.
+}
+EN.timer = undefined;
 
 EN.addOC = function() {
   //Clear the object elements
@@ -188,11 +215,6 @@ EN.resetEncounterCanvas = function() {
   MR.CX.textBaseline = "top";
 
   EN.updateEncounterCanvas();
-}
-
-EN.closeEncounter = function() {
-  //Remove the event listeners to prevent conflict with mapper.
-  //TODO Add event listeners.
 }
 
 EN.updateEncounterCanvas = function() {
