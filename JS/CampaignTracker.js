@@ -454,7 +454,7 @@ CT.addPageToPageTree = function(l, p, r) { //Parameters: List, Page,
 
   //Loop over the existing children in the list to find the correct one.
   for (var c = 0; c < l.children.length; c++) {
-    if (l.children[c].id == cKey[0]) { //If we found the correct parent
+    if (l.children[c].id == cKey[0]) { //If we found the correct parent or page
       if (cKey.length > 1) { //There is more to this page than the current element. Recusion needed!
         //If the current li is not a parent then make it one!
         if (l.children[c].children.length == 2) {
@@ -463,9 +463,8 @@ CT.addPageToPageTree = function(l, p, r) { //Parameters: List, Page,
 
         //Now recurse with the remaining page information.
         CT.addPageToPageTree(l.children[c].children[2], cKey[1], r + ((r != "")? "/" : "") + cKey[0]);
-        break; //stop the for loop execution.
-      } //Else there is nothing becuase this page already exists in the tree for selection!
-
+      } //Else there is nothing because this page already exists in the tree for selection!
+      break; //stop the for loop execution.
     } else if (l.children[c].id > cKey[0]) { //If we have just passed the correct element then we need to perform an insert before this element.
       var li = document.createElement("li");
       li.id = cKey[0];
