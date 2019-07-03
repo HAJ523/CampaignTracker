@@ -7,7 +7,7 @@
 
 var ST = {}; //Initialize markdown object.
 
-ST.onload = function() {
+ST.onLoad = function() {
   ST.setupDatabase();
 }
 

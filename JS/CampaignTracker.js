@@ -15,10 +15,11 @@ CT.onLoad = function() {
   CT.resetData();
 
   //Call all onload functions for individual modules.
-  JL.onload();
-  ST.onload();
-  KB.onload();
+  JL.onLoad();
+  ST.onLoad();
+  KB.onLoad();
   MR.onLoad();
+  EN.onLoad();
 
   //Load the default view
   CT.changeView("J");

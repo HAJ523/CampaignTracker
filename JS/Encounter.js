@@ -13,9 +13,29 @@ EN.eShape = {"1":"&#xf111;","2":"&#xf0c8;"};
 EN.eTerrain = {"0":"&#xf54b;",".5":"&#xf70c;","1":"&#xf554;","2":"&#xf6ec;"};
 EN.eOcclusion = {"0":"0&#8260;1",".125":"1&#8260;8",".25":"1&#8260;4",".5":"1&#8260;2",".75":"3&#8260;4",".875":"7&#8260;8","1":"1&#8260;1"};
 
+EN.onLoad = function() {
+  EN.CV = document.getElementById('EncounterCanvas');
+  EN.CX = EN.CV.getContext('2d');
+}
+
 EN.initEncounter = function() {
   //Add Event Listeners to the canvas.
   window.addEventListener("resize", EN.resizeHandler);
+
+  //Make sure our data save architecture exists.
+  if (!data.pages[data.slctPage].hasOwnProperty("E")) {
+    data.pages[data.slctPage].E = {};
+  }
+
+  //Get center of canvas.
+  EN.CP = {X:Math.floor(EN.CV.width/2),Y:Math.floor(EN.CV.height/2)};
+  EN.Z = document.getElementById("ENZoom").value;
+
+  //
+  EN.initTempLayers();
+
+  //Redraw the Encounter.
+  EN.updateEncounterCanvas();
 }
 
 EN.closeEncounter = function() {
@@ -40,7 +60,7 @@ EN.resizeHandler = function() {
 }
 
 EN.resizeCB = function() {
-  //TODO Add canvas redraw here.
+  EN.updateEncounterCanvas();
 }
 EN.timer = undefined;
 
@@ -198,6 +218,9 @@ EN.initTempLayers = function() {
 
   //Create Object & Creatures Arrays
   data.pages[data.slctPage].E.OC = {};
+
+  //Setup default selection
+  data.pages[data.slctPage].E.SC = {X:0,Y:0};
 }
 
 EN.resetEncounterCanvas = function() {
@@ -218,6 +241,11 @@ EN.resetEncounterCanvas = function() {
 }
 
 EN.updateEncounterCanvas = function() {
+  //Redraw background to clear canvas.
+  EN.CX.fillStyle = data.pages[data.slctPage].M.C;
+  EN.CX.fillRect(0,0,EN.CV.width, EN.CV.height);
+  //Draw center mark & Borders.
+  EN.centerMark();
   //Update the layers based on current object properties.
   //Occlusion
   //Light
@@ -225,4 +253,47 @@ EN.updateEncounterCanvas = function() {
   //Walkable
   //Update the display based on the layers
 
+}
+
+EN.centerMark = function() {
+  EN.CX.fillStyle = EN.invertColor(data.pages[data.slctPage].M.C, 1);
+
+  //Center Cross aka 0,0
+  EN.CX.beginPath();
+  EN.CX.moveTo(EN.CP.X-(EN.Z*data.pages[data.slctPage].E.SC.X)-2,EN.CP.Y-(EN.Z*data.pages[data.slctPage].E.SC.Y)-2);
+  EN.CX.lineTo(EN.CP.X-(EN.Z*data.pages[data.slctPage].E.SC.X)+2,EN.CP.Y-(EN.Z*data.pages[data.slctPage].E.SC.Y)+2);
+  EN.CX.stroke();
+  EN.CX.beginPath();
+  EN.CX.moveTo(EN.CP.X-(EN.Z*data.pages[data.slctPage].E.SC.X)+2,EN.CP.Y-(EN.Z*data.pages[data.slctPage].E.SC.Y)-2);
+  EN.CX.lineTo(EN.CP.X-(EN.Z*data.pages[data.slctPage].E.SC.X)-2,EN.CP.Y-(EN.Z*data.pages[data.slctPage].E.SC.Y)+2);
+  EN.CX.stroke();
+}
+
+EN.invertColor = function(hex, bw) {
+    if (hex.indexOf('#') === 0) {
+        hex = hex.slice(1);
+    }
+    // convert 3-digit hex to 6-digits.
+    if (hex.length === 3) {
+        hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    }
+    if (hex.length !== 6) { return ""; }
+    var r = parseInt(hex.slice(0, 2), 16),
+        g = parseInt(hex.slice(2, 4), 16),
+        b = parseInt(hex.slice(4, 6), 16);
+    if (bw) {
+        return (r * 0.299 + g * 0.587 + b * 0.114) > 186 ? '#000000' : '#FFFFFF';
+    }
+    // invert color components
+    r = (255 - r).toString(16);
+    g = (255 - g).toString(16);
+    b = (255 - b).toString(16);
+    // pad each with zeros and return
+    return "#" + EN.padZero(r) + EN.padZero(g) + EN.padZero(b);
+}
+
+EN.padZero = function (str, len) {
+    len = len || 2;
+    var zeros = new Array(len).join('0');
+    return (zeros + str).slice(-len);
 }

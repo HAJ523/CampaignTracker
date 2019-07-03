@@ -11,7 +11,7 @@ var JL = {};
   Scope: Public
   Description: Perform all single actions required prepare the journal.
 */
-JL.onload = function() {
+JL.onLoad = function() {
   //Save the element so that other functions don't look it up every time.
   JL.el = document.getElementById('JournalEditor');
 }

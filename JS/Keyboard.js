@@ -11,7 +11,7 @@ var KB = {}; //Initialize keyboard object.
   Scope: Restricted (CampaignTracker.js)
   Description: Loading function for the keyboard support.
 */
-KB.onload = function() {
+KB.onLoad = function() {
   window.addEventListener("keydown", KB.keyUD);
   window.addEventListener("keyup", KB.keyUD);
 
@@ -34,16 +34,6 @@ KB.keyUD = function(e) {
     case 18: //Alt
       KB.modKeys[key] = (e.type == 'keydown');
     default:
-  }
-}
-
-KB.freeRoll = function(e) {
-  var key = e.which || e.keyCode;
-  if (key == 27) {
-    CT.freeRoll(0);
-  }
-  if (key == 13) {
-    CT.freeRoll(1);
   }
 }
 
