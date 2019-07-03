@@ -67,8 +67,8 @@ MD.toHTML = function(s, heads) {
         return '<img src="' + b + '" title="' + c + '" onclick="CT.imageShow(this);">';
       })
       //Dice Roller
-      .replace(/\?\[(.*?)\]/g, function(m, a) { //Parameters: Match, Roll   Return: <a href='roll'>Roll</a>
-        return '<a href="javascript:RL.roll(\'' + a + '\')" title="' + a + '">' + a + '</a>';
+      .replace(/\?\[(.*?)\](?:\(([^\)]*)\))*/g, function(m, a, h) { //Parameters: Match, Roll, header   Return: <a href='roll'>Roll</a>
+        return '<a href="javascript:RL.roll(\'' + a + '\',\'' + h + '\')" title="' + ((h==undefined) ? a : h) + '">' + a + '</a>';
       })
       //Calculator
       .replace(/&\[(.*?)\]/g, function(m, a) { //Parameters: Match, Equation   Return: <a href'calc'>Equation</a>

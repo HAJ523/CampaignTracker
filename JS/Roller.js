@@ -11,11 +11,29 @@ var RL = {};
   Scope: Public
   Description: Performs roll on click and updates element display!
 */
-RL.roll = function(s, i) {
+RL.roll = function(s, h) {//Roll string, Header
   delete RL.diceArray;
   RL.diceArray = []; //Make sure we use a fresh array.
   var val = RL.recursiveParse(undefined, s);
-  CT.setStatus(s + " = " + val,RL.diceArray.reduce(function(ret,cur){return ret+((ret=="")?"":"\n")+cur;}),"stat-roll");
+  CT.setStatus(s + " = " + val,RL.diceArray.reduce(function(ret,cur){return ret+((ret=="")?"":"\n")+cur;}),RL.findCritFailMix(), h);
+}
+
+RL.findCritFailMix = function() {
+  var fail = 0,crit = 0;
+  for(var i=0;i<RL.diceArray.length;i++) {
+    if (RegExp(/[^\dd]1[^\d]/g).test(RL.diceArray[i])) {
+      fail = 1;
+    }
+    if (RegExp("[^\\dd]" + RL.diceArray[i].split("d")[1] + "[^\\d]",'g').test(RL.diceArray[i])) {
+      crit = 1;
+    }
+
+    if (fail&&crit) {return 'stat-mix';} //Break out of loop if we have found one of each.
+  }
+
+  if (fail) {return 'stat-fail';}
+  if (crit) {return 'stat-crit';}
+  return 'stat-roll';
 }
 
 /*
@@ -111,7 +129,7 @@ RL.parse = function(s) {
       }
     }
 
-    RL.diceArray.push("["+tempAry.reduce(function(ret,cur){return tot+((tot=="")?"":",")+cur;})+"]d"+arguments[2]);
+    RL.diceArray.push("["+tempAry.reduce(function(ret,cur){return ret+((ret=="")?"":",")+cur;})+"]d"+arguments[2]);
     result = tempAry.reduce(function(tot,cur){return tot+cur});
     return result;
   }));

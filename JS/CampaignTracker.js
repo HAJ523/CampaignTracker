@@ -547,11 +547,11 @@ CT.removePageFromPageTree = function(l, p, r) {
   Scope: Public
   Description: Sets the status for the application.
 */
-CT.setStatus = function(s, t, y) { //string, title
+CT.setStatus = function(s, t, y, h) { //string, title, type, header
   var el = document.getElementById("StatusDisplay");
   var c = document.createElement("blockqoute");
   //Setup display.
-  c.innerHTML = s;
+  c.innerHTML = ((h == undefined)? "":"<strong>"+h+"</strong><br>")+((s == undefined) ? "":s);
   c.classList.add(((y == undefined) ? "stat-ct" : y));
   c.title = ((t == undefined) ? "" : t);
   //Append element.
@@ -645,7 +645,7 @@ CT.imageAnimationEnd = function() {
 CT.freeRoll = function(a) {
   var el=document.getElementById('FreeRoll');
   if (a) {
-    RL.roll(el.value);
+    RL.roll(el.value, "Free Roll");
   }
   el.value = "";
 }
