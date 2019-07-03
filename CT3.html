@@ -304,6 +304,8 @@
                 <div id="PageTree" class="w3-tiny l-fit-height-row-expanded w3-no-select" style="overflow-y:auto;overflow-x:hidden;">
                     <ol></ol>
                 </div>
+                <div class="w3-display-container w3-padding-small"><input type="text" class="w3-input w3-small w3-padding-small" placeholder="Free Roll..." id="FreeRoll" onkeydown="KB.freeRoll(event);"></div>
+                <div class="w3-display-container w3-padding-small w3-no-select" id="StatusDisplay" style="min-height:250px;max-height:250px;overflow-y:scroll;"></div>
               </div>
               <!-- Encounter -->
               <div class="w3-container w3-rest w3-padding-small viewE w3-hide" style="height:100%;overflow:none;">
@@ -327,9 +329,10 @@
         <div class="l-fit-height-row-content">
           <div class="w3-row">
             <div class="w3-rest w3-theme w3-display-container w3-no-select">
-              <div class="w3-left"> <!-- TODO allow this to be a drop up with past statuses listed! -->
+              <div class="w3-left">
                 <span class="w3-tiny w3-cell-middle" id="StatusTime">&nbsp;</span>
-                <span id="Status"> Ready</span></div>
+                <!-- TODO Put Status / Music Selector here. -->
+              </div>
               <div class="w3-right" id="IRLClock"></div>
               <div class="w3-display-middle">
                 <a href="javascript:QN.newNote();" class="w3-button far fa-edit" title="Quick Note"></a>

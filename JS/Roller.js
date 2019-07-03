@@ -12,9 +12,10 @@ var RL = {};
   Description: Performs roll on click and updates element display!
 */
 RL.roll = function(s, i) {
-  var e = document.getElementById(i);
-  e.title = s;
-  e.innerHTML = RL.recursiveParse(undefined, s);
+  delete RL.diceArray;
+  RL.diceArray = []; //Make sure we use a fresh array.
+  var val = RL.recursiveParse(undefined, s);
+  CT.setStatus(s + " = " + val,RL.diceArray.reduce(function(ret,cur){return ret+((ret=="")?"":"\n")+cur;}),"stat-roll");
 }
 
 /*
@@ -41,7 +42,7 @@ RL.parse = function(s) {
     s = data.settings.dice + s;
   }
 
-  return s.replace(/(\d*)t(\w*)(?:\{(\S*)\})?/g, function(m, a, b, c) { //Match, # Rolls, Table, Dice Replacement
+  return eval(s.replace(/(\d*)t(\w*)(?:\{(\S*)\})?/g, function(m, a, b, c) { //Match, # Rolls, Table, Dice Replacement
     //If the table doesn't exist! Or the column doesn't exist.
     if (!data.tables.hasOwnProperty(b)) { return ""; }
     c = ((c == undefined) ? "" : c); //Normalize Dice.
@@ -110,12 +111,8 @@ RL.parse = function(s) {
       }
     }
 
-    //TODO Add some form of output to show the dice!
+    RL.diceArray.push("["+tempAry.reduce(function(ret,cur){return tot+((tot=="")?"":",")+cur;})+"]d"+arguments[2]);
     result = tempAry.reduce(function(tot,cur){return tot+cur});
     return result;
-  }).replace(/\d*[*/]\d+/g, function(m) {
-    return eval(m);
-  }).replace(/\d*[+-]\d+/g, function(m) {
-    return eval(m);
-  });
+  }));
 }

@@ -37,6 +37,16 @@ KB.keyUD = function(e) {
   }
 }
 
+KB.freeRoll = function(e) {
+  var key = e.which || e.keyCode;
+  if (key == 27) {
+    CT.freeRoll(0);
+  }
+  if (key == 13) {
+    CT.freeRoll(1);
+  }
+}
+
 /*
   Scope: Public
   Description: Handle the special input to the prompt such as escape and enter so that the user doesn't have to click the buttons.

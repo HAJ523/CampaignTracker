@@ -547,9 +547,18 @@ CT.removePageFromPageTree = function(l, p, r) {
   Scope: Public
   Description: Sets the status for the application.
 */
-CT.setStatus = function(s) {
-  document.getElementById('StatusTime').innerHTML = '&nbsp;' + CT.localISOTime().split(' ')[1] + '&nbsp;';
-  document.getElementById('Status').innerHTML = s;
+CT.setStatus = function(s, t, y) { //string, title
+  var el = document.getElementById("StatusDisplay");
+  var c = document.createElement("blockqoute");
+  //Setup display.
+  c.innerHTML = s;
+  c.classList.add(((y == undefined) ? "stat-ct" : y));
+  c.title = ((t == undefined) ? "" : t);
+  //Append element.
+  if (el.children.length > 20) { //TODO make the max configurable
+    el.removeChild(el.children[20]); //If there are to many children remove the oldest.
+  }
+  el.prepend(c);
 }
 
 /*
@@ -631,4 +640,12 @@ CT.imageAnimationEnd = function() {
     this.classList.remove('w3-animate-opacity-r');
     this.children[0].classList.remove('w3-animate-zoom-r');
   }
+}
+
+CT.freeRoll = function(a) {
+  var el=document.getElementById('FreeRoll');
+  if (a) {
+    RL.roll(el.value);
+  }
+  el.value = "";
 }
