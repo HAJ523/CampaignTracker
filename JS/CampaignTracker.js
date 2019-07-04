@@ -251,6 +251,9 @@ CT.editPage = function() {
 CT.settingsPage = function() {
   var newPath = document.getElementById('PageSettingsPath').value;
 
+  //Don't continue if page isn't set!
+  if (newPath=="") {return;}
+
   //Only update the page path if that is necessary.
   if (data.slctPage != newPath) {
     if (data.pages.hasOwnProperty(newPath)) {
