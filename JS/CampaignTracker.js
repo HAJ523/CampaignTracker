@@ -252,7 +252,7 @@ CT.settingsPage = function() {
   var newPath = document.getElementById('PageSettingsPath').value;
 
   //Don't continue if page isn't set!
-  if (newPath=="") {return;}
+  if (newPath=="") {CT.cancelPage(); return;}
 
   //Only update the page path if that is necessary.
   if (data.slctPage != newPath) {
@@ -281,7 +281,7 @@ CT.settingsPage = function() {
   //Set map color
   MR.setMapDetails(data.slctPage, c);
 
-  CT.closeModal(document.getElementById("PageSettings"));
+  CT.cancelPage();
 }
 
 CT.cancelPage = function() {
