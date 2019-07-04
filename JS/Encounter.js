@@ -27,7 +27,7 @@ EN.initEncounter = function() {
     data.pages[data.slctPage].E = {};
   }
 
-  EN.Z = document.getElementById("ENZoom").value;
+  EN.FS = document.getElementById("ENZoom").value;
 
   //
   EN.initTempLayers();
@@ -97,8 +97,18 @@ EN.clearEffectInput = function() {
 }
 
 EN.updateOC = function() {
+
   var id = document.getElementById('OCID').value;
-  var obj = data.pages[data.slctPage].E.OC[obj];
+
+  if(id == "") {//If there was no ID then this is likely the first entry. Assume addition.
+    id = CT.GUID(8);
+    data.pages[data.slctPage].E.OC[id] = {};
+    //Make Effects Visible
+    document.getElementById('Effects').classList.remove('w3-hide');
+    //TODO Add to object selection HTML list.
+  }
+
+  var obj = data.pages[data.slctPage].E.OC[id];
 
   obj.N = document.getElementById('OCName').value;
   obj.Ti = document.getElementById('OCTile').value;
@@ -114,14 +124,21 @@ EN.updateOC = function() {
 
 EN.copyOC = function() {
   var obj = document.getElementById('OCID').value;
-
+  var id = CT.GUID(8); //Get id for new object.
   //Now copy that object and effects into a new object.
+
+  //Copy
 }
 
 EN.removeOC = function() {
   var obj = document.getElementById('OCID').value;
 
   //Delete
+  delete data.pages[data.slctPage].E.OC[obj];
+
+  //Find and remove from OCList
+  var el = document.getElementById('OCL-' + obj);
+  el.parentElement.removeChild(el);
 }
 
 EN.addEffect = function() {
@@ -131,26 +148,30 @@ EN.addEffect = function() {
   if (effType=="0") {return;} //If no effect type is selected then quit.
 
   var id = CT.GUID(8); //Effect ID
+  var tp = document.getElementById('OCEFType').value;
 
   if (!obj.hasOwnProperty('Es')) { //Build the effect list if it doesn't exist.
     obj.Es = {};
   }
 
+  if (!obj.Es.hasOwnProperty(tp)) {//If the object doesn't have an effect of this type yet.
+    obj.Es[tp] = {};
+  }
+
   //Add effect to object.
-  obj.Es[id] = {};
-  obj.Es[id].Ty = document.getElementById('OCEFType').value;
-  obj.Es[id].Sh = document.getElementById('OCEFShape').value;
-  obj.Es[id].Si = document.getElementById('OCEFSize').value;
-  if (obj.Es[id].Ty == "3") {
-    obj.Es[id].Oc = document.getElementById('OCEFOcc').value;
-  } else if (obj.Es[id].Ty == "4") {
-    obj.Es[id].Te = document.getElementById('OCEFTer').value;
+  obj.Es[tp][id] = {};
+  obj.Es[tp][id].Sh = document.getElementById('OCEFShape').value;
+  obj.Es[tp][id].Si = document.getElementById('OCEFSize').value;
+  if (tp == "3") {
+    obj.Es[tp][id].Oc = document.getElementById('OCEFOcc').value;
+  } else if (tp == "4") {
+    obj.Es[tp][id].Te = document.getElementById('OCEFTer').value;
   }
 
 
 
   //Add Effect to display list.
-  document.getElementById('OCEffectList').innerHTML += '<div id="Eff' + id + '"><a href="javascript:EN.removeEffect(\'' + id + '\');" class="w3-btn w3-padding-small-square fas fa-minus-circle"></a> <i class="fas">'+EN.eType[obj.Es[id].Ty]+' '+EN.eShape[obj.Es[id].Sh]+'</i> <i class="fas fa-glasses"></i></span></div>';
+  document.getElementById('OCEffectList').innerHTML += '<div id="Eff' + id + '"><a href="javascript:EN.removeEffect(\'' + id + '\');" class="w3-btn w3-padding-small-square fas fa-minus-circle"></a> <i class="fas">'+EN.eType[tp]+' '+EN.eShape[obj.Es[ts][id].Sh]+'</i> <i class="fas fa-glasses"></i></span></div>';
 
   //Clear the Effect inputs.
   EN.clearEffectInput();
@@ -162,16 +183,16 @@ EN.changeType = function() {
   var cond2 = document.getElementById('OCEFTer');
 
   switch(type) {
-    case "1":
-    case "2":
+    case "B":
+    case "D":
       cond1.classList.add("w3-hide");
       cond2.classList.add("w3-hide");
       break;
-    case "3":
+    case "O":
       cond1.classList.remove('w3-hide');
       cond2.classList.add('w3-hide');
       break;
-    case "4":
+    case "T":
       cond1.classList.add('w3-hide');
       cond2.classList.remove('w3-hide');
       break;
@@ -183,7 +204,7 @@ EN.changeShape = function() {
   var s = document.getElementById('OCEFShape').value;
 
   switch(s) {
-    case "1":
+    case "C":
       el.placeholder = "Rad";
       el.title = "Radius";
       break;
@@ -207,18 +228,22 @@ EN.initTempLayers = function() {
   data.pages[data.slctPage].E.F.P = {}; //Players
   data.pages[data.slctPage].E.F.M = {}; //Monsters
 
-  //Loop through all keys and initialize arrays to Map values.
-  for (var k in data.pages[data.slctPage].M.A) {
-    data.pages[data.slctPage].E.O[k] = data.pages[data.slctPage].M.A[k].O
-    data.pages[data.slctPage].E.L[k] = data.pages[data.slctPage].M.A[k].L
-    data.pages[data.slctPage].E.W[k] = data.pages[data.slctPage].M.A[k].W
-  }
+  EN.resetTempMapLayers();
 
   //Create Object & Creatures Arrays
   data.pages[data.slctPage].E.OC = {};
 
   //Setup default selection
   data.pages[data.slctPage].E.SC = {X:0,Y:0};
+}
+
+EN.resetTempMapLayers = function() {
+  //Loop through all keys and initialize arrays to Map values.
+  for (var k in data.pages[data.slctPage].M.A) {
+    data.pages[data.slctPage].E.O[k] = data.pages[data.slctPage].M.A[k].O
+    data.pages[data.slctPage].E.L[k] = data.pages[data.slctPage].M.A[k].L
+    data.pages[data.slctPage].E.W[k] = data.pages[data.slctPage].M.A[k].W
+  }
 }
 
 EN.resetEncounterCanvas = function() {
@@ -230,7 +255,7 @@ EN.resetEncounterCanvas = function() {
   EN.CP = {X:Math.floor(EN.CV.width/2),Y:Math.floor(EN.CV.height/2)};
 
   //Setup the font for printing to the canvas.
-  EN.CX.font = EN.Z + "px Square";
+  EN.CX.font = EN.FS + "px Square";
   EN.CX.textAlign = "left";
   EN.CX.textBaseline = "top";
 
@@ -244,12 +269,78 @@ EN.updateEncounterCanvas = function() {
   //Draw center mark & Borders.
   EN.centerMark();
   //Update the layers based on current object properties.
-  //Occlusion
-  //Light
-    //If r*3 < map perimeter use circle with distance radius for outside points instead of perimeter points!
-  //Walkable
+  //Loop over effect types in order.
+  ["O","B","D","T"].forEach(function(v) {
+    for(var k in data.pages[data.slctPage].E.OC) {
+      if (!data.pages[data.slctPage].E.OC.hasOwnProperty("L")) {continue;} //Skip if the object has no location.
+      if (!data.pages[data.slctPage].E.OC[k].hasOwnProperty('Es')) {continue;}
+      if (!data.pages[data.slctPage].E.OC[k].Es.hasOwnProperty(v)) {continue;}
+      for (var j in data.pages[data.slctPage].E.OC[k].Es[v]) {
+        EN.shapeMap(data.pages[data.slctPage].E.OC.L.split(",").map(function(x) {return parseInt(x,10);}),data.pages[data.slctPage].E.OC.Es.[v][j],EN.funcShaped[v]);
+      }
+    }
+  });
+  
   //Update the display based on the layers
+  for(var k in data.pages[data.slctPage].M.A) {
 
+  }
+  for(var k in data.pages[data.slctPage].E.OC) { //Now overwrite map with objects.
+
+  }
+}
+
+EN.funcShaped = {
+  T:function(k,eff) {
+    data.pages[data.slctPage].E.W[k] = eff.Te;
+  },
+  D:function(k,eff) {
+    if (data.pages[data.slctPage].E.L[k]>1) {return;} //Cannot dim a bright square.
+    data.pages[data.slctPage].E.L[k] = 1;
+  },
+  B:function(k,eff) {
+    data.pages[data.slctPage].E.L[k] = 2;
+  },
+  O:function(k,eff) {
+    if (data.pages[data.slctPage].E.O[k] == 1) {return;} //Cannot have higher occlusion than 1.
+
+    //Increase the value and if it is more than 1 reset to 1.
+    data.pages[data.slctPage].E.O[k] += eff.Oc;
+    if (data.pages[data.slctPage].E.O[k] > 1) {data.pages[data.slctPage].E.O[k]=1;}
+  }
+}
+
+EN.shapeMap = function(eff,cb) {
+  var tl,br;
+  if (eff.Sh == 'S') {
+    var s2 = Math.floor(eff.Si/2);
+    br = [cen[0]+s2,cen[1]+s2]; //Always the same for even and odd sided squares.
+    if (eff.Si%2 == 0) {//Even sided less on top and left.
+      tl = [cen[0]-s2+1,cen[1]-s2+1];
+    } else {//Odd sided even number on either side of center.
+      tl = [cen[0]-s2,cen[1]-s2]
+    }
+
+    //Loop over the square and perform callback.
+    for(var i=tl[0];i<=br[0];i++) {
+      for(var j=tl[1];i<=br[1];j++) {
+        cb(i,j,eff);
+      }
+    }
+  } else { //Circle
+    var mx = eff.Si*eff.Si+eff.Si;
+    for (var i=-eff.Si;i<=eff.Si;i++) {
+      for (var j=-eff.Si;j<=eff.Si;j++) {
+        if (i*i+j*j < mx) {
+          var k = i+","+j;
+          //Make sure that we only add information for squares on the map.
+          if (!data.pages[data.slctPage].M.A.hasOwnProperty(k)) {continue;}
+          cb(k,eff);
+        }
+      }
+    }
+
+  }
 }
 
 EN.centerMark = function() {
@@ -257,12 +348,12 @@ EN.centerMark = function() {
 
   //Center Cross aka 0,0
   EN.CX.beginPath();
-  EN.CX.moveTo(EN.CP.X-(EN.Z*data.pages[data.slctPage].E.SC.X)-2,EN.CP.Y-(EN.Z*data.pages[data.slctPage].E.SC.Y)-2);
-  EN.CX.lineTo(EN.CP.X-(EN.Z*data.pages[data.slctPage].E.SC.X)+2,EN.CP.Y-(EN.Z*data.pages[data.slctPage].E.SC.Y)+2);
+  EN.CX.moveTo(EN.CP.X-(EN.FS*data.pages[data.slctPage].E.SC.X)-2,EN.CP.Y-(EN.FS*data.pages[data.slctPage].E.SC.Y)-2);
+  EN.CX.lineTo(EN.CP.X-(EN.FS*data.pages[data.slctPage].E.SC.X)+2,EN.CP.Y-(EN.FS*data.pages[data.slctPage].E.SC.Y)+2);
   EN.CX.stroke();
   EN.CX.beginPath();
-  EN.CX.moveTo(EN.CP.X-(EN.Z*data.pages[data.slctPage].E.SC.X)+2,EN.CP.Y-(EN.Z*data.pages[data.slctPage].E.SC.Y)-2);
-  EN.CX.lineTo(EN.CP.X-(EN.Z*data.pages[data.slctPage].E.SC.X)-2,EN.CP.Y-(EN.Z*data.pages[data.slctPage].E.SC.Y)+2);
+  EN.CX.moveTo(EN.CP.X-(EN.FS*data.pages[data.slctPage].E.SC.X)+2,EN.CP.Y-(EN.FS*data.pages[data.slctPage].E.SC.Y)-2);
+  EN.CX.lineTo(EN.CP.X-(EN.FS*data.pages[data.slctPage].E.SC.X)-2,EN.CP.Y-(EN.FS*data.pages[data.slctPage].E.SC.Y)+2);
   EN.CX.stroke();
 }
 
