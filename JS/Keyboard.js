@@ -15,10 +15,6 @@ KB.onLoad = function() {
   window.addEventListener("keydown", KB.keyUD);
   window.addEventListener("keyup", KB.keyUD);
 
-  //Add listeners for specific fields.
-  document.getElementById("PageSettingsWidth").addEventListener("keydown", KB.posIntInputOnly);
-  document.getElementById("PageSettingsHeight").addEventListener("keydown", KB.posIntInputOnly);
-
   KB.modKeys = {};
 }
 

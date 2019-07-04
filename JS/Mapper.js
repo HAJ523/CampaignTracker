@@ -44,9 +44,11 @@ MR.initMapper = function() {
   MR.selectTile(null, 0);
   MR.buildHTMLPalette();
 
+  //Add Event Listeners to the canvas.
   MR.CV.addEventListener("mousedown",MR.mouseChange);
   MR.CV.addEventListener("mouseup",MR.mouseChange);
   MR.CV.addEventListener("mouseout", MR.mouseOut);
+  window.addEventListener("resize", MR.resizeHandler);
 
   //Setup the canvas.
   MR.resetCanvas();
@@ -57,7 +59,28 @@ MR.closeMapper = function() {
   MR.CV.removeEventListener("mousedown",MR.mouseChange);
   MR.CV.removeEventListener("mouseup",MR.mouseChange);
   MR.CV.removeEventListener("mouseout", MR.mouseOut);
+  window.removeEventListener("resize", MR.resizeHandler);
+  if (MR.timer != undefined) {
+    clearTimeout(MR.timer);
+    MR.timer = undefined;
+  }
 }
+
+MR.resizeHandler = function() {
+  if (MR.timer != undefined) {
+    clearTimeout(MR.timer);
+    MR.timer = undefined;
+  }
+  MR.timer = setTimeout(function() {
+    MR.timer = undefined;
+    MR.resizeCB();
+  }, 1000); //Wait one second before redrawing to make sure that no more resize events will occur.
+}
+
+MR.resizeCB = function() {
+  MR.resetCanvas();
+}
+MR.timer = undefined;
 
 MR.resetCanvas = function() {
   //Clear the canvas and reset the dimensions.
