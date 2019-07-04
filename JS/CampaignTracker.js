@@ -238,12 +238,8 @@ CT.editPage = function() {
 
   if (data.pages.hasOwnProperty(data.slctPage)) {
     if (data.pages[data.slctPage].hasOwnProperty('M')) {
-      document.getElementById('PageSettingsWidth').value = data.pages[data.slctPage].M.W;
-      document.getElementById('PageSettingsHeight').value = data.pages[data.slctPage].M.H;
       document.getElementById('PageSettingsColor').value = data.pages[data.slctPage].M.C;
     } else {
-      document.getElementById('PageSettingsWidth').value = "";
-      document.getElementById('PageSettingsHeight').value = "";
       document.getElementById('PageSettingsColor').value = "#000000";
     }
   }
