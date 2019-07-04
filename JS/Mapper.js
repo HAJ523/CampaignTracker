@@ -491,7 +491,7 @@ MR.undo = function() {
       data.pages[data.slctPage].M.A[k] = l[k];
       s = 0;
     }
-    MR.printTile(k.split(",").map(function(x) {return parseInt(x,10);}),k,s);
+    MR.printTile(k.split(",").map(function(x) {return parseInt(x,10);}),k,1);
   }
 }
 
