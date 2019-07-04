@@ -20,7 +20,7 @@ MR.brushSizesHex = {};
   Description: Any setup needed for the mapper to function after page has loaded.
 */
 MR.onLoad = function() {
-  MR.CV = document.getElementById('MapCanvas');
+  MR.CV = document.getElementById('Canvas');
   MR.CX = MR.CV.getContext("2d");
 }
 
@@ -37,7 +37,7 @@ MR.initMapper = function() {
 
   //Start with the correct tool and layer selected.
   MR.selectTool("B");
-  MR.selectLayer("T");
+  MR.selectLayer("T",1);
   MR.selectSize("S");
 
   //Build the HTML of the pallette.
@@ -47,6 +47,9 @@ MR.initMapper = function() {
   MR.CV.addEventListener("mousedown",MR.mouseChange);
   MR.CV.addEventListener("mouseup",MR.mouseChange);
   MR.CV.addEventListener("mouseout", MR.mouseOut);
+
+  //Setup the canvas.
+  MR.resetCanvas();
 }
 
 MR.closeMapper = function() {
@@ -56,54 +59,43 @@ MR.closeMapper = function() {
   MR.CV.removeEventListener("mouseout", MR.mouseOut);
 }
 
+MR.resetCanvas = function() {
+  //Clear the canvas and reset the dimensions.
+  MR.CV.width = MR.CV.clientWidth;
+  MR.CV.height = MR.CV.clientHeight;
+
+  //Update to new center.
+  MR.CP = {X:Math.floor(MR.CV.width/2),Y:Math.floor(MR.CV.height/2)};
+
+  //Setup the font for printing to the canvas.
+  MR.CX.font = EN.Z + "px Square";
+  MR.CX.textAlign = "left";
+  MR.CX.textBaseline = "top";
+
+  MR.updateCanvas();
+}
+
 /*
   Scope: Restricted
   Description: Change the size of the map.
 */
-MR.setMapDetails = function(p, w, h, c) { //Page, Width, Height, Color
+MR.setMapDetails = function(p, c) { //Page, Width, Height, Color
   var forceupdate = 0;
-  //Update the page by creating, trimming, Or expanding the arrays.
+  //If the color of the page changes then force an update.
   if (data.pages[p].hasOwnProperty("M")) {
     //If the width is less then trim the array.
-    if (w < data.pages[p].M.W) {
+    if (c != data.pages[p].M.C) {
       forceupdate = 1;
-    }
-
-    //If the height is less then trim the heights.
-    if (h < data.pages[p].M.H) {
-      forceupdate = 1;
-    }
-
-    //If we trimmed the height or width the loop over the keys and look for bad elements.
-    if (forceupdate) {
-      for (var t in data.pages[p].M.A) {
-        //square
-        var temp = t.split(",");
-        if (parseInt(temp[0]) >= w) {delete data.pages[p].M.A[t]; continue;}
-        if (parseInt(temp[1]) >= h) {delete data.pages[p].M.A[t];}
-      }
-    }
-
-    //If we are adding then we also need to force an update but no changes to the arrays necesary.
-    if ((h > data.pages[p].M.H) || w > data.pages[p].M.W) {
-      forceupdate=1;
     }
   } else {
-    data.pages[p].M = {}; //Create the map
-
-    data.pages[p].M.W = w;
-    data.pages[p].M.H = h;
-    data.pages[p].M.C = c;
-
-    //Create the sparse array.
-    data.pages[p].M.A = {};
+    data.pages[p].M = {C:c, A:{}, SC:{X:0,Y:0}}; //Create the map
     forceupdate = 1; //Always redraw with new.
   }
 
   //Update the Canvas
   if (forceupdate) {
     var canvas = document.getElementById("MapCanvas");
-    MR.updateMapCanvas();
+    MR.updateCanvas();
   }
 }
 
@@ -111,11 +103,7 @@ MR.setMapDetails = function(p, w, h, c) { //Page, Width, Height, Color
   Scope: Public
   Description: Re-draw everything to the canvas.
 */
-MR.updateMapCanvas = function() {
-  //Clear the canvas and reset the dimensions.
-  MR.CV.width = data.pages[data.slctPage].M.W * MR.FS + MR.BR*2; //Add 10px on all sides of the display.
-  MR.CV.height = data.pages[data.slctPage].M.H * MR.FS + MR.BR*2;
-
+MR.updateCanvas = function() {
   //Draw the background first
   MR.CX.fillStyle = data.pages[data.slctPage].M.C;
   MR.CX.fillRect(0,0,MR.CV.width, MR.CV.height);
@@ -140,10 +128,17 @@ MR.printTile = function(loc, t) {//Location, TileAddress
 
     tile = data.pages[data.slctPage].M.A[t];
 
-    //square drawing.
-    var x = MR.BR + loc[0] * MR.FS;
-    var y = MR.BR + loc[1] * MR.FS;
+    //Tile topleft location.
+    var x = MR.CP.X + (loc[0] - data.pages[data.slctPage].M.SC.X) * MR.FS - 4;
+    var y = MR.CP.Y + (loc[1] - data.pages[data.slctPage].M.SC.X) * MR.FS - 4;
 
+    //If we would draw outside the canvas & border then skip now.
+    if (x < MR.BR) {return;}
+    if (y < MR.BR) {return;}
+    if (y > (MR.CV.height - (MR.FS + MR.BR))) {return;}
+    if (x > (MR.CV.width - (MR.FS + MR.BR))) {return;}
+
+    //Clear the tile incase there was something printed here before.
     MR.CX.fillStyle = data.pages[data.slctPage].M.C;
     MR.CX.fillRect(x, y, MR.FS, MR.FS);
 
@@ -200,8 +195,6 @@ MR.printTile = function(loc, t) {//Location, TileAddress
         }
         break;
     }
-
-
   }
 }
 
@@ -212,9 +205,9 @@ MR.printTile = function(loc, t) {//Location, TileAddress
 MR.mouseToMapLoc = function(x, y) {
   //If the click is in the border then there is nothing to return!
   if ((x < MR.BR) || (y < MR.BR)) { return null; }
-  if ((x > MR.BR + data.pages[data.slctPage].M.W * MR.FS) || (y > MR.BR + data.pages[data.slctPage].M.W * MR.FS)) { return null; }
+  if ((x > MR.CV.width - MR.BR) || (y > MR.CV.height - MR.BR)) { return null; }
   //Return the map location.
-  return [Math.floor((x-MR.BR)/MR.FS),Math.floor((y-MR.BR)/MR.FS)];
+  return [Math.floor((x-MR.CP.X+4)/MR.FS),Math.floor((y-MR.CP.Y+4)/MR.FS)];
 }
 
 /*
@@ -426,12 +419,6 @@ MR.brushPoint = function(loc, s, keys) {//Location, Size, oldKeyArray
     y = loc[1]+MR.brushSizesSquare[s][i][1];
     t = x+","+y;
 
-    //Check to make sure the bristle is on the map!
-    if (x < 0) {continue;}
-    if (x >= data.pages[data.slctPage].M.W) {continue;}
-    if (y < 0) {continue;}
-    if (y >= data.pages[data.slctPage].M.H) {continue;}
-
     if (keys != null) { //If we have an old key set then we need to record that we are still paining at the current location.
       var idx = keys.indexOf(t);
       if (idx > -1) {
@@ -503,14 +490,14 @@ MR.selectTool = function(t) {//Tool Selected
   Scope: Public
   Description: Select the layer for display.
 */
-MR.selectLayer = function(l) { //Layer
+MR.selectLayer = function(l, s) { //Layer, skip
   if (MR.LY != undefined) {
     document.getElementById("layer" + MR.LY).classList.remove("w3-btn-pressed");
   }
   MR.LY = l;
   document.getElementById('layer' + l).classList.add("w3-btn-pressed");
 
-  MR.updateMapCanvas();
+  if (!s) {MR.updateCanvas();}
 }
 
 MR.incTileLight = function() {

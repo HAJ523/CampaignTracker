@@ -27,15 +27,13 @@ EN.initEncounter = function() {
     data.pages[data.slctPage].E = {};
   }
 
-  //Get center of canvas.
-  EN.CP = {X:Math.floor(EN.CV.width/2),Y:Math.floor(EN.CV.height/2)};
   EN.Z = document.getElementById("ENZoom").value;
 
   //
   EN.initTempLayers();
 
   //Redraw the Encounter.
-  EN.updateEncounterCanvas();
+  EN.resetEncounterCanvas();
 }
 
 EN.closeEncounter = function() {
@@ -60,7 +58,7 @@ EN.resizeHandler = function() {
 }
 
 EN.resizeCB = function() {
-  EN.updateEncounterCanvas();
+  EN.resetEncounterCanvas();
 }
 EN.timer = undefined;
 
@@ -225,17 +223,16 @@ EN.initTempLayers = function() {
 
 EN.resetEncounterCanvas = function() {
   //Clear the canvas and reset the dimensions.
-  MR.CV.width = data.pages[data.slctPage].M.W * MR.FS + MR.BR*2; //Add 10px on all sides of the display.
-  MR.CV.height = data.pages[data.slctPage].M.H * MR.FS + MR.BR*2;
+  EN.CV.width = EN.CV.clientWidth;
+  EN.CV.height = EN.CV.clientHeight;
 
-  //Draw the background first
-  MR.CX.fillStyle = data.pages[data.slctPage].M.C;
-  MR.CX.fillRect(0,0,MR.CV.width, MR.CV.height);
+  //Update to new center.
+  EN.CP = {X:Math.floor(EN.CV.width/2),Y:Math.floor(EN.CV.height/2)};
 
   //Setup the font for printing to the canvas.
-  MR.CX.font = MR.FS + "px Square";
-  MR.CX.textAlign = "left";
-  MR.CX.textBaseline = "top";
+  EN.CX.font = EN.Z + "px Square";
+  EN.CX.textAlign = "left";
+  EN.CX.textBaseline = "top";
 
   EN.updateEncounterCanvas();
 }
@@ -256,7 +253,7 @@ EN.updateEncounterCanvas = function() {
 }
 
 EN.centerMark = function() {
-  EN.CX.fillStyle = EN.invertColor(data.pages[data.slctPage].M.C, 1);
+  EN.CX.strokeStyle = EN.invertColor(data.pages[data.slctPage].M.C, 1);
 
   //Center Cross aka 0,0
   EN.CX.beginPath();

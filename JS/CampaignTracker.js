@@ -277,20 +277,10 @@ CT.settingsPage = function() {
   }
 
   //Save the additional page settings!
-  var h = parseInt(document.getElementById('PageSettingsHeight').value) || 0;
-  var w = parseInt(document.getElementById('PageSettingsWidth').value) || 0;
   var c = document.getElementById('PageSettingsColor').value;
 
-  //If we have a height and width then perform settings.
-  if ((h > 0) && (w > 0)) {
-    MR.setMapDetails(data.slctPage, w, h, c);
-
-  } else {
-    if (data.pages[data.slctPage].hasOwnProperty('M')) {
-      CT.setStatus('Map removed from page.');
-      delete data.pages[data.slctPage].M; //Remove only the map if any of the height or width are set to 0.
-    }
-  }
+  //Set map color
+  MR.setMapDetails(data.slctPage, c);
 
   CT.closeModal(document.getElementById("PageSettings"));
 }
@@ -307,15 +297,8 @@ CT.changeView = function(v) {
   //check to make sure the view can be changed
   switch(v) {
     case "M":
-      if (data.slctPage=="") {CT.setStatus("Page doesn't exist or have a map."); return;}
-      if (!data.pages[data.slctPage].hasOwnProperty("M")) {CT.setStatus("Page doesn't have a map."); return;}
-      MR.initMapper();
-      break;
     case "E":
-      if (data.slctPage=="") {CT.setStatus("Page doesn't exist or have a map."); return;}
-      if (!data.pages[data.slctPage].hasOwnProperty("M")) {CT.setStatus("Page doesn't have a map."); return;}
-      EN.initEncounter();
-      break;
+      if (data.slctPage=="") {CT.setStatus("Page doesn't exist."); return;}
   }
 
   //Clear any open view elements.
@@ -343,6 +326,16 @@ CT.changeView = function(v) {
   var toShow = document.getElementsByClassName("view" + data.slctView);
   for (var i = 0; i < toShow.length; i++) {
     if (toShow[i].classList.contains("w3-hide")) { toShow[i].classList.remove("w3-hide"); }
+  }
+
+  //Finalize actions that must happen after the new elements are visible.
+  switch(v) {
+    case "E":
+      EN.initEncounter();
+      break;
+    case "M":
+      MR.initMapper();
+      break;
   }
 }
 
