@@ -482,14 +482,11 @@ MR.clearMapper = function() { //TODO determine if this is needed with initMapper
 
 MR.undo = function() {
   var l = MR.UNDO.shift(); //Get the first element.
-  var s;
   for (var k in l) {
     if (l[k] == undefined) {
       delete data.pages[data.slctPage].M.A[k];
-      s = 1;
     } else {
       data.pages[data.slctPage].M.A[k] = l[k];
-      s = 0;
     }
     MR.printTile(k.split(",").map(function(x) {return parseInt(x,10);}),k,1);
   }
