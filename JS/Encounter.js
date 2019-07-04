@@ -276,11 +276,11 @@ EN.updateEncounterCanvas = function() {
       if (!data.pages[data.slctPage].E.OC[k].hasOwnProperty('Es')) {continue;}
       if (!data.pages[data.slctPage].E.OC[k].Es.hasOwnProperty(v)) {continue;}
       for (var j in data.pages[data.slctPage].E.OC[k].Es[v]) {
-        EN.shapeMap(data.pages[data.slctPage].E.OC.L.split(",").map(function(x) {return parseInt(x,10);}),data.pages[data.slctPage].E.OC.Es.[v][j],EN.funcShaped[v]);
+        EN.shapeMap(data.pages[data.slctPage].E.OC.L.split(",").map(function(x) {return parseInt(x,10);}),data.pages[data.slctPage].E.OC.Es[v][j],EN.funcShaped[v]);
       }
     }
   });
-  
+
   //Update the display based on the layers
   for(var k in data.pages[data.slctPage].M.A) {
 
@@ -308,7 +308,7 @@ EN.funcShaped = {
     data.pages[data.slctPage].E.O[k] += eff.Oc;
     if (data.pages[data.slctPage].E.O[k] > 1) {data.pages[data.slctPage].E.O[k]=1;}
   }
-}
+};
 
 EN.shapeMap = function(eff,cb) {
   var tl,br;

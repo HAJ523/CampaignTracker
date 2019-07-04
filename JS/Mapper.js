@@ -146,78 +146,77 @@ MR.updateCanvas = function() {
   Scope: Public
   Description: Print a single tile to the canvas.
 */
-MR.printTile = function(loc, t) {//Location, TileAddress
-  if (data.pages[data.slctPage].M.A.hasOwnProperty(t)) {
+MR.printTile = function(loc, t, s) {//Location, TileAddress, skip access check.
+  if (!data.pages[data.slctPage].M.A.hasOwnProperty(t) && !s) { return;}
 
-    tile = data.pages[data.slctPage].M.A[t];
+  tile = data.pages[data.slctPage].M.A[t];
 
-    //Tile topleft location.
-    var x = MR.CP.X + (loc[0] - data.pages[data.slctPage].M.SC.X) * MR.FS - 4;
-    var y = MR.CP.Y + (loc[1] - data.pages[data.slctPage].M.SC.X) * MR.FS - 4;
+  //Tile topleft location.
+  var x = MR.CP.X + (loc[0] - data.pages[data.slctPage].M.SC.X) * MR.FS - 4;
+  var y = MR.CP.Y + (loc[1] - data.pages[data.slctPage].M.SC.X) * MR.FS - 4;
 
-    //If we would draw outside the canvas & border then skip now.
-    if (x < MR.BR) {return;}
-    if (y < MR.BR) {return;}
-    if (y > (MR.CV.height - (MR.FS + MR.BR))) {return;}
-    if (x > (MR.CV.width - (MR.FS + MR.BR))) {return;}
+  //If we would draw outside the canvas & border then skip now.
+  if (x < MR.BR) {return;}
+  if (y < MR.BR) {return;}
+  if (y > (MR.CV.height - (MR.FS + MR.BR))) {return;}
+  if (x > (MR.CV.width - (MR.FS + MR.BR))) {return;}
 
-    //Clear the tile incase there was something printed here before.
-    MR.CX.fillStyle = data.pages[data.slctPage].M.C;
-    MR.CX.fillRect(x, y, MR.FS, MR.FS);
+  //Clear the tile incase there was something printed here before.
+  MR.CX.fillStyle = data.pages[data.slctPage].M.C;
+  MR.CX.fillRect(x, y, MR.FS, MR.FS);
 
-    if (tile == null) { return; } //If there is nothing to draw move on.
+  if (tile == null) { return; } //If there is nothing to draw move on.
 
-    MR.CX.fillStyle = tile.C;
+  MR.CX.fillStyle = tile.C;
 
-    switch(MR.LY) {
-      case "T":
-        MR.CX.fillText(tile.T, x, y);
-        break;
-      case "L":
-        MR.CX.fillText(tile.L, x, y);
+  switch(MR.LY) {
+    case "T":
+      MR.CX.fillText(tile.T, x, y);
       break;
-      case "O":
-        switch (tile.O) {
-          case 0:
-            MR.CX.fillText("0", x, y);
-            break;
-          case .125:
-            MR.CX.fillText("1", x, y);
-            break;
-          case .25:
-            MR.CX.fillText("2", x, y);
-            break;
-          case .5:
-            MR.CX.fillText("5", x, y);
-            break;
-          case .75:
-            MR.CX.fillText("7", x, y);
-            break;
-          case .875:
-            MR.CX.fillText("8", x, y);
-            break;
-          case 1:
-            MR.CX.fillText("#", x, y);
-            break;
-        }
-        break;
-      case "W":
-        switch(tile.W) {
-          case 0:
-            MR.CX.fillText(tile.W, x, y);
-            break;
-          case .5:
-            MR.CX.fillText("4", x, y);
-            break;
-          case 1:
-            MR.CX.fillText("2", x, y);
-            break;
-          case 2:
-            MR.CX.fillText("1", x, y);
-            break;
-        }
-        break;
-    }
+    case "L":
+      MR.CX.fillText(tile.L, x, y);
+    break;
+    case "O":
+      switch (tile.O) {
+        case 0:
+          MR.CX.fillText("0", x, y);
+          break;
+        case .125:
+          MR.CX.fillText("1", x, y);
+          break;
+        case .25:
+          MR.CX.fillText("2", x, y);
+          break;
+        case .5:
+          MR.CX.fillText("5", x, y);
+          break;
+        case .75:
+          MR.CX.fillText("7", x, y);
+          break;
+        case .875:
+          MR.CX.fillText("8", x, y);
+          break;
+        case 1:
+          MR.CX.fillText("#", x, y);
+          break;
+      }
+      break;
+    case "W":
+      switch(tile.W) {
+        case 0:
+          MR.CX.fillText(tile.W, x, y);
+          break;
+        case .5:
+          MR.CX.fillText("4", x, y);
+          break;
+        case 1:
+          MR.CX.fillText("2", x, y);
+          break;
+        case 2:
+          MR.CX.fillText("1", x, y);
+          break;
+      }
+      break;
   }
 }
 
@@ -458,14 +457,16 @@ MR.brushPoint = function(loc, s, keys) {//Location, Size, oldKeyArray
 }
 
 MR.setMapTile = function(loc, k) {
+  var s;
   //Choose a random tile from the palette.
   if (MR.CT == "E") {
-    data.pages[data.slctPage].M.A[k] = undefined;
+    delete data.pages[data.slctPage].M.A[k];
+    s = 1;
   } else {
     data.pages[data.slctPage].M.A[k] = Object.assign({},MR.PL[Math.floor(Math.random()*MR.PL.length)]);
   }
 
-  MR.printTile(loc, k);
+  MR.printTile(loc, k, s);
 }
 
 /*
@@ -481,10 +482,16 @@ MR.clearMapper = function() { //TODO determine if this is needed with initMapper
 
 MR.undo = function() {
   var l = MR.UNDO.shift(); //Get the first element.
-
+  var s;
   for (var k in l) {
-    data.pages[data.slctPage].M.A[k] = l[k];
-    MR.printTile(k.split(",").map(function(x) {return parseInt(x,10);}),k);
+    if (l[k] == undefined) {
+      delete data.pages[data.slctPage].M.A[k];
+      s = 1;
+    } else {
+      data.pages[data.slctPage].M.A[k] = l[k];
+      s = 0;
+    }
+    MR.printTile(k.split(",").map(function(x) {return parseInt(x,10);}),k,s);
   }
 }
 
