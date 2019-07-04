@@ -238,11 +238,26 @@ EN.initTempLayers = function() {
 }
 
 EN.resetTempMapLayers = function() {
+
+  //Make sure that min and max exist.
+  if (!data.pages[data.slctPage].E.hasOwnProperty("B")) {
+    data.pages[data.slctPage].E.B = {XMA:0,XMI:0,YMA:0,YMI:0};
+  }
+  var b = data.pages[data.slctPage].E.B;
+
+  var p;
   //Loop through all keys and initialize arrays to Map values.
   for (var k in data.pages[data.slctPage].M.A) {
     data.pages[data.slctPage].E.O[k] = data.pages[data.slctPage].M.A[k].O
     data.pages[data.slctPage].E.L[k] = data.pages[data.slctPage].M.A[k].L
     data.pages[data.slctPage].E.W[k] = data.pages[data.slctPage].M.A[k].W
+
+    //Add max & min map info.
+    p = k.split(",").map(function(x) {return parseInt(x,10);});
+    if (p[0] > data.pages[data.slctPage].E.B.XMA) {data.pages[data.slctPage].E.B.XMA = p[0];}
+    if (p[0] < data.pages[data.slctPage].E.B.XMI) {data.pages[data.slctPage].E.B.XMI = p[0];}
+    if (p[1] > data.pages[data.slctPage].E.B.YMA) {data.pages[data.slctPage].E.B.YMA = p[1];}
+    if (p[1] < data.pages[data.slctPage].E.B.YMI) {data.pages[data.slctPage].E.B.YMI = p[1];}
   }
 }
 
