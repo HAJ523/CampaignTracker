@@ -111,7 +111,7 @@ EN.updateOC = function() {
   var obj = data.pages[data.slctPage].E.OC[id];
 
   obj.N = document.getElementById('OCName').value;
-  obj.Ti = document.getElementById('OCTile').value;
+  obj.T = document.getElementById('OCTile').value;
   obj.C = document.getElementById('OCColor').value;
   obj.Ty = document.getElementById('OCType').value;
   obj.V = document.getElementById('OCVisible').value;
@@ -302,7 +302,7 @@ EN.updateEncounterCanvas = function() {
     EN.printTile(k.split(",").map(function(x) {return parseInt(x,10);}),k,data.pages[data.slctPage].M.A[k]);
   }
   for(var k in data.pages[data.slctPage].E.OC) { //Now overwrite map with objects.
-
+    EN.printTile(data.pages[data.slctPage].E.OC[k].L.split(",").map(function(x) {return parseInt(x,10);}),data.pages[data.slctPage].E.OC[k].L,data.pages[data.slctPage].E.OC[k])
   }
 }
 
