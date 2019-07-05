@@ -14,7 +14,11 @@ RL.calc = function(id) {
 
 RL.calcFinish = function(c) {
   var el = document.getElementById(RL.CID);
-  if (RegExp(/^(\+|\-).*/g).test(c)) {
+
+  //Check for @ symbol to use current calculation value!
+  c = c.replace(/\@/g,el.innerHTML);
+
+  if (RegExp(/^(\+|\-|\*|\/).*/g).test(c)) { //add,mult,sub,div
     el.title += c;
   } else {
     el.title = c;
