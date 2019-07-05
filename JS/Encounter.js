@@ -27,7 +27,7 @@ EN.initEncounter = function() {
     data.pages[data.slctPage].E = {};
   }
 
-  EN.FS = document.getElementById("ENZoom").value;
+  EN.FS = parseInt(document.getElementById("ENZoom").value);
 
   //
   EN.initTempLayers();
@@ -286,12 +286,12 @@ EN.updateEncounterCanvas = function() {
   EN.centerMark();
   //Update the layers based on current object properties.
   //Loop over effect types in order.
-  ["O","B","D","T"].forEach(function(v) {
-    for(var k in data.pages[data.slctPage].E.OC) {
+  ["O","B","D","T"].forEach(function(v) { //TODO make this a parameter. So that if an object moves that say only has light. It doesn't need to change / update the occlusion layers.
+    for(var k in data.pages[data.slctPage].E.OC) { //Loop over all objects.
       if (!data.pages[data.slctPage].E.OC.hasOwnProperty("L")) {continue;} //Skip if the object has no location.
-      if (!data.pages[data.slctPage].E.OC[k].hasOwnProperty('Es')) {continue;}
-      if (!data.pages[data.slctPage].E.OC[k].Es.hasOwnProperty(v)) {continue;}
-      for (var j in data.pages[data.slctPage].E.OC[k].Es[v]) {
+      if (!data.pages[data.slctPage].E.OC[k].hasOwnProperty('Es')) {continue;} //Or effects
+      if (!data.pages[data.slctPage].E.OC[k].Es.hasOwnProperty(v)) {continue;} //Or effect of the type being updated.
+      for (var j in data.pages[data.slctPage].E.OC[k].Es[v]) { //Loop over all of the effects of the type.
         EN.shapeMap(data.pages[data.slctPage].E.OC.L.split(",").map(function(x) {return parseInt(x,10);}),data.pages[data.slctPage].E.OC.Es[v][j],EN.funcShaped[v]);
       }
     }
@@ -308,8 +308,8 @@ EN.updateEncounterCanvas = function() {
 
 EN.printTile = function(l,k,t) {//Location,Key,Tile
   //Tile topleft location.
-  var x = EN.CP.X + (l[0] - data.pages[data.slctPage].E.SC.X) * EN.FS - 4;
-  var y = EN.CP.Y + (l[1] - data.pages[data.slctPage].E.SC.Y) * EN.FS - 4;
+  var x = EN.CP.X + (l[0] - data.pages[data.slctPage].E.SC.X) * EN.FS - (EN.FS>>1);
+  var y = EN.CP.Y + (l[1] - data.pages[data.slctPage].E.SC.Y) * EN.FS - (EN.FS>>1);
 
   //If we would draw outside the canvas & border then skip now.
   if (x < MR.BR) {return;}
@@ -318,27 +318,32 @@ EN.printTile = function(l,k,t) {//Location,Key,Tile
   if (x > (EN.CV.width - (EN.FS + MR.BR))) {return;}
 
   //Clear the tile incase there was something printed here before.
-  MR.CX.fillStyle = data.pages[data.slctPage].M.C;
-  MR.CX.fillRect(x, y, MR.FS, MR.FS);
+  EN.CX.fillStyle = data.pages[data.slctPage].M.C;
+  if (EN.FS > 2) {MR.CX.fillRect(x, y, MR.FS, MR.FS);} //Only bother if we aren't filling the whole pixel.
 
   if (t == undefined) {return;}
   if (t == null) {return;}
 
-  EN.CX.fillStyle = EN.fowColor(k, T.c);
+  EN.CX.fillStyle = EN.fowColor(k, t.C);
 
-  EN.CX.fillText(t.T,x,y); //Print the tile.
+  if (EN.FS > 2) {EN.CX.fillText(t.T,x,y);} //Print the tile.
+  else { EN.CX.fillRect(x,y,MR.FS,MR.FS); } //Print a small square.
 
 }
 
 EN.fowColor = function(k,c) {
   var fow;
-  switch(EN.FOW) {
-    case 0:
+  switch(EN.FOW) { //Show All, Show Player, Show Monster
+    case "0":
     default:
-      fow = data.pages.
+      return c;
       break;
-    case 1:
-    case 2:
+    case "1":
+      fow = data.pages[data.slctPage].E.F.P;
+      break;
+    case "2":
+      fow = data.pages[data.slctPage].E.F.M;
+      break;
   }
   switch(fow[k]) {
     case 0:
@@ -483,4 +488,8 @@ EN.padZero = function (str, len) {
     len = len || 2;
     var zeros = new Array(len).join('0');
     return (zeros + str).slice(-len);
+}
+
+EN.changeFOW = function() {
+  EN.FOW = document.getElementById('ENFOW').value;
 }
