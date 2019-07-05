@@ -128,6 +128,6 @@ div.subMenu {
 .stat-mix {border-left: 3px solid #CC0!important;}
 .stat-ct {border-left: 3px solid #CCC!important;}
 .stat-imp {border-left: 3px solid #C00!important;}
-.snd {text-align:center;display: inline-block;position: relative;background-color: #f1f3f4;border: 1px solid #000;font-size:10px;}
+.snd {text-align:center;display: inline-block;position: relative;background-color: #f1f3f4;border: 1px solid #000;font-size:10px;width:100%;}
 .snd audio {height: 20px;}
 .snd a {position:absolute;top: 0px;right: 2px;}

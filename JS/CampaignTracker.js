@@ -642,3 +642,13 @@ CT.freeRoll = function(a) {
   }
   el.value = "";
 }
+
+CT.showStatuses = function() {
+  document.getElementById('SoundDisplay').classList.add("w3-hide");
+  document.getElementById('StatusDisplay').classList.remove("w3-hide");
+}
+
+CT.showSounds = function() {
+  document.getElementById('SoundDisplay').classList.remove("w3-hide");
+  document.getElementById('StatusDisplay').classList.add("w3-hide");
+}

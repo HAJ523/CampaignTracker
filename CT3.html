@@ -318,6 +318,20 @@
                 <div class="w3-display-container w3-padding-small"><input type="text" class="w3-input w3-small w3-padding-small" placeholder="Free Roll..." id="FreeRoll" onkeydown="KB.prompt(event,CT.freeRoll);"></div>
                 <div class="w3-display-container w3-no-select" style="min-height:250px;max-height:250px;">
                   <div id="StatusDisplay" class="w3-display-container w3-padding-none" style="height:100%;overflow-y:scroll;" ></div>
+                  <div id="SoundDisplay" class="w3-display-container w3-padding-none w3-hide" style="height:100%;overflow-y:scroll;">
+                    <div class="w3-display-container w3-padding-small" style="border-bottom:1px solid #CCC">
+                      <p class="w3-small">Music</p>
+                      <div class="snd">
+                        <span id="MusicTitle">Title</span><br>
+                        <audio controls>
+                          <source id="MusicSource">
+                        </audio>
+                      </div>
+                    </div>
+                    <div class="w3-display-container w3-padding-small" id="SoundEffects">
+                      <p class="w3-small">Effects</p>
+                    </div>
+                  </div>
                 </div>
               </div>
               <!-- Encounter TODO remove use single canvas! -->
@@ -343,8 +357,8 @@
           <div class="w3-row">
             <div class="w3-rest w3-theme w3-display-container w3-no-select">
               <div class="w3-left">
-                <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small fas fa-comment" title="Notifications"></a>
-                <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small fas fa-music" title="Music & Sounds"></a>
+                <a href="javascript:CT.showStatuses();" class="w3-bar-item w3-button w3-padding-small fas fa-comment" title="Notifications"></a>
+                <a href="javascript:CT.showSounds();" class="w3-bar-item w3-button w3-padding-small fas fa-music" title="Music & Sounds"></a>
               </div>
               <div class="w3-right" id="IRLClock"></div>
               <div class="w3-display-middle">
