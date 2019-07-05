@@ -72,8 +72,14 @@ MD.toHTML = function(s, heads) {
       })
       //Calculator
       .replace(/&\[(.*?)\]/g, function(m, a) { //Parameters: Match, Equation   Return: <a href'calc'>Equation</a>
+        var id = CT.GUID(8);
+        return '<a href="javascript:RL.calc(\''+id+'\')" title="' + a + '" id="' + id + '">' +eval(a)+ '</a>';
+      })
+      //Sections TODO
+      .replace(/\@\[(.*?)\]/g, function(m, a) {//Parameters: Match, Page
         return a;
       })
+
       //Links
       .replace(/\[(.*?)\/?([^\/]*?)\](?:\((\".*\"|[^ \n]*)[ ]?(.*)?\))?/g, function(m, a, b, c, d) { //Parameters: Match, Parent Folder, Page, Link, Title  Returns: <a href=Link title=Title>Page</a>
         a = ((a != "") ? [a, b].join("/") : b); //If there was a parent page then make sure that that is included in the link if Link is not populated.
@@ -95,8 +101,6 @@ MD.toHTML = function(s, heads) {
       .replace(/((?:^|\n)\|.*?\n)(\|.*?\n)((?:\|.*?(?:\n|$))*)/gs, function(m, a, b, c) {//Parameters: Match, Headers, Alignment, Data   Returns: <table>...</table>
         return MD.tableToHTML(a,b,c);
       })
-      //Sections TODO
-
       //Lists (Must remain at the bottom to avoid parsing mistakes with other elements!)
       .replace(/((?:^|\n)(?:[*+-]){1}(?:.*)(?:(?:^|\n)(?:[* +-][ ]?){1}(?:.*))*)/g, function (m, a) { //Parameters: Match, List   Returns: <ol/ul>...</...>
         return MD.listsToHTML(a);

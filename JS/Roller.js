@@ -7,6 +7,23 @@
 
 var RL = {};
 
+RL.calc = function(id) {
+  RL.CID = id;
+  var newcalc = CT.prompt(RL.calcFinish,"Calculation","New calculation or append by beginning with '+'/'-'.","Calculation","Calc");
+}
+
+RL.calcFinish = function(c) {
+  var el = document.getElementById(RL.CID);
+  if (RegExp(/^(\+|\-).*/g).test(c)) {
+    el.title += c;
+  } else {
+    el.title = c;
+  }
+
+  el.innerHTML = eval(el.title);
+  RL.CID = ""; //Reset the calc id.
+}
+
 /*
   Scope: Public
   Description: Performs roll on click and updates element display!
