@@ -479,7 +479,7 @@ CT.addPageToPageTree = function(l, p, r) { //Parameters: List, Page,
       var li = l.children[l.children.length-1];
       if (cKey.length > 1) {
         li.innerHTML += '<ol></ol>';
-        CT.addPageToPageTree(li.children[2], cKey[1]);
+        CT.addPageToPageTree(li.children[2], cKey[1],r + ((r != "")? "/" : "") + cKey[0]);
       }
       break; //This should not be necessary but for safety.
     }
