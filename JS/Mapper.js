@@ -153,7 +153,7 @@ MR.printTile = function(loc, t, s) {//Location, TileAddress, skip access check.
 
   //Tile topleft location.
   var x = MR.CP.X + (loc[0] - data.pages[data.slctPage].M.SC.X) * MR.FS - 4;
-  var y = MR.CP.Y + (loc[1] - data.pages[data.slctPage].M.SC.X) * MR.FS - 4;
+  var y = MR.CP.Y + (loc[1] - data.pages[data.slctPage].M.SC.Y) * MR.FS - 4;
 
   //If we would draw outside the canvas & border then skip now.
   if (x < MR.BR) {return;}

@@ -277,6 +277,7 @@ EN.resetEncounterCanvas = function() {
   EN.updateEncounterCanvas();
 }
 
+//Full update!
 EN.updateEncounterCanvas = function() {
   //Redraw background to clear canvas.
   EN.CX.fillStyle = data.pages[data.slctPage].M.C;
@@ -298,11 +299,94 @@ EN.updateEncounterCanvas = function() {
 
   //Update the display based on the layers
   for(var k in data.pages[data.slctPage].M.A) {
-
+    EN.printTile(k.split(",").map(function(x) {return parseInt(x,10);}),k,data.pages[data.slctPage].M.A[k]);
   }
   for(var k in data.pages[data.slctPage].E.OC) { //Now overwrite map with objects.
 
   }
+}
+
+EN.printTile = function(l,k,t) {//Location,Key,Tile
+  //Tile topleft location.
+  var x = EN.CP.X + (l[0] - data.pages[data.slctPage].E.SC.X) * EN.FS - 4;
+  var y = EN.CP.Y + (l[1] - data.pages[data.slctPage].E.SC.Y) * EN.FS - 4;
+
+  //If we would draw outside the canvas & border then skip now.
+  if (x < MR.BR) {return;}
+  if (y < MR.BR) {return;}
+  if (y > (EN.CV.height - (EN.FS + MR.BR))) {return;}
+  if (x > (EN.CV.width - (EN.FS + MR.BR))) {return;}
+
+  //Clear the tile incase there was something printed here before.
+  MR.CX.fillStyle = data.pages[data.slctPage].M.C;
+  MR.CX.fillRect(x, y, MR.FS, MR.FS);
+
+  if (t == undefined) {return;}
+  if (t == null) {return;}
+
+  EN.CX.fillStyle = EN.fowColor(k, T.c);
+
+  EN.CX.fillText(t.T,x,y); //Print the tile.
+
+}
+
+EN.fowColor = function(k,c) {
+  var fow;
+  switch(EN.FOW) {
+    case 0:
+    default:
+      fow = data.pages.
+      break;
+    case 1:
+    case 2:
+  }
+  switch(fow[k]) {
+    case 0:
+    default:
+      return "";
+    case 1: return EN.colorPercent(EN.avgColor(c),.33);
+    case 2: return EN.colorPercent(EN.avgColor(c),.66);
+    case 3: return EN.colorPercent(c,.33);
+    case 4: return EN.colorPercent(c,.66);
+    case 5: return c;
+  }
+}
+
+EN.avgColor = function(c) {
+  if (c.indexOf('#') === 0) {
+      c = c.slice(1);
+  }
+  // convert 3-digit hex to 6-digits.
+  if (c.length === 3) {
+      c = c[0] + c[0] + c[1] + c[1] + c[2] + c[2];
+  }
+
+  var r = Math.floor(parseInt((c.substring(1,2),16) + parseInt(c.substring(3,4),16) + parseInt(c.substring(5,6),16))/3);
+
+  return "#" + EN.padZero(r).repeat(3);
+}
+
+EN.colorPercent = function(color,mult) {
+  if (color.indexOf('#') === 0) {
+      color = color.slice(1);
+  }
+  // convert 3-digit hex to 6-digits.
+  if (color.length === 3) {
+      color = color[0] + color[0] + color[1] + color[1] + color[2] + color[2];
+  }
+	var r = parseInt(color.substring(1,2),16);
+	var g = parseInt(color.substring(3,4),16);
+	var b = parseInt(color.substring(5,6),16);
+
+  //If it is darker, then invert mult and invert back to get the desired effect.
+  if (r+g+b < 382) {
+    return EN.invertColor(EN.colorPercent(EN.invertColor(color)));
+  }
+	r = Math.floor(r*mult).toString(16);
+	g = Math.floor(g*mult).toString(16);
+	b = Math.floor(b*mult).toString(16);
+
+	return "#" + EN.padZero(r) + EN.padZero(g) + EN.padZero(b);
 }
 
 EN.funcShaped = {
