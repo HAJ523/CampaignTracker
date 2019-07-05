@@ -37,13 +37,13 @@ KB.keyUD = function(e) {
   Scope: Public
   Description: Handle the special input to the prompt such as escape and enter so that the user doesn't have to click the buttons.
 */
-KB.prompt = function(e) {
+KB.prompt = function(e,cb) {
   var key = e.which || e.keyCode;
   if (key == 27) {
-    CT.promptClose(0);
+    cb(0);
   }
   if (key == 13) {
-    CT.promptClose(1);
+    cb(1);
   }
 }
 

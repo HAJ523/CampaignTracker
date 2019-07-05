@@ -315,7 +315,7 @@
                 <div id="PageTree" class="w3-tiny l-fit-height-row-expanded w3-no-select" style="overflow-y:auto;overflow-x:hidden;">
                     <ol></ol>
                 </div>
-                <div class="w3-display-container w3-padding-small"><input type="text" class="w3-input w3-small w3-padding-small" placeholder="Free Roll..." id="FreeRoll" onkeydown="KB.freeRoll(event);"></div>
+                <div class="w3-display-container w3-padding-small"><input type="text" class="w3-input w3-small w3-padding-small" placeholder="Free Roll..." id="FreeRoll" onkeydown="KB.prompt(event,CT.freeRoll);"></div>
                 <div class="w3-display-container w3-padding-small w3-no-select" id="StatusDisplay" style="min-height:250px;max-height:250px;overflow-y:scroll;"></div>
               </div>
               <!-- Encounter TODO remove use single canvas! -->
@@ -362,7 +362,7 @@
         <header class="w3-display-container w3-text-theme w3-xlarge w3-padding-small"><strong id="ModalPromptTitle">Test</strong></header>
         <div class="w3-container">
           <span id="ModalPromptText">Here is some default text.</span><br/>
-          <input type="text" class="w3-input" id="ModalPromptResponse" onkeydown="KB.prompt(event);"><label id="ModalPromptLabel" class="w3-small">Default Label</label>
+          <input type="text" class="w3-input" id="ModalPromptResponse" onkeydown="KB.prompt(event,CT.promptClose);"><label id="ModalPromptLabel" class="w3-small">Default Label</label>
         </div>
         <footer class="w3-container w3-padding-small">
           <div class="w3-right">
