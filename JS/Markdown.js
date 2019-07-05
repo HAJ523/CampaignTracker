@@ -229,5 +229,5 @@ MD.tableToHTML = function(a, b, c) {
     }) + '</tr>';
   }
 
-  return ret + '</table><div class="w3-display-topleft w3-theme w3-hover-grey w3-small w3-hover-shadow fas fa-globe" onclick="JL.saveTable(event, \''+tableID+'\')"></div></div>';
+  return ret + '</table>'+ ((tableID!="")? '<div class="w3-display-topleft w3-theme w3-hover-grey w3-small w3-hover-shadow fas fa-globe" onclick="JL.saveTable(event, \''+tableID+'\')"></div></div>':'');
 }
