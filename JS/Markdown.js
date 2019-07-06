@@ -80,8 +80,8 @@ MD.toHTML = function(s, heads) {
 
       })
       //Effects
-      .replace(/\%\[(.*?)\](?:\((\".*\"|[^ \n]*)[ ]?(.*)?\))?/g,function(m, a, b, c, d) {//Match, Source, Title, Volume, Loop
-        return '<a href="javascript:AU.newEffect(\'' + a + '\',\'' + b + '\',\'' + c + '\',\'' + d + '\')">' + b + '</a>';
+      .replace(/\%\[((.*?)\.?[^.]*?)\](?:\((\".*\"|[^ \n]*)[ ]?(.*)?\))?/g,function(m, a, b, c, d) {//Match, Source, Title, Volume, Loop
+        return '<a href="javascript:AU.newEffect(\'' + a + '\',\'' + b + '\',\'' + c + '\',' + d + ')">' + b + '</a>';
       })
       //Sections TODO
       .replace(/\@\[(.*?)\]/g, function(m, a) {//Parameters: Match, Page

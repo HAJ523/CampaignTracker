@@ -16,11 +16,12 @@ AU.newEffect = function(s, t, v, l) {//Source, Title, Looping
   var el = document.createElement('div');
   el.classList.add('snd');
   el.id = 'D'+i;
-  el.innerHTML = '<span>' + t + '</span><br><a href="javascript:AU.deleteEffect(\'' + i + '\')" class="w3-tiny fas fa-times"></a><audio'+((l)? " loop":"")+((v!="")? ' volume="'+v/100+'"':'')+' controls id="A'+i+'"><source src="' + s + '"></audio>'
+  el.innerHTML = '<span>' + t + '</span><br><a href="javascript:AU.deleteEffect(\'' + i + '\')" class="w3-tiny fas fa-times"></a><audio'+((l)? " loop":"")+' controls id="A'+i+'"><source src="..\\Effects\\' + s + '"></audio>'
   document.getElementById('SoundEffects').appendChild(el);
   el = document.getElementById('A'+i);
+  el.volume = v/100;
   el.play(); //Start element playing!
-  el.addEventListener("end",AU.endEffect);
+  el.addEventListener("ended",AU.endEffect);
 }
 
 AU.deleteEffect = function(i) {//ID
@@ -30,5 +31,5 @@ AU.deleteEffect = function(i) {//ID
 
 AU.endEffect = function() {
   if (this.loop) { return; } //Looping effects should not be deleted!
-  AU.deleteEffect(this.id);
+  AU.deleteEffect(this.id.slice(1));
 }
