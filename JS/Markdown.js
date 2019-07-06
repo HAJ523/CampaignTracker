@@ -67,13 +67,21 @@ MD.toHTML = function(s, heads) {
         return '<img src="' + b + '" title="' + c + '" onclick="CT.imageShow(this);">';
       })
       //Dice Roller
-      .replace(/\?\[(.*?)\](?:\(([^\)]*)\))*/g, function(m, a, h) { //Parameters: Match, Roll, header   Return: <a href='roll'>Roll</a>
+      .replace(/\?\[(.*?)\](?:\(([^\)]*)\))?/g, function(m, a, h) { //Parameters: Match, Roll, header   Return: <a href='roll'>Roll</a>
         return '<a href="javascript:RL.roll(\'' + a + '\',\'' + h + '\')" title="' + ((h==undefined) ? a : h) + '">' + a + '</a>';
       })
       //Calculator
       .replace(/&\[(.*?)\]/g, function(m, a) { //Parameters: Match, Equation   Return: <a href'calc'>Equation</a>
         var id = CT.GUID(8);
         return '<a href="javascript:RL.calc(\''+id+'\')" title="' + a + '" id="' + id + '">' +eval(a)+ '</a>';
+      })
+      //Playlist
+      .replace(/\$\[(.*?)\]/g,function(m, a) {
+
+      })
+      //Effects
+      .replace(/\%\[(.*?)\](?:\((\".*\"|[^ \n]*)[ ]?(.*)?\))?/g,function(m, a, b, c, d) {//Match, Source, Title, Volume, Loop
+        return '<a href="javascript:AU.newEffect(\'' + a + '\',\'' + b + '\',\'' + c + '\',\'' + d + '\')">' + b + '</a>';
       })
       //Sections TODO
       .replace(/\@\[(.*?)\]/g, function(m, a) {//Parameters: Match, Page
