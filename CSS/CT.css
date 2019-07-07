@@ -130,4 +130,7 @@ div.subMenu {
 .stat-imp {border-left: 3px solid #C00!important;}
 .snd {text-align:center;display: inline-block;position: relative;background-color: #f1f3f4;border: 1px solid #000;font-size:10px;width:100%;margin-bottom:2px;}
 .snd audio {height: 20px;max-width:100%;}
-.snd a {position:absolute;top: 0px;right: 2px;}
+.snd a {font-size: 16px;padding:5px;}
+.audpp{visibility:hidden;}
+.audpp::before {visibility: visible;font-size:16px;display: inline-block;letter-spacing: 5px;  content: "\f04b"; font-family: 'Font Awesome 5 Free';cursor:pointer;}
+.audpp:checked::before {content: "\f04c"; letter-spacing: 5px; font-family: 'Font Awesome 5 Free';}
