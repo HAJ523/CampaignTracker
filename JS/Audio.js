@@ -33,3 +33,8 @@ AU.endEffect = function() {
   if (this.loop) { return; } //Looping effects should not be deleted!
   AU.deleteEffect(this.id.slice(1));
 }
+
+AU.fadeIn = function(a,v) {//Audio, Max Volume
+  
+
+}
