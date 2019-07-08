@@ -20,7 +20,12 @@ AU.newEffect = function(s, t, v, l) {//Source, Title, Looping/Interval
 
   var snd = {v:v, l:l};
 
-  snd.h. = new Howl({src:[s], volume:v});
+  snd.h = new Howl({src:["..\\Effects\\"+s], volume:v, html5:true, onload:()=>{
+    if (l!=1) {return;}
+    snd.h._sprite.loop = [0,snd.h.duration()*1000,1];
+    snd.h.loop(1);
+    snd.hid = snd.h.play('loop');
+  }});
 
   //Add new array entry to Effects.
   AU.EF.push(snd);
@@ -30,6 +35,7 @@ AU.newEffect = function(s, t, v, l) {//Source, Title, Looping/Interval
   var el = document.getElementById("EffTemp").cloneNode(1);
 
   el.id = "E" + id;
+  el.classList.remove('w3-hide');
   el.children[0].href = "javascript:AU.deleteEffect('" + id + "')";
   el.children[1].innerHTML = t;
   el.children[2].children[0].onclick = AU.playStop; // Play/Stop
@@ -45,10 +51,6 @@ AU.newEffect = function(s, t, v, l) {//Source, Title, Looping/Interval
   }
   //Loop
   if (l == 1) {
-    snd.h.once('load',()=>{
-      snd.h.sprite={'loop':[0,snd.h.duration()]};
-      snd.hid = snd.h.play('loop');
-    });
     return; //Nothing else to do since the looping start play.
   }
   //Once
@@ -59,7 +61,7 @@ AU.newEffect = function(s, t, v, l) {//Source, Title, Looping/Interval
   }
 
   //Start Playing
-  snd.hid = snd.h[0].play(); //Save the play id from howler.
+  snd.hid = snd.h.play(); //Save the play id from howler.
 }
 
 AU.deleteEffect = function(i) {//ID
