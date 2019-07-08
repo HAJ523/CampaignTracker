@@ -324,11 +324,10 @@
                     <div class="w3-display-container w3-padding-small" style="border-bottom:1px solid #CCC">
                       <p class="w3-small">Music</p>
                       <div class="snd">
-                        <a href="javascript:void(0);" class="w3-fa"></a>
                         <span id="MusicTitle">Title</span>
                         <div class="ctrl">
-                          <input type="checkbox" class="w3-fa audpp"> //Checked for playing
-                          <input type="checkbox" class="w3-fa audmu"> //Checked for volume on.
+                          <input type="checkbox" class="w3-fa audpp">
+                          <input type="checkbox" class="w3-fa audmu">
                           <input type="range" min="0" max="100">
                         </div>
                       </div>
@@ -528,6 +527,18 @@
         </footer>
       </div>
     </div>
+
+    <!-- Template HTMLs -->
+    <div class="snd w3-hide" id="EffTemp">
+      <a href="" class="w3-fa"></a>
+      <span>Title</span>
+      <div class="ctrl">
+        <input type="checkbox" class="w3-fa audpp" checked>
+        <input type="checkbox" class="w3-fa audmu" checked>
+        <input type="range" min="0" max="100">
+      </div>
+    </div>
+
 
     <!-- Image Display -->
     <div id="ImageDisplay" onclick="CT.imageClose();" class="w3-modal-black w3-animate-opacity"> <!-- w3-display-flex-center -->
