@@ -76,12 +76,14 @@ MD.toHTML = function(s, heads) {
         return '<a href="javascript:RL.calc(\''+id+'\')" title="' + a + '" id="' + id + '">' +eval(a)+ '</a>';
       })
       //Playlist
-      .replace(/\$\[(.*?)\]/g,function(m, a) {
-
+      .replace(/\$\[(.*?)\](?:\((.*?)\))?/g,function(m, a, t) {//Match, List, Title
+        t = ((t==undefined)? "Playlist":t);
+        return '<a href="javascript:AU.newPlaylist(\'' + a + '\');">' + t + '</a>';
       })
       //Effects
-      .replace(/\%\[((.*?)\.?[^.]*?)\](?:\((\".*\"|[^ \n]*)[ ]?(.*)?\))?/g,function(m, a, b, c, d) {//Match, Source, Title, Volume, Loop/Interval
-        return '<a href="javascript:AU.newEffect(\'' + a + '\',\'' + b + '\',\'' + c + '\',' + d + ')">' + b + '</a>';
+      .replace(/\%\[(.*?)\](?:\((.*?)\))?/g,function(m, a, t) {//Match, List, Title
+        t = ((t==undefined)? "Effects":t);
+        return '<a href="javascript:AU.newEffects(\'' + a + '\')">' + t + '</a>';
       })
       //Sections TODO
       .replace(/\@\[(.*?)\]/g, function(m, a) {//Parameters: Match, Page

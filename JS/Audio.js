@@ -13,7 +13,29 @@ AU.onLoad = function() {
   AU.EF = []; //Make a list of effect objects.
 }
 
-AU.newEffect = function(s, t, v, l) {//Source, Title, Looping/Interval
+AU.newPlaylist = (s)=> {
+  var l = s.split("|");
+  AU.PL = []; //Reset playlist!
+  for (var i=0;i<l.length;i++) {
+    l[i].replace(/^(([^\.]*)\..{3})(?:\ (\d*))?$/g,(m,a,b,c)=>{
+      c = ((c==undefined)? 100:c/100);
+      AU.PL.push({s:"..\\Music\\"+a,t:b,v:c});
+    });
+  }
+
+  AU.endSong(); //End the current song and move to the next which will start this playlist.
+}
+
+AU.newEffects = (s)=> {
+  var l = s.split("|");
+  for (var i=0;i<l.length;i++) {
+    l[i].replace(/^(([^\.]*)\..{3})(?:\ (\d*))?(?:\ (\d*))?$/g,(m,a,b,c,d)=>{
+      AU.newEffect(a,b,c,d);
+    });
+  }
+}
+
+AU.newEffect = function(s, t, v, l) {//Source, Title, Volume, Looping/Interval
 
   //Make sure that variables are set!
   v = ((v=="")? 1:v/100);
@@ -51,20 +73,28 @@ AU.newEffect = function(s, t, v, l) {//Source, Title, Looping/Interval
     snd.h.on('end', ()=>{
       AU.endInterval(id);
     });
+    AU.endInterval(id);
+    return;
   }
   //Loop
   if (l == 1) {
     return; //Nothing else to do since the looping start play.
   }
   //Once
-  if (l < 1) {
-    snd.h.once('end', ()=>{
-      AU.deleteEffect(id);
-    });
-  }
+  snd.h.once('end', ()=>{
+    AU.deleteEffect(id);
+  });
 
   //Start Playing
   snd.hid = snd.h.play(); //Save the play id from howler.
+}
+
+AU.deleteAllEffects = ()=> {
+  for (var i=0;i<AU.EF.length;i++) {
+    if (AU.EF[i] == undefined) {continue;} //Skip undefined entries.
+    AU.deleteEffect(i);
+  }
+  AU.EF = []; //Reset the effect array.
 }
 
 AU.deleteEffect = function(i) {//ID
@@ -80,15 +110,23 @@ AU.deleteEffect = function(i) {//ID
   delete AU.EF[i];
 }
 
+AU.endSong = function() {
+  var nxt = AU.PL.shift(); //Get the first element off the list.
+  if (AU.MS != undefined) {AU.MS.unload();}
+  AU.MS = new Howl({src:nxt.s,volume:0, html5:true,onload:()=>{AU.MS.play();AU.MS.fade(0,nxt.v,2000)},onend:AU.endSong});
+  document.getElementById('MusicTitle').innerHTML = nxt.t;
+  AU.PL.push(nxt); //push it back onto the end for next time around.
+}
+
 AU.endInterval = function(i) {//Audio ID
   //Stop track & reset.
   AU.EF[i].h.stop();
 
-  AU.EF[i].t = setTimeout(()=>{AU.EF[i].hid = AU.EF[i].h.play();},Math.floor((AU.EF[i].l*1000)*(Math.random()*.2-.4))); // +/- 20% of interval to restart play.
+  AU.EF[i].t = setTimeout(()=>{AU.EF[i].hid = AU.EF[i].h.play();},Math.floor((AU.EF[i].l*1000)*(Math.random()*.4+.8))); // +/- 20% of interval to restart play.
 }
 
 AU.playStop = (e)=> {
-  var s = AU.eventToID(e); //Get audio object.
+  var s = AU.eventToSnd(e); //Get audio object.
 
   if (e.currentTarget.checked) {
       s.hid = s.h.play(((s.l == 1)? 'loop':'')); //Start play passing loop if looping sound.
@@ -102,7 +140,7 @@ AU.playStop = (e)=> {
 }
 
 AU.mute = (e)=> {
-  var s = AU.eventToID(e); //Get audio id.
+  var s = AU.eventToSnd(e); //Get audio id.
 
   if (e.currentTarget.checked) { //Whether we are muting or unmuting.
     s.h.volume(s.v,s.hid);
@@ -112,14 +150,14 @@ AU.mute = (e)=> {
 }
 
 AU.volume = (e)=> {
-  var s = AU.eventToID(e); //Get audio id.
+  var s = AU.eventToSnd(e); //Get audio id.
 
   s.v = e.currentTarget.value/100;
 
   s.h.volume(s.v,s.hid);
 }
 
-AU.eventToID = (e)=>{
+AU.eventToSnd = (e)=>{
   var str = e.target.parentElement.parentElement.id;
   if (str == 'Music') {
     return AU.MS; //Just return the current music.
