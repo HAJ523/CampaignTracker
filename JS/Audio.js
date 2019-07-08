@@ -8,6 +8,7 @@
 var AU = {}; //Initialize markdown object.
 
 AU.onLoad = function() {
+  AU.MS;
   AU.PL = []; //Make sure we have a new playlist ready!
   AU.EF = []; //Make a list of effect objects.
 }
@@ -16,7 +17,7 @@ AU.newEffect = function(s, t, v, l) {//Source, Title, Looping/Interval
 
   //Make sure that variables are set!
   v = ((v=="")? 1:v/100);
-  l = parseInt(((l==undefined)? "":l));
+  l = parseInt(((l==undefined)? 0:l));
 
   var snd = {v:v, l:l};
 
@@ -47,7 +48,9 @@ AU.newEffect = function(s, t, v, l) {//Source, Title, Looping/Interval
 
   //Interval
   if (l > 1) {
-    snd.h.on('end', ()=>{AU.endInterval(id);});
+    snd.h.on('end', ()=>{
+      AU.endInterval(id);
+    });
   }
   //Loop
   if (l == 1) {
@@ -55,7 +58,7 @@ AU.newEffect = function(s, t, v, l) {//Source, Title, Looping/Interval
   }
   //Once
   if (l < 1) {
-    snd.h.once('end',()=>{
+    snd.h.once('end', ()=>{
       AU.deleteEffect(id);
     });
   }
@@ -71,7 +74,7 @@ AU.deleteEffect = function(i) {//ID
   AU.EF[i].h.unload();
 
   if (AU.EF[i].t != undefined) {
-
+    clearTimeout(AU.EF[i].t);
   }
 
   delete AU.EF[i];
@@ -82,6 +85,46 @@ AU.endInterval = function(i) {//Audio ID
   AU.EF[i].h.stop();
 
   AU.EF[i].t = setTimeout(()=>{AU.EF[i].hid = AU.EF[i].h.play();},Math.floor((AU.EF[i].l*1000)*(Math.random()*.2-.4))); // +/- 20% of interval to restart play.
+}
+
+AU.playStop = (e)=> {
+  var s = AU.eventToID(e); //Get audio object.
+
+  if (e.currentTarget.checked) {
+      s.hid = s.h.play(((s.l == 1)? 'loop':'')); //Start play passing loop if looping sound.
+  } else {
+    //Stop the sound, Remove the timeout
+    s.h.stop();
+    if (s.t != undefined) {
+      clearTimeout(s.t);
+    }
+  }
+}
+
+AU.mute = (e)=> {
+  var s = AU.eventToID(e); //Get audio id.
+
+  if (e.currentTarget.checked) { //Whether we are muting or unmuting.
+    s.h.volume(s.v,s.hid);
+  } else {
+    s.h.volume(0,s.hid);
+  }
+}
+
+AU.volume = (e)=> {
+  var s = AU.eventToID(e); //Get audio id.
+
+  s.v = e.currentTarget.value/100;
+
+  s.h.volume(s.v,s.hid);
+}
+
+AU.eventToID = (e)=>{
+  var str = e.target.parentElement.parentElement.id;
+  if (str == 'Music') {
+    return AU.MS; //Just return the current music.
+  }
+  return AU.EF[parseInt(str.slice(1))];
 }
 
 AU.fadeIn = function(i) {//Audio ID
