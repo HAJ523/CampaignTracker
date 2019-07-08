@@ -133,7 +133,7 @@ MD.headerDiv = function(heads) {
   for (var i = 0; i < heads.length; i++) {
     s += '\u00A0\u00A0'.repeat(heads[i].length) + '<a href="javascript:JL.scrollTo(\'' + heads[i].id + '\');">' + heads[i].name + '</a><br/>';
   }
-  heads = null;
+  heads.length = 0;
   return s + "</div></div>";
 }
 
