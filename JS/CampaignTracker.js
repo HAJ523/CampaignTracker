@@ -20,6 +20,7 @@ CT.onLoad = function() {
   KB.onLoad();
   MR.onLoad();
   EN.onLoad();
+  AU.onLoad();
 
   //Load the default view
   CT.changeView("J");

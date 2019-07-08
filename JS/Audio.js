@@ -9,6 +9,7 @@ var AU = {}; //Initialize markdown object.
 
 AU.onLoad = function() {
   AU.PL = []; //Make sure we have a new playlist ready!
+  AU.EF = []; //Make a list of effect objects.
 }
 
 AU.newEffect = function(s, t, v, l) {//Source, Title, Looping
@@ -35,6 +36,6 @@ AU.endEffect = function() {
 }
 
 AU.fadeIn = function(a,v) {//Audio, Max Volume
-  
+
 
 }

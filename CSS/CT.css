@@ -129,7 +129,8 @@ div.subMenu {
 .stat-ct {border-left: 3px solid #CCC!important;}
 .stat-imp {border-left: 3px solid #C00!important;}
 .snd {text-align:center;display: inline-block;position: relative;background-color: #f1f3f4;border: 1px solid #000;font-size:10px;width:100%;margin-bottom:2px;}
-.snd a {font-size: 16px;padding:5px;position:absolute;top:2px;right:2px;}
+.snd a {font-size: 8px;position:absolute;right:2px;text-decoration: none;}
+.snd a::after {content:"\f00d";}
 .snd .ctrl {display:flex;justify-content:center;align-items:center; width:100%;height:24px;}
 .audpp, .audmu {visibility:hidden;margin:0px 5px;}
 .audpp::before {visibility: visible;font-size:16px;display: inline-block;letter-spacing: 5px;  content: "\f04b"; cursor:pointer;line-height: 16px;}
