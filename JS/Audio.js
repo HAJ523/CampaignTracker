@@ -43,17 +43,29 @@ AU.newEffect = function(s, t, v, l) {//Source, Title, Volume, Looping/Interval
 
   var snd = {v:v, l:l};
 
-  snd.h = new Howl({src:["..\\Effects\\"+s], volume:v, html5:true, onload:()=>{
+  snd.h = new Howl({src:["..\\Effects\\"+s], volume:v, html5:true, onload:()=>{ //Looping sounds need special handling to crossfade.
     if (l!=1) {return;}
-    snd.h._sprite.loop = [0,snd.h.duration()*1000,1];
-    snd.h.loop(1);
-    snd.hid = snd.h.play('loop');
+    snd.h._sprite.loop = [0,snd.h.duration()*1000];
+    snd.hid = snd.h.play('loop'); //Start loop
+  }, onplay:(i)=>{
+    if (l!=1) {return;}
+    if (!snd.m) {
+      snd.h.fade(0,snd.v,2000,i); //Fade in.
+    } else {
+      snd.h.volume(0);
+    }
+    snd.t = setTimeout(()=>{
+      if ((snd.v > 0) && snd.m) {
+        snd.h.fade(snd.v,0,2000,i); //Fade out.
+      }
+      snd.hid = snd.h.play('loop');
+    },snd.h._sprite.loop[1]-2000);//Crossfade here.
   }});
 
   //Add new array entry to Effects.
   AU.EF.push(snd);
   var id = (AU.EF.length - 1);
-
+  snd.id = id; //Push the ID for later.
   var par = document.getElementById("SoundEffects");
   var el = document.getElementById("EffTemp").cloneNode(1);
 
@@ -144,17 +156,28 @@ AU.mute = (e)=> {
 
   if (e.currentTarget.checked) { //Whether we are muting or unmuting.
     s.h.volume(s.v,s.hid);
+    s.m = 0;
+    document.getElementById('E'+s.id).children[2].children[2].value = Math.floor(s.v*100);
   } else {
     s.h.volume(0,s.hid);
+    document.getElementById('E'+s.id).children[2].children[2].value = 0;
+    s.m = 1;
   }
 }
 
 AU.volume = (e)=> {
   var s = AU.eventToSnd(e); //Get audio id.
-
-  s.v = e.currentTarget.value/100;
-
-  s.h.volume(s.v,s.hid);
+  var tv = e.currentTarget.value/100;
+  if(tv > 0) {//Make sure we unmute!
+    s.v = tv;
+    s.m = 0;
+    document.getElementById('E'+s.id).children[2].children[1].checked = true;
+    s.h.volume(s.v,s.hid);
+  } else {
+    s.m = 1;
+    document.getElementById('E'+s.id).children[2].children[1].checked = false;
+    s.h.volume(0,s.hid);
+  }
 }
 
 AU.eventToSnd = (e)=>{
