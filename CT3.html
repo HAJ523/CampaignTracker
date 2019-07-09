@@ -325,10 +325,11 @@
                       <p class="w3-small">Music</p>
                       <div class="snd" id="Music">
                         <span id="MusicTitle">Title</span>
+                        <a href="" class="w3-hide"></a> <!-- Can't close the music player so hide. -->
                         <div class="ctrl">
-                          <input type="checkbox" class="w3-fa audpp">
-                          <input type="checkbox" class="w3-fa audmu">
-                          <input type="range" min="0" max="100" value="100">
+                          <input type="checkbox" class="w3-fa audpp" onchange="AU.playStop(event);">
+                          <input type="checkbox" class="w3-fa audmu" onchange="AU.mute(event);" checked>
+                          <input type="range" min="0" max="100" value="100" onchange="AU.volume(event);">
                         </div>
                       </div>
                     </div>

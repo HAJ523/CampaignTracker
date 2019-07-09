@@ -8,7 +8,7 @@
 var AU = {}; //Initialize markdown object.
 
 AU.onLoad = function() {
-  AU.MS;
+  AU.MS = {v:1, m:0, id:'Music'};
   AU.PL = []; //Make sure we have a new playlist ready!
   AU.EF = []; //Make a list of effect objects.
 }
@@ -124,9 +124,18 @@ AU.deleteEffect = function(i) {//ID
 
 AU.endSong = function() {
   var nxt = AU.PL.shift(); //Get the first element off the list.
-  if (AU.MS != undefined) {AU.MS.unload();}
-  AU.MS = new Howl({src:nxt.s,volume:0, html5:true,onload:()=>{AU.MS.play();AU.MS.fade(0,nxt.v,2000)},onend:AU.endSong});
+  var el = document.getElementById('Music');
+  if (AU.MS.h != undefined) {AU.MS.h.unload();}
+  AU.MS.h = new Howl({src:nxt.s,volume:0, html5:true,onload:()=>{AU.MS.hid = AU.MS.h.play();AU.MS.h.fade(0,nxt.v,2000);el.children[2].children[0].checked = true;},onend:AU.endSong});
   document.getElementById('MusicTitle').innerHTML = nxt.t;
+  AU.MS.v = nxt.v;
+  el.children[2].children[1].checked = !AU.MS.m;
+  if (!AU.MS.m) {
+    el.children[2].children[2].value = Math.floor(nxt.v*100);
+  } else {
+    el.children[2].children[2].value = 0;
+  }
+
   AU.PL.push(nxt); //push it back onto the end for next time around.
 }
 
@@ -141,7 +150,7 @@ AU.playStop = (e)=> {
   var s = AU.eventToSnd(e); //Get audio object.
 
   if (e.currentTarget.checked) {
-      s.hid = s.h.play(((s.l == 1)? 'loop':'')); //Start play passing loop if looping sound.
+      s.hid = s.h.play(((s.l == 1)? 'loop':undefined)); //Start play passing loop if looping sound.
   } else {
     //Stop the sound, Remove the timeout
     s.h.stop();
@@ -157,10 +166,10 @@ AU.mute = (e)=> {
   if (e.currentTarget.checked) { //Whether we are muting or unmuting.
     s.h.volume(s.v,s.hid);
     s.m = 0;
-    document.getElementById('E'+s.id).children[2].children[2].value = Math.floor(s.v*100);
+    document.getElementById(((s.id=="Music")? s.id:'E'+s.id)).children[2].children[2].value = Math.floor(s.v*100);
   } else {
     s.h.volume(0,s.hid);
-    document.getElementById('E'+s.id).children[2].children[2].value = 0;
+    document.getElementById(((s.id=="Music")? s.id:'E'+s.id)).children[2].children[2].value = 0;
     s.m = 1;
   }
 }
@@ -171,11 +180,11 @@ AU.volume = (e)=> {
   if(tv > 0) {//Make sure we unmute!
     s.v = tv;
     s.m = 0;
-    document.getElementById('E'+s.id).children[2].children[1].checked = true;
+    document.getElementById(((s.id=="Music")? s.id:'E'+s.id)).children[2].children[1].checked = true;
     s.h.volume(s.v,s.hid);
   } else {
     s.m = 1;
-    document.getElementById('E'+s.id).children[2].children[1].checked = false;
+    document.getElementById(((s.id=="Music")? s.id:'E'+s.id)).children[2].children[1].checked = false;
     s.h.volume(0,s.hid);
   }
 }
