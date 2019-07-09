@@ -76,9 +76,9 @@ MD.toHTML = function(s, heads) {
         return '<a href="javascript:RL.calc(\''+id+'\')" title="' + a + '" id="' + id + '">' +eval(a)+ '</a>';
       })
       //Playlist
-      .replace(/\$\[(.*?)\](?:\((.*?)\))?/g,function(m, a, t) {//Match, List, Title
+      .replace(/\$\[(.*?)\](r)?(?:\((.*?)\))?/g,function(m, a, r, t) {//Match, List, Title
         t = ((t==undefined)? "Playlist":t);
-        return '<a href="javascript:AU.newPlaylist(\'' + a + '\');">' + t + '</a>';
+        return '<a href="javascript:AU.newPlaylist(\'' + a + '\',\'' + r + '\');">' + t + '</a>';
       })
       //Effects
       .replace(/\%\[(.*?)\](?:\((.*?)\))?/g,function(m, a, t) {//Match, List, Title

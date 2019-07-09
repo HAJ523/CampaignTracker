@@ -13,7 +13,7 @@ AU.onLoad = function() {
   AU.EF = []; //Make a list of effect objects.
 }
 
-AU.newPlaylist = (s)=> {
+AU.newPlaylist = (s,h)=> {
   var l = s.split("|");
   AU.PL = []; //Reset playlist!
   for (var i=0;i<l.length;i++) {
@@ -23,7 +23,22 @@ AU.newPlaylist = (s)=> {
     });
   }
 
+  if (h != undefined) {
+    AU.shufflePlaylist();
+  }
+
   AU.endSong(); //End the current song and move to the next which will start this playlist.
+}
+
+AU.shufflePlaylist = ()=> {
+  var ci = AU.PL.length,tv,ri;
+
+  for (var ci=AU.PL.length;ci>0;ci--) {
+    ri = Math.floor(Math.random() * ci);
+    tv = AU.PL[ci];
+    AU.PL[ci] = AU.PL[ri];
+    AU.PL[ri] = tv;
+  }
 }
 
 AU.newEffects = (s)=> {
