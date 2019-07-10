@@ -129,7 +129,7 @@ MD.toHTML = function(s, heads) {
   Description: Aggregates the headers and the IDs into a displayable floating div!
 */
 MD.headerDiv = function(heads) {
-  var s = '<div class="journalContents w3-tiny w3-padding-small w3-no-select"><span onclick="JL.toggleContents(this);">+ <strong>Contents</strong> +</span><div id="journalNav" class="w3-left-align w3-hide">';
+  var s = '<div class="journalContents w3-tiny w3-padding-small w3-no-select"><div onclick="JL.toggleContents(this);">+ <strong>Contents</strong> +</div><div id="journalNav" class="w3-left-align w3-hide">';
   //Loop over all of the headers
   for (var i = 0; i < heads.length; i++) {
     s += '\u00A0\u00A0'.repeat(heads[i].length) + '<a href="javascript:JL.scrollTo(\'' + heads[i].id + '\');">' + heads[i].name + '</a><br/>';
