@@ -78,7 +78,8 @@ MD.toHTML = function(s, heads) {
       //Playlist
       .replace(/\$\[(.*?)\](r)?(?:\((.*?)\))?/g,function(m, a, r, t) {//Match, List, Title
         t = ((t==undefined)? "Playlist":t);
-        return '<a href="javascript:AU.newPlaylist(\'' + a + '\',\'' + r + '\');">' + t + '</a>';
+        r = ((r==undefined)? undefined:'\'r\'');
+        return '<a href="javascript:AU.newPlaylist(\'' + a + '\',' + r + ');">' + t + '</a>';
       })
       //Effects
       .replace(/\%\[(.*?)\](?:\((.*?)\))?/g,function(m, a, t) {//Match, List, Title

@@ -27,13 +27,34 @@ AU.newPlaylist = (s,h)=> {
     AU.shufflePlaylist();
   }
 
+  if (AU.MS.h != undefined) {
+    if (AU.MS.h.playing()) {
+      var el = document.getElementById('Music');
+      var v = 100;
+      var i = setInterval(()=> {
+        v-=5;
+        if (v < 0) {
+          clearInterval(i);
+          setTimeout(AU.endSong,1000); //Start next play!
+          return;
+        }
+        if (AU.MS.v > v/100) {
+          el.children[2].children[2].value = v;
+          AU.MS.v = v/100;
+          AU.MS.h.volume(AU.MS.v);
+        }
+      }, 250);
+      return; //We are done now.
+    }
+  }
+
   AU.endSong(); //End the current song and move to the next which will start this playlist.
 }
 
 AU.shufflePlaylist = ()=> {
-  var ci = AU.PL.length,tv,ri;
+  var tv,ri;
 
-  for (var ci=AU.PL.length;ci>0;ci--) {
+  for (var ci=AU.PL.length-1;ci>0;ci--) {
     ri = Math.floor(Math.random() * ci);
     tv = AU.PL[ci];
     AU.PL[ci] = AU.PL[ri];
@@ -53,7 +74,7 @@ AU.newEffects = (s)=> {
 AU.newEffect = function(s, t, v, l) {//Source, Title, Volume, Looping/Interval
 
   //Make sure that variables are set!
-  v = ((v=="")? 1:v/100);
+  v = ((v==undefined || v=="")? 1:v/100);
   l = parseInt(((l==undefined)? 0:l));
 
   var snd = {v:v, l:l};
