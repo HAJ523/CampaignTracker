@@ -1,7 +1,7 @@
 # Issues
  | Group | Issue |
  |:--:|:--|
- | Mapper | Line Tool leaves map values as undefined instead of deleting the entries.
+ |  |  |
 
 # Enhancements
  | Group | Name | Story |
