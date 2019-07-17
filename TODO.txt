@@ -1,0 +1,11 @@
+# Issues
+ | Group | Issue |
+ |:--:|:--|
+ | Mapper | Line Tool leaves map values as undefined instead of deleting the entries.
+
+# Enhancements
+ | Group | Name | Story |
+ |:--:|:--:|:--|
+ | Mapper | Change Center Tool | A user should be able to change the center location of the canvas so that they can draw bigger maps that their screen resolution.
+ | Mapper | Fill Tool | A user should be able to fill a section of the map like they painted every cell by hand. (Will need to determine if the fill will happen on an enclosed space or limit spread of fill based on painting size.)
+ | Mapper | Default Palettes | There should be a list of default palettes to make the start of mapping easier.
