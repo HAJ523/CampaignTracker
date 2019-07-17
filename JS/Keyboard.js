@@ -54,9 +54,15 @@ KB.prompt = function(e,cb) {
 KB.markdownShortcut = function(e) {
   var key = e.which || e.keyCode;
 
-  if (key == 113) {
-    JL.selectNextHotText(e.currentTarget);
-    return;
+  switch(key) {
+    case 113: //f2
+      JL.selectNextHotText(e.currentTarget);
+      return;
+      break;
+    case 9: //Tab
+      JL.insertTab(e.currentTarget);
+      e.preventDefault();
+      break;
   }
 
   if (KB.modKeys[18]) {
