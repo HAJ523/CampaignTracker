@@ -315,7 +315,11 @@ MR.drawPoint = function(loc) {
       }
       prvKeys.map(function(k) { //Loop over the remaining keys and revert the tile.
         if ( k == undefined ) {return;}
-        data.pages[data.slctPage].M.A[k] = MR.UNDO[0][k];
+        if (MR.UNDO[0][k] == undefined) {
+          delete data.pages[data.slctPage].M.A[k];
+        } else {
+          data.pages[data.slctPage].M.A[k] = MR.UNDO[0][k];
+        }
         delete MR.UNDO[0][k];
         MR.printTile(k.split(",").map(function(x) {return parseInt(x,10);}),k);
       });
@@ -389,7 +393,11 @@ MR.drawPoint = function(loc) {
       }
       prvKeys.map(function(k) { //Loop over the remaining keys and revert the tile.
         if ( k == undefined ) {return;}
-        data.pages[data.slctPage].M.A[k] = MR.UNDO[0][k];
+        if (MR.UNDO[0][k] == undefined) {
+          delete data.pages[data.slctPage].M.A[k];
+        } else {
+          data.pages[data.slctPage].M.A[k] = MR.UNDO[0][k];
+        }
         delete MR.UNDO[0][k];
         MR.printTile(k.split(",").map(function(x) {return parseInt(x,10);}),k);
       });
