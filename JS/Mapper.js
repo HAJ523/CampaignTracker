@@ -321,7 +321,7 @@ MR.drawPoint = function(loc) {
           data.pages[data.slctPage].M.A[k] = MR.UNDO[0][k];
         }
         delete MR.UNDO[0][k];
-        MR.printTile(k.split(",").map(function(x) {return parseInt(x,10);}),k);
+        MR.printTile(k.split(",").map(function(x) {return parseInt(x,10);}),k,1);
       });
       break;
     case "F":
@@ -399,7 +399,7 @@ MR.drawPoint = function(loc) {
           data.pages[data.slctPage].M.A[k] = MR.UNDO[0][k];
         }
         delete MR.UNDO[0][k];
-        MR.printTile(k.split(",").map(function(x) {return parseInt(x,10);}),k);
+        MR.printTile(k.split(",").map(function(x) {return parseInt(x,10);}),k,1);
       });
 
       break;
