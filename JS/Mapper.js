@@ -29,6 +29,12 @@ MR.onLoad = function() {
   Description: Called when switching to map view.
 */
 MR.initMapper = function() {
+
+  //Check and make sure that this page has the correct map details.
+  if (!data.pages[data.slctPage].hasOwnProperty("M")) {
+    MR.setMapDetails(data.slctPage, "#000000", 1); //Skip updates we are about to draw.
+  }
+
   MR.newPalette(); //Default palette
   MR.slctTile = 0;
   MR.PN = "";
@@ -102,7 +108,7 @@ MR.resetCanvas = function() {
   Scope: Restricted
   Description: Change the size of the map.
 */
-MR.setMapDetails = function(p, c) { //Page, Width, Height, Color
+MR.setMapDetails = function(p, c, s) { //Page, Color, Skip
   var forceupdate = 0;
   //If the color of the page changes then force an update.
   if (data.pages[p].hasOwnProperty("M")) {
@@ -116,7 +122,7 @@ MR.setMapDetails = function(p, c) { //Page, Width, Height, Color
   }
 
   //Update the Canvas
-  if (forceupdate) {
+  if (forceupdate && !s) {
     var canvas = document.getElementById("MapCanvas");
     MR.updateCanvas();
   }

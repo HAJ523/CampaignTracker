@@ -3,6 +3,9 @@
 
   Author: HAJ523
   2019-01 Created.
+
+  UNUSED SHORTCUT KEYS: DFG7890
+  Keys to Skip: ZYXCV
 */
 
 var KB = {}; //Initialize keyboard object.
@@ -20,16 +23,39 @@ KB.onLoad = function() {
 
 /*
   Scope: Restricted (CT3.html)
-  Description:
+  Description: Register all updown key events to check for application specific quick keys and record mod key pressed state.
+  Mod Keys Used: P,J,M,E,S,O
 */
 KB.keyUD = function(e) {
   var key = e.which || e.keyCode;
   console.log(key);
 
   switch(key) {
-    case 18: //Alt
+    case 17: //Control
+    //case 18: //Alt
       KB.modKeys[key] = (e.type == 'keydown');
+      break;
     default:
+      if (KB.modKeys[17] && e.type == 'keydown') {
+        switch (key) {
+          case 80:
+            console.log("new page!");
+            CT.prompt(CT.newPage,'New Page','Enter the full page path and name:','Page Path','Ex. \'Parent/Sub Parent/Page Name\'');
+            break;
+          case 74:
+          case 77:
+          case 69:
+            CT.changeView(String.fromCharCode(key));
+            break;
+          case 83:
+            CT.saveData();
+            break;
+          case 76:
+            CT.prompt(CT.loadData,'Load Campaign','What campaign do you wish to load?','Campaign','Campaign Name');
+            break;
+        }
+        e.preventDefault();
+      }
   }
 }
 
@@ -50,6 +76,7 @@ KB.prompt = function(e,cb) {
 /*
   Scope: Public
   Description: Specific key handling for the journal editor.
+  Mod Keys Used: 1,2,3,4,5,6,B,I,U,L,H,A,Q,K,R
 */
 KB.markdownShortcut = function(e) {
   var key = e.which || e.keyCode;
@@ -65,7 +92,7 @@ KB.markdownShortcut = function(e) {
       break;
   }
 
-  if (KB.modKeys[18]) {
+  if (KB.modKeys[17]) { //Control + Key
     switch(key) {
       case 49: //1
         JL.headerText(e.currentTarget, 1);
@@ -94,13 +121,10 @@ KB.markdownShortcut = function(e) {
       case 85: //U
         JL.underlineText(e.currentTarget);
         break;
-      case 83: //S
+      case 82: //R
         JL.strikethroughText(e.currentTarget);
         break;
-      case 84: //T
-        JL.insertTab(e.currentTarget);
-        break;
-      case 79: //O //Ordered List
+      case 75: //K //Ordered List
         JL.listText(e.currentTarget, "+");
         break;
       case 76: //L //Unordered List
@@ -116,6 +140,7 @@ KB.markdownShortcut = function(e) {
         JL.blockquoteText(e.currentTarget);
         break;
     }
+    e.preventDefault();
   }
 }
 
