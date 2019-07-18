@@ -55,7 +55,7 @@ KB.keyUD = function(e) {
             CT.saveData();
             e.preventDefault();
             break;
-          case 76:
+          case 79:
             CT.prompt(CT.loadData,'Load Campaign','What campaign do you wish to load?','Campaign','Campaign Name');
             e.preventDefault();
             break;
