@@ -235,7 +235,7 @@ MR.mouseToMapLoc = function(x, y) {
   if ((x < MR.BR) || (y < MR.BR)) { return null; }
   if ((x > MR.CV.width - MR.BR) || (y > MR.CV.height - MR.BR)) { return null; }
   //Return the map location.
-  return [Math.floor((x-MR.CP.X+4)/MR.FS),Math.floor((y-MR.CP.Y+4)/MR.FS)];
+  return [data.pages[data.slctPage].M.SC.X + Math.floor((x-MR.CP.X+4)/MR.FS),data.pages[data.slctPage].M.SC.Y + Math.floor((y-MR.CP.Y+4)/MR.FS)];
 }
 
 /*
@@ -329,6 +329,16 @@ MR.drawPoint = function(loc) {
         delete MR.UNDO[0][k];
         MR.printTile(k.split(",").map(function(x) {return parseInt(x,10);}),k,1);
       });
+      break;
+    case "M":
+      if (MR.hasOwnProperty('LL')) { //Only try if there was a previous location.
+        data.pages[data.slctPage].M.SC.X += MR.LL[0] - loc[0]; //Move the center and redraw.
+        data.pages[data.slctPage].M.SC.Y += MR.LL[1] - loc[1];
+        MR.updateCanvas();
+      } else {
+        MR.LL = loc;
+      }
+      return;
       break;
     case "F":
       var lStk = [];
