@@ -6,7 +6,7 @@
 */
 
 var MR = {};
-MR.FS = 12; //Default font size. Variable until the best size is determined. in Pixels.
+MR.FS = 8; //Default font size. Variable until the best size is determined. in Pixels.
 MR.BR = 10; //Border size.
 MR.ZM = 1;
 MR.MD = false;
@@ -97,7 +97,7 @@ MR.resetCanvas = function() {
   MR.CP = {X:Math.floor(MR.CV.width/2),Y:Math.floor(MR.CV.height/2)};
 
   //Setup the font for printing to the canvas.
-  MR.CX.font = EN.Z + "px Square";
+  MR.CX.font = MR.FS + "px Square";
   MR.CX.textAlign = "left";
   MR.CX.textBaseline = "top";
 
@@ -158,8 +158,8 @@ MR.printTile = function(loc, t, s) {//Location, TileAddress, skip access check.
   tile = data.pages[data.slctPage].M.A[t];
 
   //Tile topleft location.
-  var x = MR.CP.X + (loc[0] - data.pages[data.slctPage].M.SC.X) * MR.FS - 4;
-  var y = MR.CP.Y + (loc[1] - data.pages[data.slctPage].M.SC.Y) * MR.FS - 4;
+  var x = MR.CP.X + (loc[0] - data.pages[data.slctPage].M.SC.X) * MR.FS - Math.floor(MR.FS/2);
+  var y = MR.CP.Y + (loc[1] - data.pages[data.slctPage].M.SC.Y) * MR.FS - Math.floor(MR.FS/2);
 
   //If we would draw outside the canvas & border then skip now.
   if (x < MR.BR) {return;}
@@ -169,12 +169,15 @@ MR.printTile = function(loc, t, s) {//Location, TileAddress, skip access check.
 
   //Clear the tile incase there was something printed here before.
   MR.CX.fillStyle = data.pages[data.slctPage].M.C;
-  MR.CX.fillRect(x, y, MR.FS, MR.FS);
+  MR.CX.fillRect(x, y, MR.FS, MR.FS); //Only if not pixel drawing.
 
   if (tile == null) { return; } //If there is nothing to draw move on.
 
   MR.CX.fillStyle = tile.C;
-
+  if (MR.FS <= 2) {
+    MR.CX.fillRect(x,y,MR.FS,MR.FS);
+    return;
+  }
   switch(MR.LY) {
     case "T":
       MR.CX.fillText(tile.T, x, y);
@@ -964,4 +967,11 @@ MR.addPaletteHTML = function(k) {//Key
 
 MR.removePaletteHTML = function(k) {
   document.getElementById('PaletteList').removeChild(document.getElementById("pl" + k));
+}
+
+MR.changeZoom = ()=>{
+ MR.FS = parseInt(document.getElementById('MRZoom').value);
+ MR.CX.font = MR.FS + "px Square";
+
+ MR.updateCanvas();
 }

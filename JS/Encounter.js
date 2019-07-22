@@ -326,7 +326,7 @@ EN.printTile = function(l,k,t) {//Location,Key,Tile
 
   //Clear the tile incase there was something printed here before.
   EN.CX.fillStyle = data.pages[data.slctPage].M.C;
-  if (EN.FS > 2) {MR.CX.fillRect(x, y, MR.FS, MR.FS);} //Only bother if we aren't filling the whole pixel.
+  EN.CX.fillRect(x, y, EN.FS, EN.FS);
 
   if (t == undefined) {return;}
   if (t == null) {return;}
