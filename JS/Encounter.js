@@ -108,7 +108,14 @@ EN.updateOC = function() {
     //TODO Add to object selection HTML list.
   }
 
-  var obj = data.pages[data.slctPage].E.OC[id];
+  var obj;
+
+  if (data.pages[data.slctPage].E.OC.hasOwnProperty(id)) {
+    obj = data.pages[data.slctPage].E.OC[id];
+  } else {
+    obj = {}; //New object.
+    data.pages[data.slctPage].E.OC[id] = obj;
+  }
 
   obj.N = document.getElementById('OCName').value;
   obj.T = document.getElementById('OCTile').value;
