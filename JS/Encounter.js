@@ -334,7 +334,7 @@ EN.printTile = function(l,k,t) {//Location,Key,Tile
   EN.CX.fillStyle = EN.fowColor(k, t.C);
 
   if (EN.FS > 2) {EN.CX.fillText(t.T,x,y);} //Print the tile.
-  else { EN.CX.fillRect(x,y,MR.FS,MR.FS); } //Print a small square.
+  else { EN.CX.fillRect(x,y,EN.FS,EN.FS); } //Print a small square.
 
 }
 
@@ -499,4 +499,11 @@ EN.padZero = function (str, len) {
 
 EN.changeFOW = function() {
   EN.FOW = document.getElementById('ENFOW').value;
+}
+
+EN.changeZoom = ()=>{
+  EN.FS = parseInt(document.getElementById('ENZoom').value);
+  EN.CX.font = EN.FS + "px Square";
+  //Update the entire display now.
+  EN.updateEncounterCanvas();
 }
