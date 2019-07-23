@@ -6,7 +6,6 @@
 */
 
 var MR = {};
-MR.FS = 8; //Default font size. Variable until the best size is determined. in Pixels.
 MR.BR = 10; //Border size.
 MR.ZM = 1;
 MR.MD = false;
@@ -55,6 +54,8 @@ MR.initMapper = function() {
   MR.CV.addEventListener("mouseup",MR.mouseChange);
   MR.CV.addEventListener("mouseout", MR.mouseOut);
   window.addEventListener("resize", MR.resizeHandler);
+
+  MR.FS = parseInt(document.getElementById('MRZoom').value);
 
   //Setup the canvas.
   MR.resetCanvas();

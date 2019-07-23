@@ -16,6 +16,8 @@ EN.eOcclusion = {"0":"0&#8260;1",".125":"1&#8260;8",".25":"1&#8260;4",".5":"1&#8
 EN.onLoad = function() {
   EN.CV = document.getElementById('EncounterCanvas');
   EN.CX = EN.CV.getContext('2d');
+
+  EN.ST = ''; //Start with nothing selected for stencils.
 }
 
 EN.initEncounter = function() {
@@ -289,8 +291,6 @@ EN.updateEncounterCanvas = function() {
   //Redraw background to clear canvas.
   EN.CX.fillStyle = data.pages[data.slctPage].M.C;
   EN.CX.fillRect(0,0,EN.CV.width, EN.CV.height);
-  //Draw center mark & Borders.
-  EN.centerMark();
   //Update the layers based on current object properties.
   //Loop over effect types in order.
   ["O","B","D","T"].forEach(function(v) { //TODO make this a parameter. So that if an object moves that say only has light. It doesn't need to change / update the occlusion layers.
@@ -309,11 +309,15 @@ EN.updateEncounterCanvas = function() {
     EN.printTile(k.split(",").map(function(x) {return parseInt(x,10);}),k,data.pages[data.slctPage].M.A[k]);
   }
   for(var k in data.pages[data.slctPage].E.OC) { //Now overwrite map with objects.
+    if (!data.pages[data.slctPage].E.OC[k].hasOwnProperty("L")) {continue;} //Skip this object if it hasn't been placed on the map.
     EN.printTile(data.pages[data.slctPage].E.OC[k].L.split(",").map(function(x) {return parseInt(x,10);}),data.pages[data.slctPage].E.OC[k].L,data.pages[data.slctPage].E.OC[k])
   }
 }
 
 EN.printTile = function(l,k,t) {//Location,Key,Tile
+  //Make sure that the location parameter is appropriate.
+  if (l.length != 2) {return;}
+
   //Tile topleft location.
   var x = EN.CP.X + (l[0] - data.pages[data.slctPage].E.SC.X) * EN.FS - (EN.FS>>1);
   var y = EN.CP.Y + (l[1] - data.pages[data.slctPage].E.SC.Y) * EN.FS - (EN.FS>>1);
@@ -331,7 +335,10 @@ EN.printTile = function(l,k,t) {//Location,Key,Tile
   if (t == undefined) {return;}
   if (t == null) {return;}
 
-  EN.CX.fillStyle = EN.fowColor(k, t.C);
+  //Depending on the FOW print differently
+  var c = EN.fowColor(k, t.C);
+  if (c == '') {return;} //Just print nothing if there was no return from FOW coloring.
+  EN.CX.fillStyle = c;
 
   if (EN.FS > 2) {EN.CX.fillText(t.T,x,y);} //Print the tile.
   else { EN.CX.fillRect(x,y,EN.FS,EN.FS); } //Print a small square.
@@ -341,15 +348,18 @@ EN.printTile = function(l,k,t) {//Location,Key,Tile
 EN.fowColor = function(k,c) {
   var fow;
   switch(EN.FOW) { //Show All, Show Player, Show Monster
-    case "0":
+    case 0:
     default:
       return c;
       break;
-    case "1":
+    case 1:
       fow = data.pages[data.slctPage].E.F.P;
       break;
-    case "2":
+    case 2:
       fow = data.pages[data.slctPage].E.F.M;
+      break;
+    case 3:
+      fow = EN.IFOW; //Temporary individual FOW
       break;
   }
   switch(fow[k]) {
@@ -491,14 +501,17 @@ EN.invertColor = function(hex, bw) {
     return "#" + EN.padZero(r) + EN.padZero(g) + EN.padZero(b);
 }
 
-EN.padZero = function (str, len) {
+EN.padZero = function(str, len) {
     len = len || 2;
     var zeros = new Array(len).join('0');
     return (zeros + str).slice(-len);
 }
 
-EN.changeFOW = function() {
-  EN.FOW = document.getElementById('ENFOW').value;
+EN.changeFOW = ()=>{
+  EN.FOW = parseInt(document.getElementById('ENFOW').value);
+
+  //Reprint the encounter view!
+  EN.updateEncounterCanvas();
 }
 
 EN.changeZoom = ()=>{
@@ -506,4 +519,12 @@ EN.changeZoom = ()=>{
   EN.CX.font = EN.FS + "px Square";
   //Update the entire display now.
   EN.updateEncounterCanvas();
+}
+
+EN.selectSten = (s)=>{
+  //Remove the HTML selection from the current stencil
+  document.getElementById('Sten'+EN.ST).classList.remove('w3-btn-pressed');
+  EN.ST = s;
+  //Add to the new one.
+  document.getElementById('Sten'+EN.ST).classList.add('w3-btn-pressed');
 }
