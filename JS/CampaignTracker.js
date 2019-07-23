@@ -25,6 +25,9 @@ CT.onLoad = function() {
   //Load the default view
   CT.changeView("J");
 
+  //Make sure to warn if the window is closed!
+  window.addEventListener('beforeunload', CT.unLoad);
+
   //Setup all Modal Animation End functions.
   document.getElementById('ModalPrompt').addEventListener('animationend', CT.modalAnimationEnd);
   document.getElementById('PageSettings').addEventListener('animationend', CT.modalAnimationEnd);
@@ -652,4 +655,9 @@ CT.showStatuses = function() {
 CT.showSounds = function() {
   document.getElementById('SoundDisplay').classList.remove("w3-hide");
   document.getElementById('StatusDisplay').classList.add("w3-hide");
+}
+
+CT.unLoad = (e)=> {
+  e.preventDefault();
+  e.returnValue = '';
 }
