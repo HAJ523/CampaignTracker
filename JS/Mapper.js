@@ -239,7 +239,7 @@ MR.mouseToMapLoc = function(x, y) {
   if ((x < MR.BR) || (y < MR.BR)) { return null; }
   if ((x > MR.CV.width - MR.BR) || (y > MR.CV.height - MR.BR)) { return null; }
   //Return the map location.
-  return [data.pages[data.slctPage].M.SC.X + Math.floor((x-MR.CP.X+4)/MR.FS),data.pages[data.slctPage].M.SC.Y + Math.floor((y-MR.CP.Y+4)/MR.FS)];
+  return [data.pages[data.slctPage].M.SC.X + Math.floor((x-MR.CP.X+(MR.FS>>1))/MR.FS),data.pages[data.slctPage].M.SC.Y + Math.floor((y-MR.CP.Y+(MR.FS>>1))/MR.FS)];
 }
 
 /*
