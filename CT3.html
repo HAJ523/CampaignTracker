@@ -109,73 +109,75 @@
                       </div>
                       <a href="javascript:EN.updateOC();" class="w3-btn w3-padding-small-square fas fa-check-circle" title="Update"></a>
                       <a href="javascript:EN.copyOC();" class="w3-btn w3-padding-small-square fas fa-exclamation-circle" title="Duplicate"></a><br/>
-                      <input type="hidden" id="OCID" />
-                      <input type="text" id="OCName" title="Name" placeholder="Name" style="text-align:center;"/>
-                      <div class="w3-cell-row">
-                        <div class="w3-display-flex-center">
-                          <input type="text" maxlength=1 class="w3-medium" title="Symbol" id="OCTile" style="height:1.5em;width:1.5em;" value="@" onchange="" onfocus="this.select();"></input>
-                          <input type="color" class="w3-padding-none" title="Foreground Color" id="OCColor" style="width: 20px;" onchange="" value="#FFFFFF"></input><!--TODO change this to a link to match other buttons and have it click an invisible color input.-->
-                          <select class="w3-select w3-fa w3-padding-small" id="OCType" title="Type">
-                            <option value="0" title="Type" disabled selected hidden>&#xf02b;</option>
-                            <option value="1" title="Monster">&#xf6d5;</option>
-                            <option value="2" title="Player">&#xf007;</option>
-                            <option value="3" title="Object">&#xf6fc;</option>
-                          </select>
-                          <select class="w3-select w3-fa w3-padding-small" id="OCVisible" title="Visibility">
-                            <option value="1" title="Visible" selected>&#xf06e;</option>
-                            <option value="0" title="Invisible">&#xf070;</option>
-                          </select>
-                          <select class="w3-select w3-fa w3-padding-small" id="OCSize" title="Size">
-                            <option value="1" title="Tiny - Medium" selected>&#xf525;</option>
-                            <option value="2" title="Large">&#xf528;</option>
-                            <option value="3" title="Huge">&#xf527;</option>
-                            <option value="4" title="Giant">&#xf524;</option>
-                            <option value="5" title="Gargantuan">&#xf523;</option>
-                            <option value="6" title="Colossal">&#xf526;</option>
-                            <option value="10" title="Titanic">&#xf6cf;</option>
-                          </select>
-                          <input type="text" title="Location" id="OCLoc" size="4" style="text-align:center;" placeholder="Loc"><br/>
+                        <div class="w3-display-container w3-hide" id="ENObjectProps">
+                        <input type="hidden" id="OCID" />
+                        <input type="text" id="OCName" title="Name" placeholder="Name" style="text-align:center;"/>
+                        <div class="w3-cell-row">
+                          <div class="w3-display-flex-center">
+                            <input type="text" maxlength=1 class="w3-medium" title="Symbol" id="OCTile" style="height:1.5em;width:1.5em;" value="@" onchange="" onfocus="this.select();"></input>
+                            <input type="color" class="w3-padding-none" title="Foreground Color" id="OCColor" style="width: 20px;" onchange="" value="#FFFFFF"></input><!--TODO change this to a link to match other buttons and have it click an invisible color input.-->
+                            <select class="w3-select w3-fa w3-padding-small" id="OCType" title="Type">
+                              <option value="0" title="Type" disabled selected hidden>&#xf02b;</option>
+                              <option value="1" title="Monster">&#xf6d5;</option>
+                              <option value="2" title="Player">&#xf007;</option>
+                              <option value="3" title="Object">&#xf6fc;</option>
+                            </select>
+                            <select class="w3-select w3-fa w3-padding-small" id="OCVisible" title="Visibility">
+                              <option value="1" title="Visible" selected>&#xf06e;</option>
+                              <option value="0" title="Invisible">&#xf070;</option>
+                            </select>
+                            <select class="w3-select w3-fa w3-padding-small" id="OCSize" title="Size">
+                              <option value="1" title="Tiny - Medium" selected>&#xf525;</option>
+                              <option value="2" title="Large">&#xf528;</option>
+                              <option value="3" title="Huge">&#xf527;</option>
+                              <option value="4" title="Giant">&#xf524;</option>
+                              <option value="5" title="Gargantuan">&#xf523;</option>
+                              <option value="6" title="Colossal">&#xf526;</option>
+                              <option value="10" title="Titanic">&#xf6cf;</option>
+                            </select>
+                            <a href="javascript:void(0);" class="w3-btn w3-padding-small-square fas fa-marker" title="Place"></a><br/>
+                          </div>
                         </div>
-                      </div>
-                      <span class="fas fa-glasses"></span> <input type="text" title="Vision" id="OCBright" size="3" style="text-align:center;">
-                      <input type="text" title="Dimvision" id="OCDim" size="3" style="text-align:center;">
-                      <input type="text" title="Darkvision" id="OCDark" size="3" style="text-align:center;"><br/>
-                      <div id="Effects" class="w3-hide">
-                        <span>Effects</span><br/>
-                        <select class="w3-select w3-fa w3-padding-small" id="OCEFType" title="Type" onchange="EN.changeType();">
-                          <option value="0" title="Type" disabled selected hidden>&#xf6e8;</option>
-                          <option value="B" title="Bright Light">&#xf185;</option>
-                          <option value="D" title="Dim Light">&#xf186;</option>
-                          <option value="O" title="Obstruction">&#xf0c2;</option>
-                          <option value="T" title="Terrain">&#xf554;</option>
-                        </select>
-                        <select class="w3-select w3-fa w3-padding-small" id="OCEFShape" title="Shape" onchange="EN.changeShape();">
-                          <option value="0" title="Shape" disabled selected hidden>&#xf61f;</option>
-                          <option value="C" title="Circle">&#xf111;</option>
-                          <option value="S" title="Square">&#xf0c8;</option>
-                        </select>
-                        <input type="text" title="Size" id="OCEFSize" size="4" style="text-align:center;" placeholder="Size"/>
-                        <!-- Start condintional effect controls -->
-                        <select class="w3-select w3-fa w3-padding-small" id="OCEFOcc" title="Occlusion">
-                          <option value="-1" title="Occlusion" disabled selected hidden>&#xf0c2;</option>
-                          <option value="0" title="0%">0&#8260;1</option>
-                          <option value=".125" title="12%">1&#8260;8</option>
-                          <option value=".25" title="25%">1&#8260;4</option>
-                          <option value=".5" title="50%">1&#8260;2</option>
-                          <option value=".75" title="75%">3&#8260;4</option>
-                          <option value=".875" title="87%">7&#8260;8</option>
-                          <option value="1" title="100%">1&#8260;1</option>
-                        </select>
-                        <select class="w3-select w3-fa w3-padding-small" id="OCEFTer" title="Terrain">
-                          <option value="-1" title="Terrain" disabled selected hidden>&#xf54b;</option>
-                          <option value="0" title="Obstructed">&#xf54b;</option>
-                          <option value=".5" title="Quick">&#xf70c;</option>
-                          <option value="1" title="Normal">&#xf554;</option>
-                          <option value="2" title="Difficult">&#xf6ec;</option>
-                        </select>
-                        <!-- End condintional effect controls -->
-                        <a href="javascript:EN.addEffect();" class="w3-btn w3-padding-small-square fas fa-plus-circle"></a><br/>
-                        <div id="OCEffectList"></div>
+                        <span class="fas fa-glasses"></span> <input type="text" title="Vision" id="OCBright" size="3" style="text-align:center;" placeholder="Vis">
+                        <input type="text" title="Dimvision" id="OCDim" size="3" style="text-align:center;" placeholder="Dim">
+                        <input type="text" title="Darkvision" id="OCDark" size="3" style="text-align:center;" placeholder="Dark"><br/>
+                        <div id="Effects" class="w3-hide">
+                          <span>Effects</span><br/>
+                          <select class="w3-select w3-fa w3-padding-small" id="OCEFType" title="Type" onchange="EN.changeType();">
+                            <option value="0" title="Type" disabled selected hidden>&#xf6e8;</option>
+                            <option value="B" title="Bright Light">&#xf185;</option>
+                            <option value="D" title="Dim Light">&#xf186;</option>
+                            <option value="O" title="Obstruction">&#xf0c2;</option>
+                            <option value="T" title="Terrain">&#xf554;</option>
+                          </select>
+                          <select class="w3-select w3-fa w3-padding-small" id="OCEFShape" title="Shape" onchange="EN.changeShape();">
+                            <option value="0" title="Shape" disabled selected hidden>&#xf61f;</option>
+                            <option value="C" title="Circle">&#xf111;</option>
+                            <option value="S" title="Square">&#xf0c8;</option>
+                          </select>
+                          <input type="text" title="Size" id="OCEFSize" size="4" style="text-align:center;" placeholder="Size"/>
+                          <!-- Start condintional effect controls -->
+                          <select class="w3-select w3-fa w3-padding-small" id="OCEFOcc" title="Occlusion">
+                            <option value="-1" title="Occlusion" disabled selected hidden>&#xf0c2;</option>
+                            <option value="0" title="0%">0&#8260;1</option>
+                            <option value=".125" title="12%">1&#8260;8</option>
+                            <option value=".25" title="25%">1&#8260;4</option>
+                            <option value=".5" title="50%">1&#8260;2</option>
+                            <option value=".75" title="75%">3&#8260;4</option>
+                            <option value=".875" title="87%">7&#8260;8</option>
+                            <option value="1" title="100%">1&#8260;1</option>
+                          </select>
+                          <select class="w3-select w3-fa w3-padding-small" id="OCEFTer" title="Terrain">
+                            <option value="-1" title="Terrain" disabled selected hidden>&#xf54b;</option>
+                            <option value="0" title="Obstructed">&#xf54b;</option>
+                            <option value=".5" title="Quick">&#xf70c;</option>
+                            <option value="1" title="Normal">&#xf554;</option>
+                            <option value="2" title="Difficult">&#xf6ec;</option>
+                          </select>
+                          <!-- End condintional effect controls -->
+                          <a href="javascript:EN.addEffect();" class="w3-btn w3-padding-small-square fas fa-plus-circle"></a><br/>
+                          <div id="OCEffectList"></div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -198,13 +200,13 @@
                         <a href="javascript:MR.selectSize('L');" class="w3-btn w3-padding-small" id="sizeL" title="Large"><span class="fas fa-paint-roller"></span></a>
                       </div>
                       </div>
-                      <a href="javascript:MR.selectTool('E');" class="w3-btn w3-padding-small" id="toolE" title="Eraser"><span class="fas fa-eraser"></span></a>
-                      <a href="javascript:MR.selectTool('L');" class="w3-btn w3-padding-small" id="toolL" title="Line"><span class="fas fa-pencil-ruler"></span></a>
-                      <a href="javascript:MR.selectTool('F');" class="w3-btn w3-padding-small" id="toolF" title="Fill"><span class="fas fa-fill"></span></a>
-                      <a href="javascript:MR.selectTool('M');" class="w3-btn w3-padding-small fas" id="toolM" title="Move Map">&#xf0b2;</a>
-                      <a href="javascript:MR.selectTool('C');" class="w3-btn w3-padding-small" id="toolC" title="Copy"><span class="fas fa-eye-dropper"></span></a>
-                      <a href="javascript:MR.selectTool('S');" class="w3-btn w3-padding-small" id="toolS" title="Square"><span class="far fa-square"></span></a>
-                      <a href="javascript:MR.selectTool('R');" class="w3-btn w3-padding-small" id="toolR" title="Circle"><span class="far fa-circle"></span></a>
+                      <a href="javascript:MR.selectTool('E');" class="w3-btn w3-padding-small-square fas" id="toolE" title="Eraser">&#xf12d;</a>
+                      <a href="javascript:MR.selectTool('L');" class="w3-btn w3-padding-small-square fas" id="toolL" title="Line">&#xf5ae;</span></a>
+                      <a href="javascript:MR.selectTool('F');" class="w3-btn w3-padding-small-square fas" id="toolF" title="Fill">&#xf575;</a>
+                      <a href="javascript:MR.selectTool('M');" class="w3-btn w3-padding-small-square fas" id="toolM" title="Move Map">&#xf0b2;</a>
+                      <a href="javascript:MR.selectTool('C');" class="w3-btn w3-padding-small-square fas" id="toolC" title="Copy">&#xf1fb;</a>
+                      <a href="javascript:MR.selectTool('S');" class="w3-btn w3-padding-small-square fas" id="toolS" title="Square">&#xf0c8;</a>
+                      <a href="javascript:MR.selectTool('R');" class="w3-btn w3-padding-small-square fas" id="toolR" title="Circle">&#xf111;</a>
                       <select class="w3-select w3-fa w3-padding-small" id="MRZoom" title="Tile Size" onchange="MR.changeZoom();">
                         <option value="1" title="1px" >&#xf2cb;</option>
                         <option value="2" title="2px">&#xf2ca;</option>
@@ -212,7 +214,7 @@
                         <option value="16" title="16px" selected>&#xf2c8;</option>
                         <option value="24" title="24px">&#xf2c7;</option>
                       </select>
-                      <a href="javascript:MR.undo();" class="w3-btn w3-padding-small" title="Undo"><span class="fas fa-undo"></span></a>
+                      <a href="javascript:MR.undo();" class="w3-btn w3-padding-small-square fas" title="Undo">&#xf0e2;</a>
                     </div>
                     <div>
                       <a href="javascript:MR.savePalette();" title="Save Palette" class="fas fa-save"></a>

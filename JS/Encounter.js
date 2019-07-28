@@ -73,7 +73,6 @@ EN.addOC = function() {
   document.getElementById('OCType').value = "0";
   document.getElementById('OCVisible').value = "1";
   document.getElementById('OCSize').value = "1";
-  document.getElementById('OCLoc').value = "";
   document.getElementById('OCBright').value = "";
   document.getElementById('OCDim').value = "";
   document.getElementById('OCDark').value = "";
@@ -84,10 +83,9 @@ EN.addOC = function() {
   //Clear the effects list.
   document.getElementById('OCEffectList').innerHTML="";
 
-
-
-  //Now that there is an object make Effects Visible
+  //Now that there is an object make Effects Visible & Properties
   document.getElementById('Effects').classList.remove('w3-hide');
+  document.getElementById('ENObjectProps').classList.remove('w3-hide');
 }
 
 EN.clearEffectInput = function() {
@@ -148,6 +146,9 @@ EN.removeOC = function() {
   //Find and remove from OCList
   var el = document.getElementById('OCL-' + obj);
   el.parentElement.removeChild(el);
+
+  //Hide the object Properties since there is no longer an object selected!
+  document.getElementById('ENObjectProps').classList.add('w3-hide');
 }
 
 EN.addEffect = function() {
