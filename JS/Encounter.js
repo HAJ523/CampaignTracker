@@ -8,8 +8,8 @@
 var EN = {};
 
 //list translations
-EN.effType = {"1":"&#xf185;","2":"&#xf186","3":"&#xf0c2","4":"&#xf554;"};
-EN.eShape = {"1":"&#xf111;","2":"&#xf0c8;"};
+EN.effType = {"B":"&#xf185;","D":"&#xf186","O":"&#xf0c2","T":"&#xf554;"};
+EN.eShape = {"C":"&#xf111;","S":"&#xf0c8;"};
 EN.eTerrain = {"0":"&#xf54b;",".5":"&#xf70c;","1":"&#xf554;","2":"&#xf6ec;"};
 EN.eOcclusion = {"0":"0&#8260;1",".125":"1&#8260;8",".25":"1&#8260;4",".5":"1&#8260;2",".75":"3&#8260;4",".875":"7&#8260;8","1":"1&#8260;1"};
 
@@ -84,7 +84,6 @@ EN.addOC = function() {
   document.getElementById('OCEffectList').innerHTML="";
 
   //Now that there is an object make Effects Visible & Properties
-  document.getElementById('Effects').classList.remove('w3-hide');
   document.getElementById('ENObjectProps').classList.remove('w3-hide');
 }
 
@@ -123,7 +122,6 @@ EN.updateOC = function() {
   obj.Ty = document.getElementById('OCType').value;
   obj.V = document.getElementById('OCVisible').value;
   obj.S = document.getElementById('OCSize').value;
-  obj.L = document.getElementById('OCLoc').value;
   obj.Vb = document.getElementById('OCBright').value;
   obj.Vd = document.getElementById('OCDim').value;
   obj.Vk = document.getElementById('OCDark').value;
@@ -157,6 +155,11 @@ EN.addEffect = function() {
   var effType = document.getElementById('OCEFType').value;
   if (effType=="0") {return;} //If no effect type is selected then quit.
 
+  if (obj == undefined) { //If this is a new object then make sure that we treat it as such.
+    EN.updateOC();
+    obj = data.pages[data.slctPage].E.OC[objid];
+  }
+
   var id = CT.GUID(8); //Effect ID
   var tp = document.getElementById('OCEFType').value;
 
@@ -181,7 +184,7 @@ EN.addEffect = function() {
 
 
   //Add Effect to display list.
-  document.getElementById('OCEffectList').innerHTML += '<div id="Eff' + id + '"><a href="javascript:EN.removeEffect(\'' + id + '\');" class="w3-btn w3-padding-small-square fas fa-minus-circle"></a> <i class="fas">'+EN.eType[tp]+' '+EN.eShape[obj.Es[ts][id].Sh]+'</i> <i class="fas fa-glasses"></i></span></div>';
+  document.getElementById('OCEffectList').innerHTML += '<div id="Eff' + id + '"><a href="javascript:EN.removeEffect(\'' + id + '\');" class="w3-btn w3-padding-small-square fas fa-minus-circle"></a> <i class="fas">'+EN.effType[tp]+' '+EN.eShape[obj.Es[tp][id].Sh]+'</i></div>';
 
   //Clear the Effect inputs.
   EN.clearEffectInput();
