@@ -10,3 +10,4 @@
  | Mapper | Fill Tool | A user should be able to fill a section of the map like they painted every cell by hand. (Will need to determine if the fill will happen on an enclosed space or limit spread of fill based on painting size.)
  | Mapper | Default Palettes | There should be a list of default palettes to make the start of mapping easier.
  | Mapper | UI | Update all UI buttons to use less HTML elements / Selects instead of custom functionality.
+ | Mapper | Layers | Make tools respect layers editing so that existing tiles only have modified the visible layers.

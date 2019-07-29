@@ -8,11 +8,14 @@
 var EN = {};
 
 //list translations
-EN.effType = {"B":"&#xf185;","D":"&#xf186","O":"&#xf0c2","T":"&#xf554;"};
-EN.eShape = {"C":"&#xf111;","S":"&#xf0c8;"};
-EN.eTerrain = {"0":"&#xf54b;",".5":"&#xf70c;","1":"&#xf554;","2":"&#xf6ec;"};
-EN.eOcclusion = {"0":"0&#8260;1",".125":"1&#8260;8",".25":"1&#8260;4",".5":"1&#8260;2",".75":"3&#8260;4",".875":"7&#8260;8","1":"1&#8260;1"};
 
+EN.eType = {"B":"&#xf185;","D":"&#xf186","O":"&#xf0c2","T":"&#xf554;"};
+EN.eTypeTitle = {"B":"Bright Light","D":"Dim Light","O":"Occlusion","T":"Terrain"};
+EN.eShape = {"C":"&#xf111;","S":"&#xf0c8;"};
+EN.eShapeTitle = {"C":"Circle radius ","S":"Square size "};
+EN.eTerrain = {"0":"&#xf54b;",".5":"&#xf70c;","1":"&#xf554;","2":"&#xf6ec;"};
+EN.eTerrainTitle = {"0":"Impassable",".5":"Difficult","1":"Normal","2":"Fast"};
+EN.eOcclusion = {"0":"0&#8260;1",".125":"1&#8260;8",".25":"1&#8260;4",".5":"1&#8260;2",".75":"3&#8260;4",".875":"7&#8260;8","1":"1&#8260;1"};
 EN.onLoad = function() {
   EN.CV = document.getElementById('EncounterCanvas');
   EN.CX = EN.CV.getContext('2d');
@@ -172,19 +175,23 @@ EN.addEffect = function() {
   }
 
   //Add effect to object.
+  var title = EN.eTypeTitle[tp];
   obj.Es[tp][id] = {};
   obj.Es[tp][id].Sh = document.getElementById('OCEFShape').value;
   obj.Es[tp][id].Si = document.getElementById('OCEFSize').value;
+  title += '\n\n'+EN.eShapeTitle[obj.Es[tp][id].Sh]+obj.Es[tp][id].Si;
   if (tp == "3") {
     obj.Es[tp][id].Oc = document.getElementById('OCEFOcc').value;
+    title += '\n' + EN.eOcclusion[obj.Es[tp][id].Oc] + ' Occlusion';
   } else if (tp == "4") {
     obj.Es[tp][id].Te = document.getElementById('OCEFTer').value;
+    title += '\n' + EN.eTerrainTitle[obj.Es[tp][id].Te];
   }
 
 
 
   //Add Effect to display list.
-  document.getElementById('OCEffectList').innerHTML += '<div id="Eff' + id + '"><a href="javascript:EN.removeEffect(\'' + id + '\');" class="w3-btn w3-padding-small-square fas fa-minus-circle"></a> <i class="fas">'+EN.effType[tp]+' '+EN.eShape[obj.Es[tp][id].Sh]+'</i></div>';
+  document.getElementById('OCEffectList').innerHTML += '<a href="javascript:EN.removeEffect(\'' + id + '\');" id="Eff' + id + '" class="w3-btn w3-padding-none fas" title="' + title + '">'+EN.eType[tp]+'</a>';
 
   //Clear the Effect inputs.
   EN.clearEffectInput();
@@ -228,8 +235,22 @@ EN.changeShape = function() {
   }
 }
 
-EN.removeEffect = function() {
+EN.removeEffect = function(id) {
+  //Remove effect from object.
+  var objid = document.getElementById('OCID').value;
+  var obj = data.pages[data.slctPage].E.OC[objid];
+  for (var k in obj.Es) { //Look for the effect to be removed.
+    if (obj.Es[k].hasOwnProperty(id)) {
+      delete obj.Es[k][id];
+      break;
+    }
+  }
 
+  //Remove effect display.
+  var el = document.getElementById('Eff'+id);
+  el.parentElement.removeChild(el);
+
+  //TODO Update display now that the effect is gone.
 }
 
 EN.initTempLayers = function() {
