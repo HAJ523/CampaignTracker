@@ -100,15 +100,12 @@
                       <a href="javascript:EN.selectSten('N');" class="w3-btn w3-padding-small-square fas fa-drafting-compass" id="StenN" title="Cone"></a>
                     </div>
                     <div>
-                      <a href="javascript:EN.removeOC();" class="w3-btn w3-padding-small-square fas fa-times-circle" title="Remove"></a>
-                      <a href="javascript:EN.addOC();" class="w3-btn w3-padding-small-square fas fa-plus-circle" title="New"></a>
-                      <div class="w3-dropdown-hover">
-                        <span>Objects & Creatures</span>
-                        <div class="w3-dropdown-content" id="OCList">
-                        </div>
-                      </div>
-                      <a href="javascript:EN.updateOC();" class="w3-btn w3-padding-small-square fas fa-check-circle" title="Update"></a>
-                      <a href="javascript:EN.copyOC();" class="w3-btn w3-padding-small-square fas fa-exclamation-circle" title="Duplicate"></a><br/>
+                      <span>Objects & Creatures</span><br/>
+                      <select id="OCList" title="Object List" onchange="EN.selectOC();"></select>
+                      <a href="javascript:EN.removeOC();" class="w3-btn w3-padding-small-square fas fa-minus-square" title="Remove"></a>
+                      <a href="javascript:EN.addOC();" class="w3-btn w3-padding-small-square fas fa-plus-square" title="New"></a>
+                      <a href="javascript:EN.updateOC();" class="w3-btn w3-padding-small-square fas fa-check-square" title="Update"></a>
+                      <a href="javascript:EN.copyOC();" class="w3-btn w3-padding-small-square fas fa-clone" title="Duplicate"></a><br/>
                       <div class="w3-display-container w3-hide" id="ENObjectProps">
                         <input type="hidden" id="OCID" />
                         <input type="text" id="OCName" title="Name" placeholder="Name" style="text-align:center;"/>
