@@ -11,8 +11,12 @@ MR.ZM = 1;
 MR.MD = false;
 MR.PL = []; //Palette should be empty.
 MR.PN = ""; //Current Palette name.
-MR.brushSizesSquare = {S:[[0,0]], M:[[1,0],[1,1],[1,-1],[0,1],[0,-1],[-1,0],[-1,-1],[-1,1]], L:[[2,2],[2,1],[2,0],[2,-1],[2,-2],[1,2],[1,-2],[0,2],[0,-2],[-1,2],[-1,-2],[-2,2],[-2,1],[-2,0],[-2,-1],[-2,-2]]};
-MR.brushSizesHex = {};
+MR.brushSizesSquare = {S:[[0,0]],
+   M:[[1,0],[1,1],[1,-1],[0,1],[0,-1],[-1,0],[-1,-1],[-1,1]],
+   L:[[2,2],[2,1],[2,0],[2,-1],[2,-2],[1,2],[1,-2],[0,2],[0,-2],[-1,2],[-1,-2],[-2,2],[-2,1],[-2,0],[-2,-1],[-2,-2]],
+   H:[[3,3],[3,2],[3,1],[3,0],[3,-1],[3,-2],[3,-3],[-3,3],[-3,2],[-3,1],[-3,0],[-3,-1],[-3,-2],[-3,-3],[2,-3],[2,3],[1,-3],[1,3],[0,-3],[0,3],[-1,-3],[-1,3],[-2,3],[-2,-3]],
+   G:[[4,4],[4,3],[4,2],[4,1],[4,0],[4,-1],[4,-2],[4,-3],[4,-4],[-4,4],[-4,3],[-4,2],[-4,1],[-4,0],[-4,-1],[-4,-2],[-4,-3],[-4,-4],[3,4],[3,-4],[2,4],[2,-4],[1,4],[1,-4],[0,4],[0,-4],[-1,4],[-1,-4],[-2,4],[-2,-4],[-3,4],[-3,-4]]};
+MR.brushSizesHex = {}; //TODO Someday...
 
 /*
   Scope: Public
@@ -42,8 +46,8 @@ MR.initMapper = function() {
 
   //Start with the correct tool and layer selected.
   MR.selectTool("B");
-  MR.selectLayer("T",1);
-  MR.selectSize("S");
+  MR.changeLayer(1);
+  MR.changeBrushSize();
 
   //Build the HTML of the pallette.
   MR.selectTile(null, 0);
@@ -180,6 +184,7 @@ MR.printTile = function(loc, t, s) {//Location, TileAddress, skip access check.
     return;
   }
   switch(MR.LY) {
+    case "A":
     case "T":
       MR.CX.fillText(tile.T, x, y);
       break;
@@ -263,13 +268,6 @@ MR.mouseChange = function(e) {
     //TODO undo list
   } else {
     MR.CV.removeEventListener('mousemove', MR.mouseMove); //Remove the move listener.
-    if (!MR.hasOwnProperty("CD")) return;
-
-    switch (MR.CT) { //TODO Add more tools here.
-      case "B":
-      default:
-        break;
-    }
   }
 }
 
@@ -297,6 +295,10 @@ MR.drawPoint = function(loc) {
       //Repaint the canvas at that location with the new tile.
       for (var i=0;i<pts.length;i++) {
         switch(MR.TS) {
+          case "G":
+            MR.brushPoint(pts[i], "G");
+          case "H":
+            MR.brushPoint(pts[i], "H");
           case "L":
             MR.brushPoint(pts[i], "L");
           case "M":
@@ -314,6 +316,10 @@ MR.drawPoint = function(loc) {
       //Repaint the canvas at that location with the new tile.
       for (var i=0;i<pts.length;i++) {
         switch(MR.TS) {
+          case "G":
+            MR.brushPoint(pts[i], "G", prvKeys);
+          case "H":
+            MR.brushPoint(pts[i], "H", prvKeys);
           case "L":
             MR.brushPoint(pts[i], "L", prvKeys);
           case "M":
@@ -402,6 +408,10 @@ MR.drawPoint = function(loc) {
       //Repaint the canvas at that location with the new tile.
       for (var i=0;i<pts.length;i++) {
         switch(MR.TS) {
+          case "G":
+            MR.brushPoint(pts[i], "G", prvKeys);
+          case "H":
+            MR.brushPoint(pts[i], "H", prvKeys);
           case "L":
             MR.brushPoint(pts[i], "L", prvKeys);
           case "M":
@@ -433,6 +443,10 @@ MR.drawPoint = function(loc) {
       //Repaint the canvas at that location with the new tile.
       for (var i=0;i<pts.length;i++) {
         switch(MR.TS) {
+          case "G":
+            MR.brushPoint(pts[i], "G", prvKeys);
+          case "H":
+            MR.brushPoint(pts[i], "H", prvKeys);
           case "L":
             MR.brushPoint(pts[i], "L", prvKeys);
           case "M":
@@ -495,7 +509,20 @@ MR.setMapTile = function(loc, k) {
     delete data.pages[data.slctPage].M.A[k];
     s = 1;
   } else {
-    data.pages[data.slctPage].M.A[k] = Object.assign({},MR.PL[Math.floor(Math.random()*MR.PL.length)]);
+    if (!data.pages[data.slctPage].M.A.hasOwnProperty(k) && (MR.LY != "A")) { //If the tile doesn't exist and not on all layers then skip. (Simple masking.)
+      return;
+    }
+    switch (MR.LY) {
+      case "T":
+      case "L":
+      case "O":
+      case "W":
+        data.pages[data.slctPage].M.A[k][MR.LY] = MR.PL[Math.floor(Math.random()*MR.PL.length)][MR.LY];
+        break;
+      case "A":
+        data.pages[data.slctPage].M.A[k] = Object.assign({},MR.PL[Math.floor(Math.random()*MR.PL.length)]);
+        break;
+    }
   }
 
   MR.printTile(loc, k, s);
@@ -528,9 +555,8 @@ MR.undo = function() {
   Scope: Public
   Description: Select the tool size for brushes and lines.
 */
-MR.selectSize = function(s) {
-  document.getElementById('toolB').innerHTML = document.getElementById('size'+s).innerHTML;
-  MR.TS = s;
+MR.changeBrushSize = function() {
+  MR.TS = document.getElementById("mapBrushSize").value;
 }
 
 /*
@@ -549,13 +575,8 @@ MR.selectTool = function(t) {//Tool Selected
   Scope: Public
   Description: Select the layer for display.
 */
-MR.selectLayer = function(l, s) { //Layer, skip
-  if (MR.LY != undefined) {
-    document.getElementById("layer" + MR.LY).classList.remove("w3-btn-pressed");
-  }
-  MR.LY = l;
-  document.getElementById('layer' + l).classList.add("w3-btn-pressed");
-
+MR.changeLayer = (s) => {
+  MR.LY = document.getElementById("mapLayer").value;
   if (!s) {MR.updateCanvas();}
 }
 
