@@ -213,53 +213,12 @@
                       <a href="javascript:MR.undo();" class="w3-btn w3-padding-small-square fas" title="Undo">&#xf0e2;</a>
                     </div>
                     <div>
-                      <a href="javascript:MR.savePalette();" title="Save Palette" class="fas fa-save"></a>
-                      <div class="w3-dropdown-hover" style="background: #FFF">
-                        &nbsp;<span id="PaletteName">Palette</span>&nbsp;
-                        <div class="w3-dropdown-content w3-card" id="PaletteList">
-                          <a href="javascript:MR.newPalette();" class="w3-btn w3-padding-none" title="New Palette">New</a>
-                        </div>
-                      </div>
-                      <a href="javascript:MR.deletePalette();" title="Delete Palette" class="fas fa-trash"></a>
-                      <div class="w3-small" id="paletteDisplay"></div>
-                    </div>
-                    <span>Tile</span><br/>
-                    <div class="w3-cell-row">
-                      <div class="w3-display-flex-center">
-                        <a href="javascript:MR.remTileFromPalette();" class="w3-button w3-padding-small" title="Remove"><span class="fas fa-times-circle"></span></a>
-                        <input type="text" maxlength=1 class="w3-medium" title="Tile" id="Tile" style="height:1.5em;width:1.5em;" value="." onchange="MR.updatePaletteTile();" onfocus="this.select();"></input>
-                        <input type="color" class="w3-padding-none" title="Foreground Color" id="TileColor" style="width: 20px;" onchange="MR.updatePaletteTile();"></input><!--TODO change this to a link to match other buttons and have it click an invisible color input.-->
-                        <div class="w3-dropdown-hover" style="background: #FFF">
-                          <a href="javascript:MR.incTileLight();" class="w3-button w3-padding-small" title="Lighting" id="TileLight"></a>
-                          <div class="w3-dropdown-content w3-card">
-                            <a href="javascript:MR.selectTileLight(0);" id="Light0" class="w3-button w3-padding-small" title="Dark"><span class="fas fa-star"></span></a>
-                            <a href="javascript:MR.selectTileLight(1);" id="Light1" class="w3-button w3-padding-small" title="Dim"><span class="fas fa-moon"></span></a>
-                            <a href="javascript:MR.selectTileLight(2);" id="Light2" class="w3-button w3-padding-small" title="Bright"><span class="fas fa-sun"></span></a>
-                          </div>
-                        </div>
-                        <div class="w3-dropdown-hover" style="background: #FFF">
-                          <a href="javascript:MR.incTileOcclusion();" class="w3-button w3-padding-small" title="Occlusion"><span id="TileOcclusion"><strong>0&#8260;1</strong></span></a>
-                          <div class="w3-dropdown-content w3-card">
-                            <a href="javascript:MR.selectTileOcclusion(0);" id="Occ0" class="w3-button w3-padding-small" title="0%"><strong>0&#8260;1</strong></a>
-                            <a href="javascript:MR.selectTileOcclusion(.125);" id="Occ0.125" class="w3-button w3-padding-small" title="12.5%"><strong>1&#8260;8</strong> </a>
-                            <a href="javascript:MR.selectTileOcclusion(.25);" id="Occ0.25" class="w3-button w3-padding-small" title="25%"><strong>1&#8260;4</strong></a>
-                            <a href="javascript:MR.selectTileOcclusion(.5);" id="Occ0.5" class="w3-button w3-padding-small" title="50%"><strong>1&#8260;2</strong></a>
-                            <a href="javascript:MR.selectTileOcclusion(.75);" id="Occ0.75" class="w3-button w3-padding-small" title="75%"><strong>3&#8260;4</strong></a>
-                            <a href="javascript:MR.selectTileOcclusion(.875);" id="Occ0.875" class="w3-button w3-padding-small" title="87.5%"><strong>7&#8260;8</strong></a>
-                            <a href="javascript:MR.selectTileOcclusion(1);" id="Occ1" class="w3-button w3-padding-small" title="100%"><strong>1&#8260;1</strong></a>
-                          </div>
-                        </div>
-                        <div class="w3-dropdown-hover" style="background: #FFF">
-                          <a href="javascript:incTileWalkable();" id="TileWalkable" class="w3-button w3-padding-small" title="Walkable?"></a>
-                          <div class="w3-dropdown-content w3-card">
-                            <a href="javascript:MR.selectTileWalkable(0);" id="Walk0" class="w3-button w3-padding-small" title="Not Walkable"><span class="fas fa-ban"></span></a>
-                            <a href="javascript:MR.selectTileWalkable(.5);" id="Walk0.5" class="w3-button w3-padding-small" title="Quick Terrain"><span class="fas fa-running"></span></a>
-                            <a href="javascript:MR.selectTileWalkable(1);" id="Walk1" class="w3-button w3-padding-small" title="Walkable"><span class="fas fa-walking"></span></a>
-                            <a href="javascript:MR.selectTileWalkable(2);" id="Walk2" class="w3-button w3-padding-small" title="Difficult Terrain"><span class="fas fa-hiking"></span></a>
-                          </div>
-                        </div>
-                        <a href="javascript:MR.addTileToPalette();" class="w3-button w3-padding-small" title="Add"><span class="fas fa-check-circle"></span></a>
-                      </div>
+                      Palette: <select class="w3-select" id="mapPaletteList" title="" onchange="">
+                      </select>
+                      <a href="javascript:EN.deletePalette();" class="w3-btn w3-padding-small-square fas fa-minus-square" title="Remove"></a>
+                      <a href="javascript:EN.newPalette();" class="w3-btn w3-padding-small-square fas fa-plus-square" title="New"></a>
+                      <a href="javascript:EN.updatePalette();" class="w3-btn w3-padding-small-square fas fa-check-square" title="Update"></a>
+                      <a href="javascript:EN.copyPalette();" class="w3-btn w3-padding-small-square fas fa-clone" title="Duplicate"></a>
                     </div>
                   </div>
                   <!-- Journal Controls -->
@@ -525,6 +484,49 @@
               </div>
             </div>
           </div>
+        </div>
+        <footer class="w3-container w3-padding-small">
+          <div class="w3-right">
+            <a class="w3-button" href="javascript:void(0);">Cancel</a>
+            <a class="w3-button" href="javascript:void(0);">Ok</a>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <!-- Palette Edit Modal -->
+    <div id="EditPalette" class="w3-modal w3-animate-opacity">
+      <div class="w3-modal-content w3-card-4 w3-animate-top">
+        <header class="w3-display-container w3-text-theme w3-xlarge w3-padding-small"><strong>Edit Palette</strong></header>
+        <div class="w3-container">
+          <span>Tile: </span>
+            <div class="w3-display-flex-center">
+              <input type="text" maxlength=1 class="w3-medium" title="Tile" id="Tile" style="height:1.5em;width:1.5em;" value="." onchange="MR.updatePaletteTile();" onfocus="this.select();"></input>
+              <input type="color" class="w3-padding-none" title="Foreground Color" id="TileColor" style="width: 20px;" onchange="MR.updatePaletteTile();"></input><!--TODO change this to a link to match other buttons and have it click an invisible color input.-->
+              <select id="TileLight" class="w3-select w3-fa" title="Lighting" onchange="MR.changeTileLight();">
+                <option value=0 title="Dark">&#xf005;</option>
+                <option value=1 title="Dim">&#xf186;</option>
+                <option value=2 title="Bright">&#xf185;</option>
+              </select>
+              <select id="TileOcclusion" class="w3-select w3-fa" title="Occlusion" onchange="MR.changeTileLight();">
+                <option value=0 title="0%">0&#8260;1</option>
+                <option value=0.125 title="12%">1&#8260;8</option>
+                <option value=0.25 title="25%">1&#8260;4</option>
+                <option value=0.5 title="50%">1&#8260;2</option>
+                <option value=0.75 title="75%">3&#8260;4</option>
+                <option value=0.875 title="87.5%">7&#8260;8</option>
+                <option value=1 title="100%">1&#8260;1</option>
+              </select>
+              <select id="TileWalkable" class="w3-select w3-fa" title="Walkable" onchange="MR.changeTileWalkable();">
+                <option value=.5 title="Easy">&#xf70c;</option>
+                <option value=1 title="Normal">&#xf554;</option>
+                <option value=2 title="Difficult">&#xf6ec;</option>
+                <option value=0 title="Impassable">&#xf05e;</option>
+              </select>
+              <a href="javascript:MR.addTileToPalette();" class="w3-button w3-padding-small" title="Add"><span class="fas fa-check-circle"></span></a>
+              <a href="javascript:MR.remTileFromPalette();" class="w3-button w3-padding-small" title="Remove"><span class="fas fa-times-circle"></span></a>
+            </div>
+          <div id="paletteDisplay"></div>
         </div>
         <footer class="w3-container w3-padding-small">
           <div class="w3-right">
