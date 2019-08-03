@@ -629,27 +629,8 @@ MR.incWalkable = function() {
   Scope: Public
   Description: Set the light on the current title and update the display.
 */
-MR.selectTileLight = function(l) {//Lighting
-  MR.PL[MR.slctTile].L = l;
-  MR.setLightGui();
-}
-
-/*
-  Scope: Public
-  Description Set the occlusion on the current tile and update the display.
-*/
-MR.selectTileOcclusion = function(o) {//Occlusion
-  MR.PL[MR.slctTile].O = o;
-  MR.setOcclusionGui();
-}
-
-/*
-  Scope: Public
-  Description: Change the walkable status of a tile!
-*/
-MR.selectTileWalkable = function(w) {
-  MR.PL[MR.slctTile].W = w;
-  MR.setWalkableGui();
+MR.changeTileProp = function(p, e) {//Lighting
+  MR.PL[MR.slctTile][p] = document.getElementById("Tile"+e).value;
 }
 
 MR.buildHTMLPalette = function() {
@@ -680,21 +661,9 @@ MR.selectTile = function(e, i) {
   //Now update the tile editing controls.
   document.getElementById('Tile').value = MR.PL[MR.slctTile].T;
   document.getElementById('TileColor').value = MR.PL[MR.slctTile].C;
-  MR.setWalkableGui();
-  MR.setLightGui();
-  MR.setOcclusionGui();
-}
-
-MR.setOcclusionGui = function() { //TODO Combine these gui functions into 1 since they are so similiar?
-  document.getElementById('TileOcclusion').innerHTML = document.getElementById("Occ" + MR.PL[MR.slctTile].O).innerHTML;
-}
-
-MR.setLightGui = function() {
-  document.getElementById('TileLight').innerHTML = document.getElementById("Light" + MR.PL[MR.slctTile].L).innerHTML;
-}
-
-MR.setWalkableGui = function() {
-  document.getElementById('TileWalkable').innerHTML = document.getElementById("Walk" + MR.PL[MR.slctTile].W).innerHTML;
+  document.getElementById('TileOcclusion').value = MR.PL[MR.slctTile].O;
+  document.getElementById('TileLight').value = MR.PL[MR.slctTile].L;
+  document.getElementById('TileWalkable').value = MR.PL[MR.slctTile].W;
 }
 
 /*
@@ -973,7 +942,7 @@ MR.newPalette = function() {
   MR.PL = [{T:".", C:"#ffffff", L:0, O:0.0, W:1}];
   MR.buildHTMLPalette();
   MR.selectTile(null, 0);
-  document.getElementById('PaletteName').innerHTML="Palette";
+  document.getElementById('mapPaletteList').value = Temp;
 }
 
 MR.buildPaletteHTML = function() {
