@@ -84,7 +84,8 @@ QN.animationEnd = function() {
   Scope: Public
   Description: Create a new QuickNote
 */
-QN.newNote = function() {
+QN.newNote = function(v) {
+  v = ((v==undefined)? "":v);
   var master = document.getElementById('QuickNoteTemplate')
   master.title = parseInt(master.title,10)+1; //Increment the note number.
   var template = master.cloneNode(true);
@@ -109,6 +110,10 @@ QN.newNote = function() {
   QN.makeResizable(template);
   template.addEventListener('animationend', QN.animationEnd);
   document.getElementById('Note' + id + 'Editor').children[0].focus();
+
+  if (v != "") { //If there was a value passed in then assign it to the note.
+    document.getElementById('Note' + id + 'Editor').children[0].value=v;
+  }
 
   var temp = document.createElement("template");
   temp.innerHTML = '<a href="javascript:QN.maximizeNote(\'' + id + '\');" class="w3-button w3-padding-small w3-tiny w3-hide" id="MN' + id + '">' + template.title + '</a>';

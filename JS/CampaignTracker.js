@@ -188,6 +188,16 @@ CT.deletePage = function() {
 CT.selectPage = function(p, ss) {
   if ((p=="") || (p==undefined)) return; //Don't do anythign if there is nothing selected!
 
+  //If holding control then copy the contents of the page into a note instead!
+  if (KB.modKeys[17]) {
+    if (!data.pages.hasOwnProperty(p)) {return;} //Nothing to load if the page doesn't exist.
+    if (!data.pages[p].hasOwnProperty('J')) {return;} //If there is not page initialized quit.
+    if (!data.pages[p].J.hasOwnProperty('value')) {return;} //If there is no value quit.
+    if (data.pages[p].J.value == "") {return;} //If there is nothing on the page then quit.
+    QN.newNote(data.pages[p].J.value);
+    return;
+  }
+
   //TODO Save the old page infomration depending on the current view.
   if (!ss) {
     switch (data.slctView) {
