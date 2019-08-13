@@ -121,7 +121,7 @@ div.subMenu {
 .selected {border: 1px solid #000!important}
 .journalContents {border: 1px solid #CCC; background-color: #EEE; top: 5px; float: right; position: sticky; text-align: center; display: block; z-index: 1;}
 #OCEffectList {max-height: 3em;}
-.stat-roll, .stat-ct,.stat-imp,.stat-fail,.stat-crit,.stat-mix {border-radius: 3px;border: 1px solid #CCC;font-size: 10px!important;margin: 2px;padding: 0.01em 5px;width:100%;display:block;background-color:#F6F6F6;}
+.stat-roll, .stat-ct,.stat-imp,.stat-fail,.stat-crit,.stat-mix {border-radius: 3px;border: 1px solid #CCC;font-size: 10px!important;margin: 2px;padding: 0.01em 5px;width:100%;display:flex;background-color:#F6F6F6; word-wrap: break-word;}
 .stat-roll {border-left: 3px solid #00C!important;}
 .stat-crit {border-left: 3px solid #0C0!important;}
 .stat-fail {border-left: 3px solid #C00!important;}

@@ -36,7 +36,7 @@ RL.roll = function(s, h) {//Roll string, Header
   delete RL.diceArray;
   RL.diceArray = []; //Make sure we use a fresh array.
   var val = RL.recursiveParse(undefined, s);
-  CT.setStatus(s + " = " + val,RL.diceArray.reduce(function(ret,cur){return ret+((ret=="")?"":"\n")+cur;}),RL.findCritFailMix(), h);
+  CT.setStatus(s + " = " + val,RL.diceArray.reduce(function(ret,cur){return ret+((ret=="")?"":"\n")+cur;}),RL.findCritFailMix(), h, val);
 }
 
 RL.findCritFailMix = function() {

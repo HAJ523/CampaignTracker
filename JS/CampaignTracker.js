@@ -554,11 +554,12 @@ CT.removePageFromPageTree = function(l, p, r) {
   Scope: Public
   Description: Sets the status for the application.
 */
-CT.setStatus = function(s, t, y, h) { //string, title, type, header
+CT.setStatus = function(s, t, y, h, p) { //string, title, type, header, special
   var el = document.getElementById("StatusDisplay");
   var c = document.createElement("blockqoute");
+
   //Setup display.
-  c.innerHTML = ((h == undefined)? "":"<strong>"+h+"</strong><br>")+((s == undefined) ? "":s);
+  c.innerHTML = '<div  style="flex-grow:1;">'+((h == undefined)? "":"<strong>"+h+"</strong><br>")+((s == undefined) ? "":s)+"</div>"+((p == undefined)? "":'<div class="w3-large" style="display:flex;align-items:center;">'+p+'</div>');
   c.classList.add(((y == undefined) ? "stat-ct" : y));
   c.title = ((t == undefined) ? "" : t);
   //Append element.
