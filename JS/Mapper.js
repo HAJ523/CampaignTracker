@@ -942,7 +942,7 @@ MR.newPalette = function() {
   MR.PL = [{T:".", C:"#ffffff", L:0, O:0.0, W:1}];
   MR.buildHTMLPalette();
   MR.selectTile(null, 0);
-  document.getElementById('mapPaletteList').value = Temp;
+  document.getElementById('mapPaletteList').value = "Temp";
 }
 
 MR.buildPaletteHTML = function() {
