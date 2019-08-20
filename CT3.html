@@ -214,12 +214,14 @@
                     </div>
                     <div>
                       Palette: <select class="w3-select" id="mapPaletteList" title="Palette List" onchange="MR.changePalette();">
-                        <option value="Temp" id="paletteTemplate" title="Temporary Palette">Temp</option>
+                        <option value="Temp" id="paletteTemplate" title="Temporary Palette" selected>Temp</option>
+                        <option value="Wall S" title="Single Wall">Wall S</option>
+                        <option value="Wall D" title="Double Wall">Wall D</option>
                       </select>
-                      <a href="javascript:EN.deletePalette();" class="w3-btn w3-padding-small-square fas fa-minus-square" title="Remove"></a>
-                      <a href="javascript:EN.newPalette();" class="w3-btn w3-padding-small-square fas fa-plus-square" title="New"></a>
-                      <a href="javascript:EN.updatePalette();" class="w3-btn w3-padding-small-square fas fa-check-square" title="Update"></a>
-                      <a href="javascript:EN.copyPalette();" class="w3-btn w3-padding-small-square fas fa-clone" title="Duplicate"></a>
+                      <a href="javascript:MR.deletePalette();" class="w3-btn w3-padding-small-square fas fa-minus-square" title="Remove"></a>
+                      <a href="javascript:MR.newPalette();" class="w3-btn w3-padding-small-square fas fa-plus-square" title="New"></a>
+                      <a href="javascript:MR.updatePalette();" class="w3-btn w3-padding-small-square fas fa-check-square" title="Update"></a>
+                      <a href="javascript:MR.copyPalette();" class="w3-btn w3-padding-small-square fas fa-clone" title="Duplicate"></a>
                     </div>
                     <div id="paletteDisplay"></div>
                     <div>

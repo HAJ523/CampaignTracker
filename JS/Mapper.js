@@ -10,7 +10,6 @@ MR.BR = 10; //Border size.
 MR.ZM = 1;
 MR.MD = false;
 MR.PL = []; //Palette should be empty.
-MR.PN = ""; //Current Palette name.
 MR.brushSizesSquare = {S:[[0,0]],
    M:[[1,0],[1,1],[1,-1],[0,1],[0,-1],[-1,0],[-1,-1],[-1,1]],
    L:[[2,2],[2,1],[2,0],[2,-1],[2,-2],[1,2],[1,-2],[0,2],[0,-2],[-1,2],[-1,-2],[-2,2],[-2,1],[-2,0],[-2,-1],[-2,-2]],
@@ -40,7 +39,6 @@ MR.initMapper = function() {
 
   MR.newPalette(); //Default palette
   MR.slctTile = 0;
-  MR.PN = "";
   MR.MD = false;
   MR.UNDO = [];
 
@@ -909,12 +907,16 @@ MR.savePaletteFinalize = function(name) {
 
   if (add) {MR.addPaletteHTML(name);} //Only add new name if this is really a new addition.
   MR.PN = name;
-  document.getElementById('PaletteName').innerHTML=name;
+  document.getElementById('mapPaletteList').value = name;
+}
+
+MR.changePalette = () => {
+  MR.selectPalette(document.getElementById('mapPaletteList').value);
 }
 
 MR.selectPalette = function(k) {
+  if (!data.palettes.hasOwnProperty(k)) {return;} //If the palette doesn't exist then there is nothing to do.
   MR.PN = k;
-
   delete MR.PL;
   MR.PL = [];
   for (var i=0;i<data.palettes[k].length;i++) {
@@ -923,11 +925,11 @@ MR.selectPalette = function(k) {
 
   MR.buildHTMLPalette();
   MR.selectTile(null, 0);
-  document.getElementById('PaletteName').innerHTML=k;
+  document.getElementById('mapPaletteList').value = k;
 }
 
 MR.deletePalette = function() {
-  if (MR.PN == "") { return; }
+  if (MR.PN == undefined) { return; }
   delete data.palettes[MR.PN]
   MR.removePaletteHTML(MR.PN);
   delete MR.PN;
@@ -945,6 +947,21 @@ MR.newPalette = function() {
   document.getElementById('mapPaletteList').value = "Temp";
 }
 
+MR.updatePalette = () => {
+  //If the palette is not defined then it is new.
+  if (MR.PN == undefined) {
+    MR.savePalette();
+  } else { //If the palette doesn't exist right now.
+    MR.savePaletteFinalize(MR.PN);
+  }
+}
+
+MR.copyPalette = () => {
+  //Select the palette to copy and then save with new name.
+  MR.selectPalette(document.getElementById('mapPaletteList').value);
+  MR.savePalette();
+}
+
 MR.buildPaletteHTML = function() {
   for (var k in data.palettes) {
     MR.addPaletteHTML(k);
@@ -952,12 +969,17 @@ MR.buildPaletteHTML = function() {
 }
 
 MR.addPaletteHTML = function(k) {//Key
-  var el = document.getElementById('PaletteList');
-  el.innerHTML += "<a href=\"javascript:MR.selectPalette('"+k+"');\" class=\"w3-btn w3-padding-none\" id=\"pl"+k+"\">"+k+"</a>";
+  var el = document.getElementById('mapPaletteList');
+  var n = document.getElementById('paletteTemplate').cloneNode();
+  n.id = "pl"+k;
+  n.value = k;
+  n.title = k;
+  n.innerText = k;
+  el.appendChild(n);
 }
 
 MR.removePaletteHTML = function(k) {
-  document.getElementById('PaletteList').removeChild(document.getElementById("pl" + k));
+  document.getElementById('mapPaletteList').removeChild(document.getElementById("pl" + k));
 }
 
 MR.changeZoom = ()=>{
