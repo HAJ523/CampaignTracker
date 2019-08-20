@@ -5,7 +5,7 @@
   2019-01 Created.
 
   UNUSED SHORTCUT KEYS: DFG7890
-  Keys to Skip: ZYXCV
+  Keys to Skip: ZYXCVA
 */
 
 var KB = {}; //Initialize keyboard object.
@@ -39,7 +39,7 @@ KB.keyUD = function(e) {
     default:
       if (KB.modKeys[16]) break;
       if (KB.modKeys[18]) break;
-      if (KB.modKeys[17] && e.type == 'keydown') {
+      if (KB.modKeys[17] && e.type == 'keydown') { //Cntrl
         switch (key) {
           case 80:
             CT.prompt(CT.newPage,'New Page','Enter the full page path and name:','Page Path','Ex. \'Parent/Sub Parent/Page Name\'');
@@ -81,7 +81,7 @@ KB.prompt = function(e,cb) {
 /*
   Scope: Public
   Description: Specific key handling for the journal editor.
-  Mod Keys Used: 1,2,3,4,5,6,B,I,U,L,H,A,Q,K,R
+  Mod Keys Used: 1,2,3,4,5,6,B,I,U,L,H,D,Q,K,R
 */
 KB.markdownShortcut = function(e) {
   var key = e.which || e.keyCode;
@@ -153,7 +153,7 @@ KB.markdownShortcut = function(e) {
         JL.horizontalRule(e.currentTarget);
         e.preventDefault();
         break;
-      case 65: //A
+      case 68: //D
         JL.insertTable(e.currentTarget, 3, 3);
         e.preventDefault();
         break;
