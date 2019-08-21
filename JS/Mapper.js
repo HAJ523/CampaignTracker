@@ -6,6 +6,7 @@
 */
 
 var MR = {};
+MR.MF = 50;
 MR.BR = 10; //Border size.
 MR.ZM = 1;
 MR.MD = false;
@@ -349,34 +350,40 @@ MR.drawPoint = function(loc) {
       return;
       break;
     case "F":
-      var lStk = [];
-      lStk.push(loc);
-      var l,rl,rr,k;
+      if (data.pages[data.slctPage].M.A[loc[0]+","+loc[1]] != undefined) {return;}
+      var lStk = [],sa,sb;
+      lStk.push([loc[0],loc[1]]);
       while ((l = lStk.pop()) != null) {
-        while ((l[1]--) > 0 && data.pages[data.slctPage].M.A[l[0]+","+l[1]] == undefined) {} //Find the first pixel in the column.
-        rl=false; rr=false;
-        while((l[1]++) < (data.pages[data.slctPage].M.H-1) && data.pages[data.slctPage].M.A[l[0]+","+l[1]] == undefined) {
+        //x1 = l[0];
+        while (((l[0]--) > (loc[0] - MR.MF)) && (data.pages[data.slctPage].M.A[l[0]+","+l[1]] == undefined)) {} //Find the first pixel in the column.
+        sa=false; sb=false;
+        while(((l[0]++) < (loc[0] + MR.MF)) && (data.pages[data.slctPage].M.A[l[0]+","+l[1]] == undefined)) {
+          //Print the new tile!
           k = l[0]+","+l[1];
           MR.UNDO[0][k] = undefined; //They will always be undefined as that is the only place we allow fill.
           MR.setMapTile(l, k);
-          if (l[0] > 0) { //Check left
-            if (data.pages[data.slctPage].M.A[(l[0]-1)+","+l[1]] == undefined) {
-              if (!rl) {
-                lStk.push([l[0]-1,l[1]]);
-                rl = true;
-              }
-            } else {
-              rl = false;
+
+          //If there is not a span above yet.
+          if (!sa) {
+            if (l[1] > (loc[1] - MR.MF) && (data.pages[data.slctPage].M.A[l[0]+","+(l[1]-1)] == undefined)) {
+              lStk.push([l[0],l[1]-1]);
+              sa = true;
+            }
+          } else {
+            if (l[1] > (loc[1] - MR.MF) && (data.pages[data.slctPage].M.A[l[0]+","+(l[1]-1)] != undefined)) {
+              sa = false;
             }
           }
-          if (l[0] < (data.pages[data.slctPage].M.W - 1)) { //Check right.
-            if (data.pages[data.slctPage].M.A[(l[0]+1)+","+l[1]] == undefined) {
-              if (!rr) {
-                lStk.push([l[0]+1,l[1]]);
-                rr = true;
-              }
-            } else {
-              rr = false;
+
+          //If there is not a span below yet.
+          if (!sb) {
+            if (l[1] < (loc[1] + MR.MF) && (data.pages[data.slctPage].M.A[l[0]+","+(l[1]+1)] == undefined)) {
+              lStk.push([l[0],l[1]+1]);
+              sb = true;
+            }
+          } else {
+            if (l[1] < (loc[1] + MR.MF) && (data.pages[data.slctPage].M.A[l[0]+","+(l[1]+1)] != undefined)) {
+              sb = false;
             }
           }
         }
