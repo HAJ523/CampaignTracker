@@ -165,11 +165,13 @@ QN.makeDraggable = function(el) {
     // calculate the new cursor position:
     px = ipx - e.clientX;
     py = ipy - e.clientY;
-    ipx = e.clientX; //TODO check for element going outside the bounds of the screen bottom and right!
+    ipx = e.clientX;
     ipy = e.clientY;
-    // set the element's new position:
-    el.style.top = (((el.offsetTop - py) < 0)? 0 : (el.offsetTop - py)) + "px";
-    el.style.left = (((el.offsetLeft - px) < 0)? 0 : (el.offsetLeft - px)) + "px";
+    var npy = el.offsetTop - py;
+    var npx = el.offsetLeft - px;
+    // set the element's new position within window bounds:
+    el.style.top = ((npy < 0)? 0 : (((npy + el.offsetHeight) > window.innerHeight)? window.innerHeight - el.offsetHeight : npy)) + "px";
+    el.style.left = ((npx < 0)? 0 : (((npx + el.offsetWidth) > window.innerWidth)? window.innerWidth - el.offsetWidth : npx)) + "px";
   }
 
   function dragMouseUp() {
