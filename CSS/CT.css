@@ -167,4 +167,24 @@ input[type="range"]::-webkit-slider-thumb {
   input[type="range"]::-webkit-slider-thumb:active {
     transform: scale(1.6);
   }
+
+  <div class="stat-ct w3-row" id="Music"><div class="w3-col" style="
+      vertical-align: top;
+  "><input type="range" min="0" max="100" value="100" onchange="AU.volume(event);" style="
+      -webkit-appearance: slider-vertical;
+      padding: 0px;
+      width: 10px;
+      height: 50px;
+      margin: 5px;
+      "></div><div class="w3-col w3-tiny">+<br>V<br>-</div>
+                          <div class="w3-col" id="MusicTitle">Title</div>
+                          <a href="" class="w3-hide"></a> <!-- Can't close the music player so hide. -->
+                          <div class="w3-col">
+                            <input type="checkbox" class="w3-fa audpp" onchange="AU.playStop(event);">
+                            <input type="checkbox" class="w3-fa audmu" onchange="AU.mute(event);" checked="">
+
+                          </div>
+                        </div>
+
+
 */
