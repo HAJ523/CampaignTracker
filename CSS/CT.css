@@ -137,7 +137,7 @@ div.subMenu {
 .audpp:checked::before {content: "\f04c"; letter-spacing: 5px; }
 .audmu::before {visibility: visible;font-size:16px;display: inline-block;letter-spacing: 5px;  content: "\f6a9"; cursor:pointer;line-height: 16px;}
 .audmu:checked::before {content: "\f028"; letter-spacing: 5px; }
-input[type="range"] {
+/*input[type="range"] {
   display: inline-block;
   -webkit-appearance: none;
   background-color: #bdc3c7;
@@ -167,3 +167,4 @@ input[type="range"]::-webkit-slider-thumb {
   input[type="range"]::-webkit-slider-thumb:active {
     transform: scale(1.6);
   }
+*/
