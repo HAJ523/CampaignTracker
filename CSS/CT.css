@@ -133,9 +133,9 @@ div.subMenu {
 .snd a::after {content:"\f00d";}
 .snd .ctrl {display:flex;justify-content:center;align-items:center; width:100%;height:24px;}
 .audpp, .audmu {visibility:hidden;margin:0px 5px;}
-.audpp {width:32px;}
+.audpp {width:16px;height:16px;}
 .audmu {width:16px;height:16px;}
-.audpp::before {visibility: visible;font-size:32px;display: inline-block;letter-spacing: 5px;  content: "\f04b"; cursor:pointer;line-height: 16px;}
+.audpp::before {visibility: visible;font-size:16px;display: inline-block;letter-spacing: 5px;  content: "\f04b"; cursor:pointer;line-height: 16px;}
 .audpp:checked::before {content: "\f04c"; letter-spacing: 5px; }
 .audmu::before {visibility: visible;font-size:16px;display: inline-block;letter-spacing: 5px;  content: "\f6a9"; cursor:pointer;line-height: 16px;}
 .audmu:checked::before {content: "\f028"; letter-spacing: 5px; }
