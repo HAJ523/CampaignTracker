@@ -318,13 +318,16 @@
                   <div id="SoundDisplay" class="w3-display-container w3-padding-none w3-hide" style="height:100%;overflow-y:scroll;">
                     <div class="w3-display-container w3-padding-small" style="border-bottom:1px solid #CCC">
                       <p class="w3-small">Music</p>
-                      <div class="snd" id="Music">
-                        <span id="MusicTitle">Title</span>
+                      <div class="stat-ct w3-row" id="Music">
+                        <div class="w3-rest w3-display-flex-center w3-tiny fas">
+                          <a href="javascript:void(0);" class="w3-button w3-padding-small">&#xf067;</a><br/>
+                          <input type="checkbox" class="w3-fa audmu" onchange="AU.mute(event);" checked><br/>
+                          <a href="javascript:void(0);" class="w3-button w3-padding-small">&#xf068;</a><br/>
+                        </div>
+                        <div class="w3-threequarter w3-display-flex-center" id="MusicTitle">Title</div>
                         <a href="" class="w3-hide"></a> <!-- Can't close the music player so hide. -->
-                        <div class="ctrl">
+                        <div class="w3-rest w3-display-flex-center" style="vertical-align:middle;">
                           <input type="checkbox" class="w3-fa audpp" onchange="AU.playStop(event);">
-                          <input type="checkbox" class="w3-fa audmu" onchange="AU.mute(event);" checked>
-                          <input type="range" min="0" max="100" value="100" onchange="AU.volume(event);">
                         </div>
                       </div>
                     </div>

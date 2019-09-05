@@ -184,7 +184,7 @@ AU.endInterval = function(i) {//Audio ID
 
 AU.playStop = (e)=> {
   var s = AU.eventToSnd(e); //Get audio object.
-
+  if (!s.hasOwnProperty("hid")) {e.currentTarget.checked = false; return;} //Nothing to try and play so uncheck and do nothing.
   if (e.currentTarget.checked) {
       s.hid = s.h.play(((s.l == 1)? 'loop':undefined)); //Start play passing loop if looping sound.
   } else {
