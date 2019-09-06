@@ -139,6 +139,7 @@ div.subMenu {
 .audpp:checked::before {content: "\f04c"; letter-spacing: 5px; }
 .audmu::before {visibility: visible;font-size:16px;display: inline-block;letter-spacing: 5px;  content: "\f6a9"; cursor:pointer;line-height: 16px;}
 .audmu:checked::before {content: "\f028"; letter-spacing: 5px; }
+.mi-small {min-height: 300px; max-height: 300px;}
 /*input[type="range"] {
   display: inline-block;
   -webkit-appearance: none;
