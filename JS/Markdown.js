@@ -86,6 +86,10 @@ MD.toHTML = function(s, heads) {
         t = ((t==undefined)? "Effects":t);
         return '<a href="javascript:AU.newEffects(\'' + a + '\')">' + t + '</a>';
       })
+      //Tabs (Uses alternative header syntax, Number of = determines sixe of tab select)
+      .replace(/([^\n]+)\n(=+)\n(.*)(?:\n(?:=+)[^\n]*|\Z)/gm,(m,t,s,c)=>{ //Match, Title, Size, Content
+        //TODO Create tab to html code.
+      })
       //Sections TODO
       .replace(/\@\[(.*?)\]/g, function(m, a) {//Parameters: Match, Page
         return a;
