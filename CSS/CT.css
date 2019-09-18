@@ -121,12 +121,13 @@ div.subMenu {
 .selected {border: 1px solid #000!important}
 .journalContents {border: 1px solid #CCC; background-color: #EEE; top: 5px; float: right; position: sticky; text-align: center; display: block; z-index: 1;}
 #OCEffectList {max-height: 3em;}
-.stat-roll, .stat-ct,.stat-imp,.stat-fail,.stat-crit,.stat-mix {border-radius: 3px;border: 1px solid #CCC;font-size: 10px!important;margin: 2px;padding: 0.01em 5px;width:100%;display:flex;background-color:#F6F6F6; word-wrap: break-word;}
+.stat-roll, .stat-ct,.stat-imp,.stat-fail,.stat-crit,.stat-mix,.stat-nt {border-radius: 3px;border: 1px solid #CCC;font-size: 10px!important;margin: 2px;padding: 0.01em 5px;width:100%;display:flex;background-color:#F6F6F6; word-wrap: break-word;}
 .stat-roll {border-left: 3px solid #00C!important;}
 .stat-crit {border-left: 3px solid #0C0!important;}
 .stat-fail {border-left: 3px solid #C00!important;}
 .stat-mix {border-left: 3px solid #CC0!important;}
 .stat-ct {border-left: 3px solid #CCC!important;}
+.stat-nt {border-left: 3px solid #C0C!important;}
 .stat-imp {border-left: 3px solid #C00!important;}
 .snd {text-align:center;display: inline-block;position: relative;background-color: #f1f3f4;border: 1px solid #000;font-size:10px;width:100%;margin-bottom:2px;}
 .snd a {font-size: 8px;position:absolute;right:2px;text-decoration: none;}
@@ -140,6 +141,15 @@ div.subMenu {
 .audmu::before {visibility: visible;font-size:16px;display: inline-block;letter-spacing: 5px;  content: "\f6a9"; cursor:pointer;line-height: 16px;}
 .audmu:checked::before {content: "\f028"; letter-spacing: 5px; }
 .mi-small {min-height: 300px; max-height: 300px;}
+[contenteditable=true]:empty:before{
+  content: attr(placeholder);
+  display: block; /* For Firefox */
+  color:#333;
+}
+[contenteditable=true] {
+  max-height: 5em;
+  overflow-y: auto;
+}
 /*input[type="range"] {
   display: inline-block;
   -webkit-appearance: none;

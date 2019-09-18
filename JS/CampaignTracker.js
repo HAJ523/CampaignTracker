@@ -650,12 +650,33 @@ CT.imageAnimationEnd = function() {
   }
 }
 
-CT.freeRoll = function(a) {
-  var el=document.getElementById('FreeRoll');
-  if (a) {
-    RL.roll(el.value, "Free Roll");
+CT.statusEntry = function(a) {
+  var el = document.getElementById('StatusEnter');
+  var val = el.innerText;
+  var cmd = val.substring(0,1);
+
+  el.innerText = ""; //Clear the entry field.
+
+  switch (cmd) {
+    case '!':  //Message to Discord???
+      break;
+    case '?': //Roll
+      RL.roll(val.substring(1),"Free Roll");
+      break;
+    case '$': //Search
+      break;
+    default: //Assume Note for later!
+      if (!/\S/.test(val)) return; //Make sure that we don't add blank crap!
+      CT.setStatus(CT.escapeHtml(val).replace(/\r/g,"").replace(/\n/g,"<br>"),"Note","stat-nt");
+      break;
   }
-  el.value = "";
+}
+
+CT.escapeHtml = (s) => {
+  var t = document.createTextNode(s);
+  var p = document.createElement('p');
+  p.appendChild(t);
+  return p.innerHTML;
 }
 
 CT.showStatuses = function() {

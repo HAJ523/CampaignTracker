@@ -73,8 +73,9 @@ KB.prompt = function(e,cb) {
   if (key == 27) {
     cb(0);
   }
-  if (key == 13) {
+  if (key == 13 && !KB.modKeys[16]) {//Enter w/o shift held.
     cb(1);
+    e.preventDefault(); //Stop the extra input!
   }
 }
 

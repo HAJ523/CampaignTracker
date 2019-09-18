@@ -306,12 +306,9 @@
                     <a href="javascript:JL.blockquoteText(JL.el);" class="w3-button w3-padding-small" title="Quote"><span class="fas fa-quote-right"></span></a>
                   </div>
                 </div>
-                <div id="StatusEntry" class="w3-display-container w3-padding-small"><input type="text" class="w3-input w3-small w3-padding-small" placeholder="Free Roll..." id="FreeRoll" onkeydown="KB.prompt(event,CT.freeRoll);"></div>
-                <div id="StatusDisplay" class="w3-display-container l-fit-height-row-expanded w3-padding-none" style="overflow-y:scroll;border-bottom: 1px solid #CCC;"></div>
+                <div id="StatusEntry" class="w3-display-container w3-padding-small"><div contenteditable="true" title="!<Message>&#013;<Note>&#013;?<Roll>&#013;$<Search>" class="w3-input w3-small w3-padding-small" placeholder="Message, Note, Free Roll, Search..." id="StatusEnter" onkeydown="KB.prompt(event,CT.statusEntry);"></div></div>
+                <div id="StatusDisplay" class="w3-display-container l-fit-height-row-expanded w3-padding-none w3-no-select" style="overflow-y:scroll;border-bottom: 1px solid #CCC;"></div>
 
-                <div class="w3-display-container w3-padding-small w3-hide">
-                  <input type="text" class="w3-input w3-small w3-padding-small" placeholder="Search...">
-                </div>
                 <div id="PageTree" class="w3-tiny w3-no-select mi-small" style="overflow-y:auto;overflow-x:hidden;">
                     <ol></ol>
                 </div>
