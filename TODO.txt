@@ -2,7 +2,6 @@
  | Group | Issue |
  |:--:|:--|
  | Encounter | Tools menu is too long. Move objects and Creatures editing / creation into modal, Remove title groupings. Merge show and hide / FOW options in single selects where possible. |
- | StatusBar | Correct the sizes of font / bar so that the highlighted sidebar tab selection fills to bottom bar.
 
 # Enhancements
  | Group | Name | Story |
@@ -20,6 +19,7 @@
 | Group | Issue |
 |:--:|:--|
 | Mapper | Tools menu is too long. While having titles between things is nice it ruins the flow of the page. Replace layers with selection for All, & individual layers. Update Palette editing to happen in modal. |
+| StatusBar | Correct the sizes of font / bar so that the highlighted sidebar tab selection fills to bottom bar.
 
 | Group | Name | Story |
 |:--:|:--:|:--|
