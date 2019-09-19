@@ -372,24 +372,22 @@
           </div>
         </div>
       </section>
-      <section class="l-fit-height-row">
-        <div class="l-fit-height-row-content">
-          <div class="w3-row">
-            <div class="w3-rest w3-theme w3-display-container w3-no-select">
-              <div class="w3-display-left">
-                <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small fas w3-button-hover" title="Page Tree">&#xf542;</a>
-                <!-- <a href="javascript:CT.showStatuses();" class="w3-bar-item w3-button w3-padding-small fas fa-comment" title="Notifications"></a> This is always on now.-->
-                <a href="javascript:CT.showSounds();" class="w3-bar-item w3-button w3-padding-small fas" title="Music & Sounds">&#xf001;</a>
-                <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small fas" title="Turn Order">&#xf521;</a>
-                <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small fas" title="Players">&#xf0c0;</a>
-              </div>
-              <div class="w3-right" id="IRLClock"></div>
-              <div class="w3-display-middle">
-                <a href="javascript:QN.newNote();" class="w3-button w3-padding-small far fa-edit" title="Quick Note"></a>
-                <span id="QuickNotesList"></span>
-              </div>
+      <section class="l-fit-height-row w3-no-select w3-theme">
+        <div style="display:table;width:100%;table-layout:fixed;line-height:1;">
+          <div style="display:table-row;">
+            <div style="display:table-cell">
+              <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small fas w3-button-hover" title="Page Tree">&#xf542;</a>
+              <!-- <a href="javascript:CT.showStatuses();" class="w3-bar-item w3-button w3-padding-small fas fa-comment" title="Notifications"></a> This is always on now.-->
+              <a href="javascript:CT.showSounds();" class="w3-bar-item w3-button w3-padding-small fas" title="Music & Sounds">&#xf001;</a>
+              <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small fas" title="Turn Order">&#xf521;</a>
+              <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small fas" title="Players">&#xf0c0;</a>
             </div>
-          </div>
+            <div style="display:table-cell;text-align:center;">
+              <a href="javascript:QN.newNote();" class="w3-button w3-padding-small far fa-edit" title="Quick Note"></a>
+              <span id="QuickNotesList"></span>
+            </div>
+            <div style="display:table-cell;text-align:right" id="IRLClock"></div>
+            </div>
         </div>
       </section>
     </div>
