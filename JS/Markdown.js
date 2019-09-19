@@ -19,7 +19,11 @@ MD.toHTML = function(s, heads) {
   return s.split('```').map(function (s) {
     i++;
     if (i%2) { //Make sure that HTML is properly escaped for later copying.
-      return '<pre onclick="CT.copy(this.children[0]);"><code>' + s.replace(/^[\n]+|[\n]+$/g,"").replace(/</g,"&lt;").replace(/>/g,"&gt;") + '</code></pre>';
+      //If the first line contains the JS/Javascript assume that this should be executed instead of displayed
+      if (false) {
+        return '';
+      }
+      return '<pre onclick="CT.copy(this.children[0]);"><code>' + CT.escapeHtml(s.replace(/^[\n]+|[\n]+$/g,"")) + '</code></pre>';
     } else {
       return s.replace(/^[\n]+|[\n]+$/g,"") //Trim extra spaces!
       //Paragraph
