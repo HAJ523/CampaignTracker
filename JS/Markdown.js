@@ -46,7 +46,7 @@ MD.toHTML = function(s, heads, r) {
       //Get & Set Page variables
       .replace(/\[\?(.*?)\]/g, (m,a)=>{
         return m;
-      }).replace(/\[\$([[:alnum:]])\]/g, (m,a)=>{
+      }).replace(/\[\$([[:alnum:]]*?)\=(.*?)\]/g, (m,a)=>{
         return m;
       })
       //Paragraph
