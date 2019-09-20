@@ -44,6 +44,11 @@ MD.toHTML = function(s, heads, r) {
     } else {
       return s.replace(/^[\n]+|[\n]+$/g,"") //Trim extra spaces!
       //Get & Set Page variables
+      .replace(/\[\?(.*?)\]/g, (m,a)=>{
+        return m;
+      }).replace(/\[\$([[:alnum:]])\]/g, (m,a)=>{
+        return m;
+      })
       //Paragraph
       .replace(/(?:(?:^|\n)+((?:[^#\|\n>\-*+ ](?:.*)(?:\n|$))+))/g, function (m, a) {//Parameters Match, Paragraph   Returns: <p>Paragraph</p>
         return '\n<p>' + a.replace(/\n/g,"<br>") + '</p>\n';
