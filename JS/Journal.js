@@ -19,9 +19,18 @@ JL.onLoad = function() {
 /*
   Scope: Public
 */
-JL.updateJournalDisplay = function() {
-  //TODO Add page title as the first header w/o parrent folder information.
-  document.getElementById('JournalDisplay').innerHTML = MD.toHTML(document.getElementById('JournalEditor').value, []);
+JL.updateJournalDisplay = function(r) {
+  var el = document.getElementById('JournalEditor');
+  //TODO Add page title as the first header w/o parent folder information.
+  document.getElementById('JournalDisplay').innerHTML = MD.toHTML(el.value, [], r);
+
+  //Make sure that once run is entered that if is removed immediately.
+  if (/(```[^\n]*)RUN/gi.test(el.value)) {
+    var s = el.selectionEnd
+    el.value = el.value.replace(/(```[^\n]*)RUN/gi,(m,a)=>{return a});
+    el.selectionEnd = s - 3;
+  }
+
 }
 
 /*
@@ -60,7 +69,7 @@ JL.loadPage = function() {
 
   //Load the data and update the display.
   document.getElementById('JournalEditor').value = data.pages[data.slctPage].J.value;
-  JL.updateJournalDisplay();
+  JL.updateJournalDisplay(1);
 }
 
 /*

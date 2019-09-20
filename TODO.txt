@@ -7,7 +7,7 @@
  | Group | Name | Story |
  |:--:|:--:|:--|
  | Journal | Contents | Add visible button to add page to turn order.
- | Journal | Code | Add the ability for custom javascript to be added to a page to affect the global context or to add page specific variables.
+ | Journal | Variables | Add the ability to reference page variables for replacement before any other processing.
  | Journal | Embed | Add the ability for users to specify an embedded text to send to the status window. allow this text to contain inline rolls.
  | Journal | Tabs | Add the ability for markdown to translate some text into 'tabbed' content. Important for monster/npc/player pages when they will be viewed in the sidebar.
  | Sidebar | StatusEntry | Add ability to search for a page to open by prefixing with '$'
@@ -26,5 +26,6 @@
 
 | Group | Name | Story |
 |:--:|:--:|:--|
+| Journal | Code | Add the ability for custom javascript to be added to a page to affect the global context or to add page specific variables.
 | Mapper | Fill Tool | A user should be able to fill a section of the map like they painted every cell by hand. (Will need to determine if the fill will happen on an enclosed space or limit spread of fill based on painting size.)
 | Mapper | Layers | Make tools respect layers editing so that existing tiles only have modified the visible layers.

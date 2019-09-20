@@ -68,7 +68,7 @@ QN.animationEnd = function() {
     var edit = this.getElementsByClassName('CT-QNEditor')[0];
 
     if (disp.classList.contains("w3-hide")) {
-      disp.innerHTML = MD.toHTML(edit.children[0].value);
+      disp.innerHTML = MD.toHTML(edit.children[0].value,undefined,1);
       disp.classList.remove("w3-hide");
       edit.classList.add("w3-hide");
     } else {

@@ -11,21 +11,39 @@ var MD = {}; //Initialize markdown object.
   Scope: Public
   Parameters:
     s = string of markdown text to be transformed into html
+    heads = Headers to be aggregated for contents.
+    r = Run Javascript if any found.
   Returns:
     HTML
 */
-MD.toHTML = function(s, heads) {
+MD.toHTML = function(s, heads, r) {
   var i = -1;
   return s.split('```').map(function (s) {
     i++;
     if (i%2) { //Make sure that HTML is properly escaped for later copying.
       //If the first line contains the JS/Javascript assume that this should be executed instead of displayed
-      if (false) {
+      var a = s.split('\n');
+      var t = a.shift();
+      s = a.join('\n');
+      t = t.trim().toUpperCase();
+      if (/(?:JS|JAVASCRIPT)/g.test(t)) {
+
+        //Now only attempt running if we should always run or we are set to run!
+        if (/RUN/g.test(t)) {
+          try {
+            eval(s);
+          } catch (e) {
+            CT.setStatus(e.name + " - " + e.message,"See javascript console for problematic code.","stat-fail","Custom Code Error");
+            console.log("Problematic Code:\n"+s);
+          }
+        }
+
         return '';
       }
       return '<pre onclick="CT.copy(this.children[0]);"><code>' + CT.escapeHtml(s.replace(/^[\n]+|[\n]+$/g,"")) + '</code></pre>';
     } else {
       return s.replace(/^[\n]+|[\n]+$/g,"") //Trim extra spaces!
+      //Get & Set Page variables
       //Paragraph
       .replace(/(?:(?:^|\n)+((?:[^#\|\n>\-*+ ](?:.*)(?:\n|$))+))/g, function (m, a) {//Parameters Match, Paragraph   Returns: <p>Paragraph</p>
         return '\n<p>' + a.replace(/\n/g,"<br>") + '</p>\n';
