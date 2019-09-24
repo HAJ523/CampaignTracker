@@ -7,6 +7,8 @@
 
 var RL = {};
 
+RL.CFMCOLOR = {"stat-mix":"#CC0","stat-crit":"#0C0","stat-fail":"#C00","stat-roll":"#000"}
+
 RL.calc = function(id) {
   RL.CID = id;
   var newcalc = CT.prompt(RL.calcFinish,"Calculation","New calculation or append by beginning with '+'/'-'.","Calculation","Calc");
@@ -35,8 +37,18 @@ RL.calcFinish = function(c) {
 RL.roll = function(s, h) {//Roll string, Header
   delete RL.diceArray;
   RL.diceArray = []; //Make sure we use a fresh array.
-  var val = RL.recursiveParse(undefined, s);
-  CT.setStatus(s + " = " + val,RL.diceArray.reduce(function(ret,cur){return ret+((ret=="")?"":"\n")+cur;}),RL.findCritFailMix(), h, val);
+  var ret = RL.inlineRoll(s);
+  CT.setStatus(s + " = " + ret.val, ret.da, ret.cfm, h, val);
+}
+
+RL.inlineRoll = (s)=>{
+  delete RL.diceArray;
+  RL.diceArray = []; //Make sure we use a fresh array.
+  var ret = {};
+  ret.val = RL.recursiveParse(undefined, s);
+  ret.da = RL.diceArray.reduce(function(ret,cur){return ret+((ret=="")?"":"\n")+cur;});
+  ret.cfm = RL.findCritFailMix();
+  return ret;
 }
 
 RL.findCritFailMix = function() {

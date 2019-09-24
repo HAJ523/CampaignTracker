@@ -49,6 +49,10 @@ MD.toHTML = function(s, heads, r) {
       }).replace(/\[\$([[:alnum:]]*?)\=(.*?)\]/g, (m,a)=>{
         return m;
       })
+      //Embed (Make sure these keep their formatting.)
+      .replace(/\^\[([\s\S]*?)\]/g, (m,a)=>{
+        return '<a href="javascript:CT.embed(\'' + a.replace(/\t/g,"&nbsp;&nbsp;&nbsp;&nbsp;") + '\')">' + a.split('\n')[0] + '</a>';
+      })
       //Paragraph
       .replace(/(?:(?:^|\n)+((?:[^#\|\n>\-*+ ](?:.*)(?:\n|$))+))/g, function (m, a) {//Parameters Match, Paragraph   Returns: <p>Paragraph</p>
         return '\n<p>' + a.replace(/\n/g,"<br>") + '</p>\n';
@@ -71,7 +75,7 @@ MD.toHTML = function(s, heads, r) {
       })
       //Block Qoute
       .replace(/(?:(?:^|\n)+((?:(?:>[ ]?){1}(?:.*)(:?\n|$))+))/g, function(m, a) {//Parameters: Match, "> Text"   Return: <blockqoute>Text</blockqoute>
-        return "\n<blockquote class=\"w3-panel w3-leftbar w3-theme-l5\"><p>" + a.replace(/(?:>[ ]?)(.*)/g,"$1").replace(/\n[\s]*\n/g,"</p><p>").replace(/\n$/,"").replace(/\n/gm,"<br/>\n") + "</p></blockquote>\n";
+        return "\n<blockquote class=\"w3-panel w3-leftbar w3-theme-l5\"><p>" + a.replace(/(?:>[ ]?)(.*)/g,"$1").replace(/\n[\s]*\n/g,"</p><p>").replace(/\n$/,"").replace(/\n/gm,"<br/>").replace(/\t/g,"&nbsp;&nbsp;&nbsp;&nbsp;") + "</p></blockquote>\n";
       })
       //Headers
       .replace(/(?:^|\n)([#]+)[\t ]*(.*)/g, function(m, a, b) { //Parameters: Match, #.*, Header   Return: <h#>text</h#>
