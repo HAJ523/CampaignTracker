@@ -1,6 +1,7 @@
 # Issues
  | Group | Issue |
  |:--:|:--|
+ | Music & Effects | Mute needs to correctly adjust volume. or use howler mute.
  | Encounter | Tools menu is too long. Move objects and Creatures editing / creation into modal, Remove title groupings. Merge show and hide / FOW options in single selects where possible. |
 
 # Enhancements
@@ -9,6 +10,7 @@
  | Journal | Contents | Add visible button to add page to turn order.
  | Journal | Variables | Add the ability to reference page variables for replacement before any other processing.
  | Journal | Tabs | Add the ability for markdown to translate some text into 'tabbed' content. Important for monster/npc/player pages when they will be viewed in the sidebar.
+ | Sidebar | Music & Effects | Update music and effects to use updated display style.
  | Sidebar | StatusView | Add the ability to "export" the status since last load to markdown or just to text to help dm/gm write summaries from later.
  | Sidebar | StatusEntry | Add ability to search for a page to open by prefixing with '$'
  | Sidebar | StatusEntry | Add ability to send message to discord from bot when prefixing with '!'
@@ -22,6 +24,7 @@
 |:--:|:--|
 | Mapper | Tools menu is too long. While having titles between things is nice it ruins the flow of the page. Replace layers with selection for All, & individual layers. Update Palette editing to happen in modal. |
 | StatusBar | Correct the sizes of font / bar so that the highlighted sidebar tab selection fills to bottom bar.
+| Music & Effects | Pause/Play needs to correctly select when new music is started so you don't have to click it twice to pause.
 
 | Group | Name | Story |
 |:--:|:--:|:--|
