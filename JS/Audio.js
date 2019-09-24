@@ -162,15 +162,15 @@ AU.endSong = function() {
   var nxt = AU.PL.shift(); //Get the first element off the list.
   var el = document.getElementById('Music');
   if (AU.MS.h != undefined) {AU.MS.h.unload();}
-  AU.MS.h = new Howl({src:nxt.s,volume:0, html5:true,onload:()=>{AU.MS.hid = AU.MS.h.play();AU.MS.h.fade(0,nxt.v,2000);el.children[2].children[0].checked = true;},onend:AU.endSong});
+  AU.MS.h = new Howl({src:nxt.s,volume:0, html5:true,onload:()=>{AU.MS.hid = AU.MS.h.play();AU.MS.h.fade(0,nxt.v,2000);el.children[4].children[0].checked = true;},onend:AU.endSong});
   document.getElementById('MusicTitle').innerHTML = nxt.t;
   AU.MS.v = nxt.v;
-  el.children[2].children[1].checked = !AU.MS.m;
-  if (!AU.MS.m) {
+  el.children[4].children[0].checked = !AU.MS.m;
+  /*if (!AU.MS.m) {
     el.children[2].children[2].value = Math.floor(nxt.v*100);
   } else {
     el.children[2].children[2].value = 0;
-  }
+  }*/
 
   AU.PL.push(nxt); //push it back onto the end for next time around.
 }
@@ -202,10 +202,10 @@ AU.mute = (e)=> {
   if (e.currentTarget.checked) { //Whether we are muting or unmuting.
     s.h.volume(s.v,s.hid);
     s.m = 0;
-    document.getElementById(((s.id=="Music")? s.id:'E'+s.id)).children[2].children[2].value = Math.floor(s.v*100);
+    //document.getElementById(((s.id=="Music")? s.id:'E'+s.id)).children[2].children[2].value = Math.floor(s.v*100);
   } else {
     s.h.volume(0,s.hid);
-    document.getElementById(((s.id=="Music")? s.id:'E'+s.id)).children[2].children[2].value = 0;
+    //document.getElementById(((s.id=="Music")? s.id:'E'+s.id)).children[2].children[2].value = 0;
     s.m = 1;
   }
 }
