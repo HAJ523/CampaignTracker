@@ -302,6 +302,26 @@ CT.cancelPage = function() {
   CT.closeModal(document.getElementById("PageSettings"));
 }
 
+
+CT.changeMD = (v)=> {
+  //Remove all mini displays.
+  var toHide = document.getElementsByClassName("MD")
+  for (var i=0; i<toHide.length;i++) {
+    if(!toHide[i].classList.contains("w3-hide")) {toHide[i].classList.add("w3-hide");}
+  }
+
+  //Make new element visible.
+  document.getElementsByClassName("MD"+v)[0].classList.remove("w3-hide");
+
+  //Update correct button to selected.
+  var toHide = document.getElementsByClassName("MDT");
+  for (var i=0;i<toHide.length; i++) {
+    if(toHide[i].classList.contains("w3-button-hover")) {toHide[i].classList.remove("w3-button-hover");}
+  }
+
+  document.getElementById('MDT'+v).classList.add("w3-button-hover");
+}
+
 /*
   Scope: Restricted (CT3.html)
   Description: Change the view displayed to the user.

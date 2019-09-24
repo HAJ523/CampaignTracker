@@ -309,11 +309,11 @@
                 <div id="StatusEntry" class="w3-display-container w3-padding-small"><div contenteditable="true" title="!<Message>&#013;<Note>&#013;?<Roll>&#013;$<Search>" class="w3-input w3-small w3-padding-small" placeholder="Message, Note, Free Roll, Search..." id="StatusEnter" onkeydown="KB.prompt(event,CT.statusEntry);"></div></div>
                 <div id="StatusDisplay" class="w3-display-container l-fit-height-row-expanded w3-padding-none w3-no-select" style="overflow-y:scroll;border-bottom: 1px solid #CCC;"></div>
 
-                <div id="PageTree" class="w3-tiny w3-no-select mi-small" style="overflow-y:auto;overflow-x:hidden;">
+                <div id="PageTree" class="w3-tiny w3-no-select mi-small MD MDp" style="overflow-y:auto;overflow-x:hidden;">
                     <ol></ol>
                 </div>
 
-                <div id="SoundDisplay" class="w3-display-container w3-padding-none w3-hide" style="height:300px;overflow-y:scroll;">
+                <div id="SoundDisplay" class="w3-padding-none mi-small MD MDm w3-hide" style="overflow-y:scroll;">
                   <div class="w3-display-container w3-padding-small" style="border-bottom:1px solid #CCC">
                     <div class="stat-ct w3-row" id="Music">
                       <div class="w3-rest w3-display-flex-center w3-tiny fas">
@@ -376,9 +376,9 @@
         <div style="display:table;width:100%;table-layout:fixed;line-height:1;">
           <div style="display:table-row;">
             <div style="display:table-cell">
-              <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small fas w3-button-hover" title="Page Tree">&#xf542;</a>
+              <a id="MDTp" href="javascript:CT.changeMD('p');" class="w3-bar-item w3-button w3-padding-small fas w3-button-hover MDT" title="Page Tree">&#xf542;</a>
               <!-- <a href="javascript:CT.showStatuses();" class="w3-bar-item w3-button w3-padding-small fas fa-comment" title="Notifications"></a> This is always on now.-->
-              <a href="javascript:CT.showSounds();" class="w3-bar-item w3-button w3-padding-small fas" title="Music & Sounds">&#xf001;</a>
+              <a id="MDTm" href="javascript:CT.changeMD('m');" class="w3-bar-item w3-button w3-padding-small fas MDT" title="Music & Sounds">&#xf001;</a>
               <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small fas" title="Turn Order">&#xf521;</a>
               <a href="javascript:void(0);" class="w3-bar-item w3-button w3-padding-small fas" title="Players">&#xf0c0;</a>
             </div>
