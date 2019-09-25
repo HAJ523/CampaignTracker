@@ -18,7 +18,7 @@ AU.newPlaylist = (s,h)=> {
   AU.PL = []; //Reset playlist!
   for (var i=0;i<l.length;i++) {
     l[i].replace(/^(([^\.]*)\..{3})(?:\ (\d*))?$/g,(m,a,b,c)=>{
-      c = ((c==undefined)? 100:c/100);
+      c = ((c==undefined)? 1:c/100);
       AU.PL.push({s:"..\\Music\\"+a,t:b,v:c});
     });
   }
@@ -30,17 +30,18 @@ AU.newPlaylist = (s,h)=> {
   if (AU.MS.h != undefined) {
     if (AU.MS.h.playing()) {
       var el = document.getElementById('Music');
-      var v = 100;
+      var v = 1;
       var i = setInterval(()=> {
-        v-=5;
+        v-=.05;
         if (v < 0) {
           clearInterval(i);
           setTimeout(AU.endSong,1000); //Start next play!
           return;
         }
-        if (AU.MS.v > v/100) {
-          el.children[2].children[2].value = v;
-          AU.MS.v = v/100;
+        if (AU.MS.v > v) {
+          //el.children[2].children[2].value = v;
+          AU.MS.v = v;
+          AU.setVolumeVis(el,v);
           AU.MS.h.volume(AU.MS.v);
         }
       }, 250);
@@ -165,6 +166,7 @@ AU.endSong = function() {
   AU.MS.h = new Howl({src:nxt.s,volume:0, html5:true,onload:()=>{AU.MS.hid = AU.MS.h.play();AU.MS.h.fade(0,nxt.v,2000);el.children[4].children[0].checked = true;},onend:AU.endSong});
   document.getElementById('MusicTitle').innerHTML = nxt.t;
   AU.MS.v = nxt.v;
+  AU.setVolumeVis(el,nxt.v);
   el.children[4].children[0].checked = !AU.MS.m;
   /*if (!AU.MS.m) {
     el.children[2].children[2].value = Math.floor(nxt.v*100);
@@ -200,14 +202,18 @@ AU.mute = (e)=> {
   var s = AU.eventToSnd(e); //Get audio id.
 
   if (e.currentTarget.checked) { //Whether we are muting or unmuting.
-    s.h.volume(s.v/100,s.hid);
+    s.h.volume(s.v,s.hid);
     s.m = 0;
-    //document.getElementById(((s.id=="Music")? s.id:'E'+s.id)).children[2].children[2].value = Math.floor(s.v*100);
+    AU.setVolumeVis(e.parentElement.parentElement,s.v);
   } else {
     s.h.volume(0,s.hid);
-    //document.getElementById(((s.id=="Music")? s.id:'E'+s.id)).children[2].children[2].value = 0;
+    AU.setVolumeVis(e.parentElement.parentElement,0);
     s.m = 1;
   }
+}
+
+AU.setVolumeVis = (e,v)=>{
+  e.style.borderLeftColor = EN.colorPercent("#0c0",v);
 }
 
 AU.volume = (e)=> {

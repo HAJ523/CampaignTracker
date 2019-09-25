@@ -421,14 +421,14 @@ EN.colorPercent = function(color,mult) {
   if (color.length === 3) {
       color = color[0] + color[0] + color[1] + color[1] + color[2] + color[2];
   }
-	var r = parseInt(color.substring(1,2),16);
-	var g = parseInt(color.substring(3,4),16);
-	var b = parseInt(color.substring(5,6),16);
+	var r = parseInt(color.substring(0,2),16);
+	var g = parseInt(color.substring(2,4),16);
+	var b = parseInt(color.substring(4,6),16);
 
   //If it is darker, then invert mult and invert back to get the desired effect.
-  if (r+g+b < 382) {
-    return EN.invertColor(EN.colorPercent(EN.invertColor(color)));
-  }
+  //if (r+g+b < 382) {
+  //  return EN.invertColor(EN.colorPercent(EN.invertColor(color)));
+  //}
 	r = Math.floor(r*mult).toString(16);
 	g = Math.floor(g*mult).toString(16);
 	b = Math.floor(b*mult).toString(16);
