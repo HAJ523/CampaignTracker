@@ -200,7 +200,7 @@ AU.mute = (e)=> {
   var s = AU.eventToSnd(e); //Get audio id.
 
   if (e.currentTarget.checked) { //Whether we are muting or unmuting.
-    s.h.volume(s.v,s.hid);
+    s.h.volume(s.v/100,s.hid);
     s.m = 0;
     //document.getElementById(((s.id=="Music")? s.id:'E'+s.id)).children[2].children[2].value = Math.floor(s.v*100);
   } else {
