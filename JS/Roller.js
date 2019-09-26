@@ -38,7 +38,7 @@ RL.roll = function(s, h) {//Roll string, Header
   delete RL.diceArray;
   RL.diceArray = []; //Make sure we use a fresh array.
   var ret = RL.inlineRoll(s);
-  CT.setStatus(s + " = " + ret.val, ret.da, ret.cfm, h, val);
+  CT.setStatus(s + " = " + ret.val, ret.da, ret.cfm, h, ret.val);
 }
 
 RL.inlineRoll = (s)=>{

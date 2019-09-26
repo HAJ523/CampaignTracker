@@ -121,7 +121,8 @@ div.subMenu {
 .selected {border: 1px solid #000!important}
 .journalContents {border: 1px solid #CCC; background-color: #EEE; top: 5px; float: right; position: sticky; text-align: center; display: block; z-index: 1;}
 #OCEffectList {max-height: 3em;}
-.stat-roll, .stat-ct,.stat-imp,.stat-fail,.stat-crit,.stat-mix,.stat-nt {border-radius: 3px;border: 1px solid #CCC;font-size: 10px!important;margin: 2px;padding: 0.01em 5px;width:100%;display:flex;background-color:#F6F6F6; word-wrap: break-word;}
+.snd {border-radius: 3px;border: 1px solid #CCC;font-size: 10px!important;margin: 2px;padding: 0.01em 5px;width:100%;display:flex;background-color:#F6F6F6; word-wrap: break-word;border-left-width:10px;}
+.stat-roll, .stat-ct,.stat-imp,.stat-fail,.stat-crit,.stat-mix,.stat-nt {border-radius: 3px;border: 1px solid #CCC;margin: 2px;padding: 0.01em 5px;width:100%;display:flex;background-color:#F6F6F6; word-wrap: break-word;}
 .stat-roll {border-left: 3px solid #00C;}
 .stat-crit {border-left: 3px solid #0C0;}
 .stat-fail {border-left: 3px solid #C00;}
@@ -140,7 +141,7 @@ div.subMenu {
 .audpp:checked::before {content: "\f04c"; letter-spacing: 5px; }
 .audmu::before {visibility: visible;font-size:16px;display: inline-block;letter-spacing: 5px;  content: "\f6a9"; cursor:pointer;line-height: 16px;}
 .audmu:checked::before {content: "\f028"; letter-spacing: 5px; }
-.mi-small {min-height: 300px; max-height: 300px;}
+.mi-small {min-height: 300px; max-height: 300px;font-size:10px;}
 [contenteditable=true]:empty:before{
   content: attr(placeholder);
   display: block; /* For Firefox */
