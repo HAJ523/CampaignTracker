@@ -58,6 +58,7 @@ CT.resetData = function() {
   data.settings = {};
   data.settings.name = "";
   data.settings.dice = "1d20";
+  data.settings.log = "Logs"
   data.tables = {};
   data.palettes = {};
   /*data.images = [];
@@ -137,7 +138,7 @@ CT.importData = function() {} //TODO
   Scope: Restricted (CT3.html)
   Description: Creates a new page
 */
-CT.newPage = function(page) {
+CT.newPage = function(page,s) {
   if (page == null) {
     return; //Nothing else to do the user cancelled.
   } else if (page == "") {
@@ -159,7 +160,7 @@ CT.newPage = function(page) {
   //Make sure that we add the new page to the tree.
   CT.addPageToPageTree(document.getElementById('PageTree').children[0], page);
 
-  CT.selectPage(page);
+  if (!s) {CT.selectPage(page);}
 }
 
 CT.deletePage = function() {
@@ -577,13 +578,39 @@ CT.embed = (t)=>{
   }));
 }
 
+CT.recordStatus = (s)=>{
+  var p=data.settings.log+"/Active";
+  //Make sure that our page exists.
+  if (!data.pages.hasOwnProperty(p)) {
+    CT.newPage(p,1)
+    JL.createJournalObject(p);
+  } else if (!data.pages[p].hasOwnProperty('J')) {
+    JL.createJournalObject(p);
+  }
+
+  //Tack onto the end of the page.
+  data.pages[p].J.value = s + "\n---\n" + data.pages[p].J.value;
+
+  //If the page has gotten long then we should make a new one and archive this one.
+  if (data.pages[p].J.value.length > 10240)  { //20kb
+    var b = data.settings.log+"/"+CT.localISOTime();
+    CT.newPage(b,1);
+    JL.createJournalObject(b);
+    data.pages[b].J.value = data.pages[p].J.value;
+    JL.createJournalObject(p); //Reset the active resource.
+  }
+
+  //Update the page display if the active log is shown!
+  if (data.slctPage == (data.settings.log+"/Active")) {JL.loadPage();}
+}
+
 /*
   Scope: Public
   Description: Sets the status for the application.
 */
 CT.setStatus = function(s, t, y, p) { //Markdown, title, type, special
 
-  //TODO Save to ARRAY FOR LATER OUTPUT!
+  CT.recordStatus(s);
 
   var el = document.getElementById("StatusDisplay");
   var c = document.createElement("blockqoute");
@@ -697,7 +724,7 @@ CT.statusEntry = function(a) {
       break;
     default: //Assume Note for later!
       if (!/\S/.test(val)) return; //Make sure that we don't add blank crap!
-      CT.setStatus(CT.escapeHtml(val).replace(/\r/g,"").replace(/\n/g,"<br>"),"Note","stat-nt");
+      CT.setStatus(CT.escapeHtml(val),"Note","stat-nt");
       break;
   }
 }

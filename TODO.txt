@@ -10,7 +10,6 @@
  | Journal | Variables | Add the ability to reference page variables for replacement before any other processing.
  | Journal | Tabs | Add the ability for markdown to translate some text into 'tabbed' content. Important for monster/npc/player pages when they will be viewed in the sidebar.
  | Sidebar | Music & Effects | Update music and effects to use updated display style.
- | Sidebar | StatusView | Add the ability to "export" the status since last load to markdown or just to text to help dm/gm write summaries from later.
  | Sidebar | StatusEntry | Add ability to search for a page to open by prefixing with '$'
  | Sidebar | StatusEntry | Add ability to send message to discord from bot when prefixing with '!'
  | Sidebar | Turn Order | Allow adding pages to the turn order with a way to expand their view but compressed.
@@ -28,6 +27,7 @@
 
 | Group | Name | Story |
 |:--:|:--:|:--|
+| Sidebar | StatusView | Add the ability to "export" the status since last load to markdown or just to text to help dm/gm write summaries from later.
 | Sidebar | ALL | Allow toggling between music, page view, player list, turn order "tabs"
 | Journal | Embed | Add the ability for users to specify an embedded text to send to the status window. allow this text to contain inline rolls.
 | Journal | Code | Add the ability for custom javascript to be added to a page to affect the global context or to add page specific variables.
