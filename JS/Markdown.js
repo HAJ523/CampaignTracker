@@ -18,7 +18,8 @@ var MD = {}; //Initialize markdown object.
 */
 MD.toHTML = function(s, heads, r) {
   var i = -1;
-  return s.split('```').map(function (s) {
+  var md = {};
+  return MD.reinsertMarkdown(s.split('```').map(function (s) {
     i++;
     if (i%2) { //Make sure that HTML is properly escaped for later copying.
       //If the first line contains the JS/Javascript assume that this should be executed instead of displayed
@@ -33,7 +34,7 @@ MD.toHTML = function(s, heads, r) {
           try {
             eval(s);
           } catch (e) {
-            CT.setStatus(e.name + " - " + e.message,"See javascript console for problematic code.","stat-fail","Custom Code Error");
+            CT.setStatus(e.name + " - " + e.message,"**Custom Code Error**\nSee javascript console for problematic code.","stat-fail");
             console.log("Problematic Code:\n"+s);
           }
         }
@@ -50,8 +51,11 @@ MD.toHTML = function(s, heads, r) {
         return m;
       })
       //Embed (Make sure these keep their formatting.)
-      .replace(/\^\[([\s\S]*?)\]/g, (m,a)=>{
-        return '<a href="javascript:CT.embed(\'' + a.replace(/\t/g,"&nbsp;&nbsp;&nbsp;&nbsp;") + '\')">' + a.split('\n')[0] + '</a>';
+      .replace(/\^\[([\s\S]*?)\](?:\((.*?)\))?/g, (m,a,b)=>{
+        b = ((b == undefined)? a.split('\n')[0]:b); //If no text defined use the first line of the embed.
+        var guid=CT.GUID(8);
+        md[guid]=a.replace(/\'/g,"\\'").replace(/\n/g,"\\n");
+        return '<a href="javascript:CT.embed(\'' + guid + '\')">' + b + '</a>';
       })
       //Paragraph
       .replace(/(?:(?:^|\n)+((?:[^#\|\n>\-*+ ](?:.*)(?:\n|$))+))/g, function (m, a) {//Parameters Match, Paragraph   Returns: <p>Paragraph</p>
@@ -156,7 +160,14 @@ MD.toHTML = function(s, heads, r) {
     if (!Array.isArray(heads)) {return t;}
     if (heads.length == 0) {return t;}
     return MD.headerDiv(heads) + t;
-  }).join('');
+  }).join(''),md);
+}
+
+MD.reinsertMarkdown = (s,a)=>{
+  for (var p in a) {
+    s = s.replace(p,a[p]);
+  }
+  return s;
 }
 
 /*

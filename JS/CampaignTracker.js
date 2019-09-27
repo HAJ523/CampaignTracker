@@ -574,19 +574,22 @@ CT.embed = (t)=>{
   CT.setStatus(t.replace(/\{\{(.*?)\}\}/g, (m,a)=>{
     var ret = RL.inlineRoll(a);
     return '<span title="'+ret.da+'" style="color:'+RL.CFMCOLOR[ret.cfm]+'">'+ret.val+'</span>';
-  }))
+  }));
 }
 
 /*
   Scope: Public
   Description: Sets the status for the application.
 */
-CT.setStatus = function(s, t, y, h, p) { //string, title, type, header, special
+CT.setStatus = function(s, t, y, p) { //Markdown, title, type, special
+
+  //TODO Save to ARRAY FOR LATER OUTPUT!
+
   var el = document.getElementById("StatusDisplay");
   var c = document.createElement("blockqoute");
 
   //Setup display.
-  c.innerHTML = '<div  style="flex-grow:1;">'+((h == undefined)? "":"<strong>"+h+"</strong><br>")+((s == undefined) ? "":s)+"</div>"+((p == undefined)? "":'<div class="w3-xxlarge" style="display:flex;align-items:center;">'+p+'</div>');
+  c.innerHTML = '<div  style="flex-grow:1;">'+((s == undefined) ? "":MD.toHTML(s))+"</div>"+((p == undefined)? "":'<div class="w3-xxlarge" style="display:flex;align-items:center;">'+p+'</div>');
   c.classList.add(((y == undefined) ? "stat-ct" : y));
   c.title = ((t == undefined) ? "" : t);
   //Append element.
