@@ -19,8 +19,7 @@ var MD = {}; //Initialize markdown object.
 MD.toHTML = function(s, heads, r) {
   var i = -1;
   var k = -1;
-  var fn = {};
-  var md = {};
+  var fn = {md:{},id:{}};
   return MD.reinsertMarkdown(s.split('```').map(function (s) {
     i++;
     if (i%2) { //Make sure that HTML is properly escaped for later copying.
@@ -53,7 +52,7 @@ MD.toHTML = function(s, heads, r) {
         return m;
       })
       //Footnotes!
-      .replace(/\[\^(.*?)\]\:([^[]]*)/g,(m,a,b)=>{ //Instance, Value
+      .replace(/\[\^(.*?)\]\:([^\[]*)/g,(m,a,b)=>{ //Instance, Value
         if(!fn.md.hasOwnProperty(a)) {
           fn.md[a] = b;
           fn.id[a] = CT.GUID(8);
@@ -136,7 +135,7 @@ MD.toHTML = function(s, heads, r) {
       })
 
       //Links
-      .replace(/[^\^]\[([^\^\n]*?)\/?([^\/]*?)\](?:\((\".*\"|[^ \n]*)[ ]?(.*)?\))?/g, function(m, a, b, c, d) { //Parameters: Match, Parent Folder, Page, Link, Title  Returns: <a href=Link title=Title>Page</a>
+      .replace(/(?<!\^)\[([^\^\n]*?)\/?([^\^\/]*?)\](?:\((\".*\"|[^ \n]*)[ ]?(.*)?\))?/g, function(m, a, b, c, d) { //Parameters: Match, Parent Folder, Page, Link, Title  Returns: <a href=Link title=Title>Page</a>
         a = ((a != "") ? [a, b].join("/") : b); //If there was a parent page then make sure that that is included in the link if Link is not populated.
         d = ((d == undefined)? a : d);
         if ((c == null) || (c == undefined) || (c == "")) {
@@ -165,18 +164,22 @@ MD.toHTML = function(s, heads, r) {
   //Finish Footnotes
   .map((s)=>{
     k++;
-    if(k%2) {
-      for (var p in fn) {
+    if (!(k%2)) {
         //First handle the embeds then then footnotes.
         //TODO figure out how to do replace with variable value.
         s = s.replace(/\^\[(.*?)\](?:\((.*?)\))?/g, (m,a,b)=>{
           b = ((b == undefined)? a:b); //If no text defined use the first line of the embed.
-          return '<a href="javascript:CT.embed(\'' + fn.id[a] + '\')">' + b + '</a>';
+          var st = '<a href="javascript:CT.embed(\'';
+          var ary = a.split('|');
+          for (var i=0;i<ary.length;i++) {
+            if (i>0) {st += '\n';} //Add seperation
+            st += fn.id[ary[i]];
+          }
+          return st + '\')">' + b + '</a>';
         })
         .replace(/\[\^(.*?)\]/g,(m,a)=>{
           return '<sup title="' + fn.md[a] + '">' + a + '</sup>'; //Just insert the value titles do not allow formatting.
         });
-      }
     }
 
     return s;
@@ -189,8 +192,8 @@ MD.toHTML = function(s, heads, r) {
 }
 
 MD.reinsertMarkdown = (s,a)=>{
-  for (var p in a) {
-    s = s.replace(p,a[p]);
+  for (var p in a.id) {
+    s = s.replace(a.id[p],a.md[p]);
   }
   return s;
 }
