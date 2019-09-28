@@ -18,6 +18,8 @@ var MD = {}; //Initialize markdown object.
 */
 MD.toHTML = function(s, heads, r) {
   var i = -1;
+  var k = -1;
+  var fn = {};
   var md = {};
   return MD.reinsertMarkdown(s.split('```').map(function (s) {
     i++;
@@ -50,13 +52,16 @@ MD.toHTML = function(s, heads, r) {
       }).replace(/\[\$([[:alnum:]]*?)\=(.*?)\]/g, (m,a)=>{
         return m;
       })
-      //Embed (Make sure these keep their formatting.)
-      .replace(/\^\[([\s\S]*?)\](?:\((.*?)\))?/g, (m,a,b)=>{
-        b = ((b == undefined)? a.split('\n')[0]:b); //If no text defined use the first line of the embed.
-        var guid=CT.GUID(8);
-        md[guid]=a.replace(/\'/g,"\\'").replace(/\n/g,"\\n");
-        return '<a href="javascript:CT.embed(\'' + guid + '\')">' + b + '</a>';
+      //Footnotes!
+      .replace(/\[\^(.*?)\]\:([^[]]*)/g,(m,a,b)=>{ //Instance, Value
+        if(!fn.md.hasOwnProperty(a)) {
+          fn.md[a] = b;
+          fn.id[a] = CT.GUID(8);
+        }
+        return "";
       })
+      //Embed (Make sure these keep their formatting.)
+      //Do this later in the second pass so that it can use footnote syntax.
       //Paragraph
       .replace(/(?:(?:^|\n)+((?:[^#\|\n>\-*+ ](?:.*)(?:\n|$))+))/g, function (m, a) {//Parameters Match, Paragraph   Returns: <p>Paragraph</p>
         return '\n<p>' + a.replace(/\n/g,"<br>") + '</p>\n';
@@ -131,7 +136,7 @@ MD.toHTML = function(s, heads, r) {
       })
 
       //Links
-      .replace(/\[(.*?)\/?([^\/]*?)\](?:\((\".*\"|[^ \n]*)[ ]?(.*)?\))?/g, function(m, a, b, c, d) { //Parameters: Match, Parent Folder, Page, Link, Title  Returns: <a href=Link title=Title>Page</a>
+      .replace(/[^\^]\[([^\^\n]*?)\/?([^\/]*?)\](?:\((\".*\"|[^ \n]*)[ ]?(.*)?\))?/g, function(m, a, b, c, d) { //Parameters: Match, Parent Folder, Page, Link, Title  Returns: <a href=Link title=Title>Page</a>
         a = ((a != "") ? [a, b].join("/") : b); //If there was a parent page then make sure that that is included in the link if Link is not populated.
         d = ((d == undefined)? a : d);
         if ((c == null) || (c == undefined) || (c == "")) {
@@ -156,11 +161,31 @@ MD.toHTML = function(s, heads, r) {
         return MD.listsToHTML(a);
       });
     }
-  }).map(function(t) {
+  })
+  //Finish Footnotes
+  .map((s)=>{
+    k++;
+    if(k%2) {
+      for (var p in fn) {
+        //First handle the embeds then then footnotes.
+        //TODO figure out how to do replace with variable value.
+        s = s.replace(/\^\[(.*?)\](?:\((.*?)\))?/g, (m,a,b)=>{
+          b = ((b == undefined)? a:b); //If no text defined use the first line of the embed.
+          return '<a href="javascript:CT.embed(\'' + fn.id[a] + '\')">' + b + '</a>';
+        })
+        .replace(/\[\^(.*?)\]/g,(m,a)=>{
+          return '<sup title="' + fn.md[a] + '">' + a + '</sup>'; //Just insert the value titles do not allow formatting.
+        });
+      }
+    }
+
+    return s;
+  })
+  .map(function(t) {
     if (!Array.isArray(heads)) {return t;}
     if (heads.length == 0) {return t;}
     return MD.headerDiv(heads) + t;
-  }).join(''),md);
+  }).join(''),fn);
 }
 
 MD.reinsertMarkdown = (s,a)=>{
