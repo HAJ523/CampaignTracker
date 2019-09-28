@@ -16,6 +16,9 @@
  | Encounter | Objects & Effects | A user should be able to add objects to an encounter of different types and should be able to add effects to those objects like light, terrain, occlusion.
  | Mapper | Default Palettes | There should be a list of default palettes to make the start of mapping easier.
  | Mapper | UI | Update all UI buttons to use less HTML elements / Selects instead of custom functionality.
+ | Release | Minify | Add automatic minification batch / processes
+ | Release | Zip | Add automatic process for creating a zip / tar of the release with the folders for Music, etc.
+ | Release | Version | Add version and version check to startup
 
 # Complete
 | Group | Issue |
