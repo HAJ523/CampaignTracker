@@ -572,10 +572,7 @@ CT.removePageFromPageTree = function(l, p, r) {
 }
 
 CT.embed = (t)=>{
-  CT.setStatus(t.replace(/\{\{(.*?)\}\}/g, (m,a)=>{
-    var ret = RL.inlineRoll(a);
-    return '<span title="'+ret.da+'" style="color:'+RL.CFMCOLOR[ret.cfm]+'">'+ret.val+'</span>';
-  }));
+  CT.setStatus(t);
 }
 
 CT.recordStatus = (s)=>{
@@ -610,13 +607,27 @@ CT.recordStatus = (s)=>{
 */
 CT.setStatus = function(s, t, y, p) { //Markdown, title, type, special
 
-  CT.recordStatus(s);
+  var rl = {};
+
+  s = s.replace(/\{\{(.*?)\}\}/g, (m,a)=>{
+    var id = CT.GUID(8);
+    rl[id] = RL.inlineRoll(a);
+    return '{{' + id + '}}';
+  });
+
+  CT.recordStatus(s.replace(/\{\{(.*?)\}\}/g, (m,a)=>{
+    return rl[a].val;
+  }));
+
+  s = MD.toHTML(s).replace(/\{\{(.*?)\}\}/g, (m,a)=>{
+    return '<span title="' + rl[a].da + '" style="color:'+RL.CFMCOLOR[rl[a].cfm]+'">'+rl[a].val+'</span>';
+  });
 
   var el = document.getElementById("StatusDisplay");
   var c = document.createElement("blockqoute");
 
   //Setup display.
-  c.innerHTML = '<div  style="flex-grow:1;">'+((s == undefined) ? "":MD.toHTML(s))+"</div>"+((p == undefined)? "":'<div class="w3-xxlarge" style="display:flex;align-items:center;">'+p+'</div>');
+  c.innerHTML = '<div style="flex-grow:1;">'+((s == undefined) ? "":s)+"</div>"+((p == undefined)? "":'<div class="w3-xxlarge" style="display:flex;align-items:center;">'+p+'</div>');
   c.classList.add(((y == undefined) ? "stat-ct" : y));
   c.title = ((t == undefined) ? "" : t);
   //Append element.

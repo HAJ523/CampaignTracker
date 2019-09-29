@@ -83,7 +83,7 @@ MD.toHTML = function(s, heads, r) {
       })
       //Block Qoute
       .replace(/(?:(?:^|\n)+((?:(?:>[ ]?){1}(?:.*)(:?\n|$))+))/g, function(m, a) {//Parameters: Match, "> Text"   Return: <blockqoute>Text</blockqoute>
-        return "\n<blockquote class=\"w3-panel w3-leftbar w3-theme-l5\"><p>" + a.replace(/(?:>[ ]?)(.*)/g,"$1").replace(/\n[\s]*\n/g,"</p><p>").replace(/\n$/,"").replace(/\n/gm,"<br/>").replace(/\t/g,"&nbsp;&nbsp;&nbsp;&nbsp;") + "</p></blockquote>\n";
+        return "\n<blockquote class=\"w3-panel w3-leftbar w3-theme-l5\"><p>" + a.replace(/(?:>[ ]?)(.*)/g,"$1").replace(/\n[\s]*\n/g,"</p><p>").replace(/\n$/,"").replace(/\n/gm,"<br/>") + "</p></blockquote>\n";
       })
       //Headers
       .replace(/(?:^|\n)([#]+)[\t ]*(.*)/g, function(m, a, b) { //Parameters: Match, #.*, Header   Return: <h#>text</h#>
@@ -158,7 +158,8 @@ MD.toHTML = function(s, heads, r) {
       //Lists (Must remain at the bottom to avoid parsing mistakes with other elements!)
       .replace(/((?:^|\n)(?:[*+-]){1}(?:.*)(?:(?:^|\n)(?:[* +-][ ]?){1}(?:.*))*)/g, function (m, a) { //Parameters: Match, List   Returns: <ol/ul>...</...>
         return MD.listsToHTML(a);
-      });
+      })
+      .replace(/\t/g,"&nbsp;&nbsp;&nbsp;&nbsp;");
     }
   })
   //Finish Footnotes
@@ -193,7 +194,7 @@ MD.toHTML = function(s, heads, r) {
 
 MD.reinsertMarkdown = (s,a)=>{
   for (var p in a.id) {
-    s = s.replace(a.id[p],a.md[p]);
+    s = s.replace(a.id[p],a.md[p].replace(/\n/g,"\\n").replace(/\t/g,"\\t"));
   }
   return s;
 }
