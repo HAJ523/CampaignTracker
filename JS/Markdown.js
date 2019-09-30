@@ -173,7 +173,7 @@ MD.toHTML = function(s, heads, r) {
           var st = '<a href="javascript:CT.embed(\'';
           var ary = a.split('|');
           for (var i=0;i<ary.length;i++) {
-            if (i>0) {st += '\n';} //Add seperation
+            if (i>0) {st += '\\n';} //Add seperation
             st += fn.id[ary[i]];
           }
           return st + '\')">' + b + '</a>';
@@ -194,7 +194,7 @@ MD.toHTML = function(s, heads, r) {
 
 MD.reinsertMarkdown = (s,a)=>{
   for (var p in a.id) {
-    s = s.replace(a.id[p],a.md[p].replace(/\n/g,"\\n").replace(/\t/g,"\\t"));
+    s = s.replace(new RegExp(a.id[p],"g"),a.md[p].replace(/\n/g,"\\n").replace(/\t/g,"\\t"));
   }
   return s;
 }
