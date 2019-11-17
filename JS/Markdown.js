@@ -126,7 +126,7 @@ MD.toHTML = function(s, heads, r) {
         return '<a href="javascript:AU.newEffects(\'' + a + '\')">' + t + '</a>';
       })
       //Tabs (Uses alternative header syntax, Number of = determines sixe of tab select)
-      .replace(/([^\n]+)\n(=+)\n(.*)(?:\n(?:=+)[^\n]*|\Z)/gm,(m,t,s,c)=>{ //Match, Title, Size, Content
+      .replace(/([^\n]+)\n(=+)\n(.*)(?:\n(?:=+)[^\n]*|\Z)/gm,(m,t,s,c)=>{ //Match, Title, Size, Content  //(?:[^\n]+\n={3,}\n[^=]+={3,}\n?)*
         //TODO Create tab to html code.
       })
       //Sections TODO
