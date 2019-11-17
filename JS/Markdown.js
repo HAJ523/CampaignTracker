@@ -59,10 +59,26 @@ MD.toHTML = function(s, heads, r) {
         }
         return "";
       })
+      //Tabs (Uses alternative header syntax, Number of = determines sixe of tab select)
+      .replace(/(?:[^\n]+\n=+\n[^=]+=+\n?)+/g,(m)=>{ //Match, Title, Size, Content
+        var id = CT.GUID(8);
+        var ret = '<div class="w3-tabs">';
+        var a = m.replace(/=+/g,"=").split("="); //Condense = to single character and split.
+        for (var i=0;i<a.length-1;i++) {
+          if (i%2) { //Contents
+            ret += '<div class="w3-tabpanel">' + a[i] + '</div>';
+          } else { //Header
+            ret += '<input name="'+id+'" type="radio" id="'+id+'-'+i+'" '+((i==0)? 'checked':'')+' /><label for="'+id+'-'+i+'" >'+a[i].trim()+'</label>';
+          }
+        }
+        ret += '</div>';
+        return ret;
+      })
       //Embed (Make sure these keep their formatting.)
       //Do this later in the second pass so that it can use footnote syntax.
       //Paragraph
-      .replace(/(?:(?:^|\n)+((?:[^#\|\n>\-*+ ](?:.*)(?:\n|$))+))/g, function (m, a) {//Parameters Match, Paragraph   Returns: <p>Paragraph</p>
+      .replace(/(?:(?:^|\n)+((?:[^#\|\n<>\-*+ ](?:.*)(?:\n|$))+))/g, function (m, a) {//Parameters Match, Paragraph   Returns: <p>Paragraph</p>
+        if (a.trim()=="") {return a;}
         return '\n<p>' + a.replace(/\n/g,"<br>") + '</p>\n';
       })
       //Inline Code
@@ -125,10 +141,7 @@ MD.toHTML = function(s, heads, r) {
         t = ((t==undefined)? "Effects":t);
         return '<a href="javascript:AU.newEffects(\'' + a + '\')">' + t + '</a>';
       })
-      //Tabs (Uses alternative header syntax, Number of = determines sixe of tab select)
-      .replace(/([^\n]+)\n(=+)\n(.*)(?:\n(?:=+)[^\n]*|\Z)/gm,(m,t,s,c)=>{ //Match, Title, Size, Content  //(?:[^\n]+\n={3,}\n[^=]+={3,}\n?)*
-        //TODO Create tab to html code.
-      })
+
       //Sections TODO
       .replace(/\@\[(.*?)\]/g, function(m, a) {//Parameters: Match, Page
         return a;
