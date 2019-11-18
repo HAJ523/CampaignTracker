@@ -183,13 +183,14 @@ MD.toHTML = function(s, heads, r) {
         //TODO figure out how to do replace with variable value.
         s = s.replace(/\^\[(.*?)\](?:\((.*?)\))?/g, (m,a,b)=>{
           b = ((b == undefined)? a:b); //If no text defined use the first line of the embed.
+          var title = "";
           var st = '<a href="javascript:CT.embed(\'';
           var ary = a.split('|');
           for (var i=0;i<ary.length;i++) {
-            if (i>0) {st += '\\n';} //Add seperation
-            st += fn.id[ary[i]];
+            if (i>0) {st += '\\n';title+='\n';} //Add seperation
+            st += fn.id[ary[i]]; title+=fn.md[ary[i]];
           }
-          return st + '\')">' + b + '</a>';
+          return st + '\')" title="'+title.replace(/\\n/g,'\n').replace(/\\t/g,'\t')+'">' + b + '</a>';
         })
         .replace(/\[\^(.*?)\]/g,(m,a)=>{
           return '<sup title="' + fn.md[a] + '">' + a + '</sup>'; //Just insert the value titles do not allow formatting.
