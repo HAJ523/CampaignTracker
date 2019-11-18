@@ -35,6 +35,10 @@ RL.calcFinish = function(c) {
   Description: Performs roll on click and updates element display!
 */
 RL.roll = function(s, h) {//Roll string, Header
+  //Make sure that simple rolls have the correct markdown to status set.
+  if (RegExp(/^(\+|-)\d*/g).test(s)) {
+    s = data.settings.dice + s;
+  }
   delete RL.diceArray;
   RL.diceArray = []; //Make sure we use a fresh array.
   var ret = RL.inlineRoll(s);
