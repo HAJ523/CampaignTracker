@@ -54,7 +54,7 @@ MD.toHTML = function(s, heads, r) {
       //Footnotes!
       .replace(/\[\^(.*?)\]\:([^\[]*)/g,(m,a,b)=>{ //Instance, Value
         if(!fn.md.hasOwnProperty(a)) {
-          fn.md[a] = b;
+          fn.md[a] = b.replace(/'/g,'\\\''); //Handle the end string escaping!
           fn.id[a] = CT.GUID(8);
         }
         return "";
