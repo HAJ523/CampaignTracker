@@ -131,8 +131,33 @@ CT.setTitles = function() {
   document.getElementById('Title').innerHTML = data.settings.name;
 }
 
-CT.exportData = function() {} //TODO
-CT.importData = function() {} //TODO
+CT.exportData = ()=> {
+  var a = document.getElementById('exportLink');
+  a.setAttribute('href', 'data:text/plain;charset=utf-8,'+encodeURIComponent(JSON.stringify(data)));
+  a.setAttribute('download', data.settings.name + '-' + CT.localISOTime() + '.json');
+
+  a.click();
+  a.setAttribute('href',''); //Reset to nothing so that we aren't holding duplicate data.
+}
+CT.importData = ()=> {
+  var f = document.getElementById('importFile');
+  f.value = null;
+  f.addEventListener('change', CT.importFile, false);
+  f.click();
+}
+CT.importFile = ()=>{
+  var f = e.target.files[0];
+  if (!f) {document.getElementById('importFile').removeEventListener('change', CT.importFile); return;}
+  var r = new FileReader();
+  reader.onload = (e)=>{
+    delete data;
+    data = JSON.parse(e.target.result);
+    //TODO update view
+  }
+  r.readAsText(f);
+  document.getElementById('importFile').removeEventListener('change', CT.importFile);
+}
+
 
 /*
   Scope: Restricted (CT3.html)
