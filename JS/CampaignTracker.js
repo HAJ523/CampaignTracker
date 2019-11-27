@@ -145,14 +145,17 @@ CT.importData = ()=> {
   f.addEventListener('change', CT.importFile, false);
   f.click();
 }
-CT.importFile = ()=>{
+CT.importFile = (e)=>{
   var f = e.target.files[0];
   if (!f) {document.getElementById('importFile').removeEventListener('change', CT.importFile); return;}
   var r = new FileReader();
-  reader.onload = (e)=>{
+  r.onload = (e)=>{
+    var v = data.slctView;
     delete data;
     data = JSON.parse(e.target.result);
-    //TODO update view
+    var t = data.slctView;
+    data.slctView = v;
+    CT.finishLoad(t);
   }
   r.readAsText(f);
   document.getElementById('importFile').removeEventListener('change', CT.importFile);
