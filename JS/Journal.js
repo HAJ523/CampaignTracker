@@ -12,8 +12,19 @@ var JL = {};
   Description: Perform all single actions required prepare the journal.
 */
 JL.onLoad = function() {
+  //Setup tinyMCE
+  tinymce.init({
+    selector: '#JournalEditor',
+    height: '100%',
+    width: '100%',
+    plugins: 'lists paste table hr',
+    menubar: false,
+    browser_spellcheck: true,
+    toolbar: 'undo redo pastetext | bold italic underline strikethrough blockquote backcolor | indent outdent | alignleft aligncenter alignright alignjustify | bullist numlist | table hr |'
+  });
+
   //Save the element so that other functions don't look it up every time.
-  JL.el = document.getElementById('JournalEditor');
+  //JL.el = document.getElementById('JournalEditor');
 }
 
 /*

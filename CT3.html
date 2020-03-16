@@ -7,6 +7,7 @@
     <!-- External Scripts -->
     <script src="LIB\discord.11.4.2.min.js"></script>
     <script src="LIB\howler.js"></script>
+    <script src="LIB\tinymce\tinymce.min.js"></script>
     <!-- Scripts  -->
     <script src="JS\Markdown.js"></script>
     <script src="JS\CampaignTracker.js"></script>
@@ -347,30 +348,8 @@ $<Search>" class="w3-input w3-small w3-padding-small" placeholder="!Message, Not
                 <canvas id="Canvas" class="w3-card" style="height:100%;width:100%;"></canvas>
               </div>
               <!-- Journal -->
-              <div class="w3-container w3-col w3-padding-small w3-hide viewJ" style="height:100%;width:30%;"><textarea class="w3-small w3-textarea w3-card" style="height:100%;width:100%;" onkeydown="KB.markdownShortcut(event);" oninput="JL.updateJournalDisplay();" id="JournalEditor"></textarea></div>
-              <div class="w3-container w3-display-container w3-rest w3-padding-small w3-hide viewJ" style="height:100%;">
-                <div id="JournalDisplay" class="w3-padding-small w3-card" style="height:100%;width:100%;overflow-y: auto;">
-                  <div class="journalContents w3-tiny w3-padding-small w3-no-select">
-                    <div onclick="JL.toggleContents(this);">+ <strong>Contents</strong> +</div>
-                    <div id="journalNav" class="w3-left-align w3-hide">&nbsp;&nbsp;<a href="javascript:JL.scrollTo('aHIv5Q9Z');">Welcome to Campaign Tracker</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:JL.scrollTo('oVHs6q5v');">Journal</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:JL.scrollTo('5c2nhK3V');">Notes</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:JL.scrollTo('ZI3zTE86');">Music</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:JL.scrollTo('Z8ZNlPY8');">Dice</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:JL.scrollTo('zrRgFrKg');">Map Maker</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:JL.scrollTo('RTQFaGEZ');">Encounters</a><br>
-                    </div>
-                  </div>
-                  <h1 id="H_aHIv5Q9Z">Welcome to Campaign Tracker</h1>
-                  <p>The goal of Campaign Tracker is to provide tools which can be used by a GM/DM to organize &amp; run their preferred pen and paper role-playing game from a single application. To get started just create a new page and begin exploring the features on your own or read about the features available using the tools integrated documentation.<br></p>
-                  <h2 id="H_oVHs6q5v">Journal</h2>
-                  <p>The journal uses markdown text to create wiki style pages which can be traversed and edited on the fly to make not only finding the information you need but to allow for easy editing of those articles to include information which is happening right now.<br></p>
-                  <h3 id="H_5c2nhK3V">Notes</h3>
-                  <p>Many games require a method of keeping track of disposable notes or maybe you want to keep your session notes open constantly while the game is running instead of needing to navigate to that page every few minutes to update it.<br></p>
-                  <h3 id="H_ZI3zTE86">Music</h3>
-                  <p>This application allows for music and sound effects to be played directly. With volume controls and automatic cross-fading for repeated effects.<br></p>
-                  <h3 id="H_Z8ZNlPY8">Dice</h3>
-                  <p>If you find yourself needing to roll many dice or just want to speed up your game by creating dice macros ahead of time you can setup dice to be rolled directly from the journal pages you are creating or roll freely using the "Free Roll" text entry.<br></p>
-                  <h2 id="H_zrRgFrKg">Map Maker</h2>
-                  <p>Not all GMs/DMs are similar wizards with the paint brush as they are with weaving stories. To help with this Campaign Tracker provides tools for creating old school ASCII rogue-like style maps with the Map Maker.<br></p>
-                  <h2 id="H_RTQFaGEZ">Encounters</h2>
-                  <p>Once you've made a map you might wonder what to do with it and this is where the Encounters functionality comes in allowing you to place objects, creatures, and players on the map with fog of war allowing you to easily see what the players see as they peak around that corner.</p>
-                </div>
-                <div id="JournalIndex" class="w3-border w3-border-theme w3-display-topright w3-margin w3-tiny w3-hide">Header</div><!--TODO update this to be useful. Needs style & functionality. -->
+              <div class="w3-container w3-rest w3-padding-small w3-hide viewJ" style="height:100%;">
+                <textarea id="JournalEditor"></textarea>
               </div>
             </div>
           </div>
