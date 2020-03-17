@@ -15,6 +15,9 @@ JL.onLoad = function() {
   //Setup tinyMCE
   tinymce.init({
     selector: '#JournalEditor',
+    resize: false,
+    branding: false,
+    statusbar: false,
     height: '100%',
     width: '100%',
     plugins: 'lists paste table hr',
